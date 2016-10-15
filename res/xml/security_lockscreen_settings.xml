@@ -132,11 +132,19 @@
             settings:controller="com.android.settings.display.AmbientDisplayNotificationsPreferenceController" />
 
         <!-- Controls wake for notifications -->
-        <com.android.settings.custom.preference.SecureSettingSwitchPreference
+        <com.android.settings.edith.preference.SecureSettingSwitchPreference
             android:key="doze_for_notifications"
             android:title="@string/doze_title"
             android:summary="@string/doze_summary"
             android:defaultValue="true" />
+
+        <com.android.settings.edith.preference.RemotePreference
+            android:key="doze_device_settings"
+            android:title="@string/ambient_display_screen_title"
+            settings:requiresAction="org.lineageos.settings.device.DOZE_SETTINGS"
+            settings:replacesKey="ambient_display_notification">
+            <intent android:action="org.lineageos.settings.device.DOZE_SETTINGS" />
+        </com.android.settings.edith.preference.RemotePreference>
 
     </PreferenceCategory>
 

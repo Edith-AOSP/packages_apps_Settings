@@ -25,6 +25,12 @@
         android:key="top_level_account_category">
     </com.android.settingslib.widget.UntitledPreferenceCategory>
 
+    <com.android.settingslib.widget.LayoutPreference
+        android:key="homepage_connectivity_cards"
+        android:order="-135"
+        android:layout="@layout/homepage_connectivity_cards"
+        android:selectable="false" />
+
     <com.android.settingslib.widget.UntitledPreferenceCategory
         android:order="-125"
         android:key="top_level_airplane_category">
@@ -37,29 +43,6 @@
             settings:minHeight="68dp" />
     </com.android.settingslib.widget.UntitledPreferenceCategory>
 
-    <com.android.settingslib.widget.UntitledPreferenceCategory
-        android:order="-130"
-        android:key="top_level_connectivity_category">
-        <com.android.settings.edith.dashboard.HomepagePreference
-            android:fragment="com.android.settings.network.NetworkDashboardFragment"
-            android:icon="@drawable/ic_dashboard_network"
-            android:key="top_level_network"
-            android:order="-20"
-            android:title="@string/network_dashboard_title"
-            android:summary="@string/summary_placeholder"
-            settings:highlightableMenuKey="@string/menu_key_network"
-            settings:controller="com.android.settings.network.TopLevelNetworkEntryPreferenceController"/>
-
-        <com.android.settings.edith.dashboard.HomepagePreference
-            android:fragment="com.android.settings.connecteddevice.ConnectedDeviceDashboardFragment"
-            android:icon="@drawable/ic_dashboard_devices"
-            android:key="top_level_connected_devices"
-            android:order="-10"
-            android:title="@string/connected_devices_dashboard_title"
-            android:summary="@string/connected_devices_dashboard_default_summary"
-            settings:highlightableMenuKey="@string/menu_key_connected_devices"
-            settings:controller="com.android.settings.connecteddevice.TopLevelConnectedDevicesPreferenceController"/>
-    </com.android.settingslib.widget.UntitledPreferenceCategory>
 
     <com.android.settingslib.widget.UntitledPreferenceCategory
         android:order="-120"

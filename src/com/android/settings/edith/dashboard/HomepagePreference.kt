@@ -112,9 +112,11 @@ internal fun EdithHomepageContent(
     val density = LocalDensity.current
     val iconSize = dimensionResource(R.dimen.dashboard_tile_image_size)
     val iconPadding =
-        if (iconPaddingStartPx >= 0) with(density) { iconPaddingStartPx.toDp() } else 8.dp
+        if (iconPaddingStartPx >= 0) with(density) { iconPaddingStartPx.toDp() }
+        else dimensionResource(R.dimen.edith_homepage_icon_start_padding)
     val textPadding =
-        if (textPaddingStartPx >= 0) with(density) { textPaddingStartPx.toDp() } else 8.dp
+        if (textPaddingStartPx >= 0) with(density) { textPaddingStartPx.toDp() }
+        else dimensionResource(R.dimen.edith_homepage_text_start_padding)
 
     Row(
         modifier = Modifier
@@ -180,9 +182,11 @@ internal fun EdithHomepageSwitchContent(
     val density = LocalDensity.current
     val iconSize = dimensionResource(R.dimen.dashboard_tile_image_size)
     val iconPadding =
-        if (iconPaddingStartPx >= 0) with(density) { iconPaddingStartPx.toDp() } else 8.dp
+        if (iconPaddingStartPx >= 0) with(density) { iconPaddingStartPx.toDp() }
+        else dimensionResource(R.dimen.edith_homepage_icon_start_padding)
     val textPadding =
-        if (textPaddingStartPx >= 0) with(density) { textPaddingStartPx.toDp() } else 8.dp
+        if (textPaddingStartPx >= 0) with(density) { textPaddingStartPx.toDp() }
+        else dimensionResource(R.dimen.edith_homepage_text_start_padding)
     val minHeight = if (minHeightPx > 0f) with(density) { minHeightPx.toDp() } else 72.dp
 
     val rowModifier = Modifier

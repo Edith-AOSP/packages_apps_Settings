@@ -56,12 +56,16 @@ import com.android.settings.support.SupportPreferenceController;
 import com.android.settings.utils.DesktopSettingsUtils;
 import com.android.settings.widget.HomepagePreference;
 import com.android.settings.widget.HomepagePreferenceLayoutHelper.HomepagePreferenceLayout;
+import com.android.settings.edith.dashboard.ConnectivityCardsController;
 import com.android.settings.edith.dashboard.RestrictedHomepageSwitchPreference;
+import com.android.settingslib.core.AbstractPreferenceController;
 import com.android.settingslib.core.instrumentation.Instrumentable;
+import com.android.settingslib.core.lifecycle.Lifecycle;
 import com.android.settingslib.drawer.Tile;
 import com.android.settingslib.search.SearchIndexable;
 import com.android.settingslib.widget.SettingsThemeHelper;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @SearchIndexable(forTarget = MOBILE)
@@ -101,6 +105,13 @@ public class TopLevelSettings extends DashboardFragment implements SplitLayoutLi
     @Override
     protected String getLogTag() {
         return TAG;
+    }
+
+    @Override
+    protected List<AbstractPreferenceController> createPreferenceControllers(Context context) {
+        final List<AbstractPreferenceController> controllers = new ArrayList<>();
+        controllers.add(new ConnectivityCardsController(context));
+        return controllers;
     }
 
     @Override

@@ -6,6 +6,7 @@ import android.content.res.TypedArray
 import android.os.UserHandle
 import android.provider.Settings
 import android.util.AttributeSet
+import android.view.ViewTreeObserver
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -84,9 +85,15 @@ class RestrictedHomepageSwitchPreference @JvmOverloads constructor(
             context.contentResolver, Settings.Global.AIRPLANE_MODE_ON, 0) != 0
 
         if (_pillCornerRadius) {
-            holder.itemView.post {
-                holder.itemView.setBackgroundResource(R.drawable.edith_switch_pill_background)
-            }
+            holder.itemView.viewTreeObserver.addOnPreDrawListener(
+                object : ViewTreeObserver.OnPreDrawListener {
+                    override fun onPreDraw(): Boolean {
+                        holder.itemView.setBackgroundResource(
+                            R.drawable.edith_switch_pill_background)
+                        holder.itemView.viewTreeObserver.removeOnPreDrawListener(this)
+                        return true
+                    }
+                })
         }
 
         (holder.itemView as ComposeView).apply {

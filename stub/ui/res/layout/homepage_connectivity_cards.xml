@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright (C) 2023 Halcyon Project
+    SPDX-License-Identifier: Apache-2.0
+-->
+<LinearLayout
+    android:id="@+id/dashboard_connectivity_cards"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="0dp"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/edith_network_settings"
+            android:background="@drawable/edith_card_background"
+            android:gravity="start"
+            android:orientation="vertical"
+            android:paddingTop="18dp"
+            android:paddingBottom="18dp"
+            android:layout_marginStart="?android:attr/listPreferredItemPaddingStart"
+            android:layout_marginEnd="8dp"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <ImageView
+                android:src="@drawable/ic_dashboard_network"
+                android:layout_width="@dimen/dashboard_tile_image_size"
+                android:layout_height="@dimen/dashboard_tile_image_size" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:textAlignment="viewStart"
+                android:singleLine="true"
+                android:textAppearance="?android:attr/textAppearanceListItem"
+                android:paddingTop="24dp"
+                android:text="@string/network_dashboard_title"
+                android:ellipsize="marquee"
+                android:textFontWeight="400" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/edith_devices_settings"
+            android:background="@drawable/edith_card_background"
+            android:gravity="start"
+            android:orientation="vertical"
+            android:paddingTop="18dp"
+            android:paddingBottom="18dp"
+            android:layout_marginEnd="?android:attr/listPreferredItemPaddingEnd"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <ImageView
+                android:src="@drawable/ic_dashboard_devices"
+                android:layout_width="@dimen/dashboard_tile_image_size"
+                android:layout_height="@dimen/dashboard_tile_image_size" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:textAlignment="viewStart"
+                android:singleLine="true"
+                android:textAppearance="?android:attr/textAppearanceListItem"
+                android:paddingTop="24dp"
+                android:text="@string/connected_devices_dashboard_title"
+                android:ellipsize="marquee"
+                android:textFontWeight="400" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

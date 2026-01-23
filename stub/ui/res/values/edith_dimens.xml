@@ -23,4 +23,9 @@
      <!-- Override SettingsLib corner radius -->
      <dimen name="settingslib_preference_corner_radius">26dp</dimen>
 
+     <!-- Search bar -->
+     <dimen name="search_bar_content_inset">56dp</dimen>
+     <dimen name="search_bar_padding_start">4dp</dimen>
+     <dimen name="search_bar_padding_end">16dp</dimen>
+
 </resources>

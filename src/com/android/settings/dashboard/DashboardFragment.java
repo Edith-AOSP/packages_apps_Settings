@@ -602,6 +602,9 @@ public abstract class DashboardFragment extends SettingsPreferenceFragment
             } else {
                 // Don't have this key, add it.
                 final Preference pref = createPreference(tile);
+                if (pref == null) {
+                    continue;
+                }
                 observers = mDashboardFeatureProvider.bindPreferenceToTileAndGetObservers(
                         getActivity(), this, forceRoundedIcons, pref, tile, key,
                         mPlaceholderPreferenceController.getOrder());
@@ -646,6 +649,7 @@ public abstract class DashboardFragment extends SettingsPreferenceFragment
             pendingObservers.forEach(DynamicDataObserver::updateUi);
         }
     }
+
 
     @Override
     public void onBlockerWorkFinished(BasePreferenceController controller) {

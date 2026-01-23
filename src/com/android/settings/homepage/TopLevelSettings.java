@@ -217,6 +217,19 @@ public class TopLevelSettings extends DashboardFragment implements SplitLayoutLi
     }
 
     @Override
+    public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
+        super.onCreatePreferences(savedInstanceState, rootKey);
+
+        iteratePreferences(preference -> {
+            String prefKey = preference.getKey();
+            if ("top_level_wellbeing".equals(prefKey) 
+                || "top_level_google".equals(prefKey)) {
+                preference.setVisible(false);
+            }
+        });
+    }
+
+    @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         highlightPreferenceIfNeeded();
@@ -340,6 +353,11 @@ public class TopLevelSettings extends DashboardFragment implements SplitLayoutLi
 
     @Override
     protected Preference createPreference(Tile tile) {
+        if ("com.google.android.gms.backup.component.BackupOrRestoreSettingsActivity"
+                .equals(tile.getComponentName())) {
+            return null;
+        }
+
         return new HomepagePreference(getPrefContext());
     }
 
@@ -386,7 +404,7 @@ public class TopLevelSettings extends DashboardFragment implements SplitLayoutLi
         }
 
         return SettingsThemeHelper.isExpressiveTheme(context)
-                ? R.xml.top_level_settings_expressive
+                ? R.xml.edith_top_level_settings
                 : R.xml.top_level_settings;
     }
 

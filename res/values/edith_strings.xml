@@ -399,4 +399,8 @@
 
     <!-- Expressive QR -->
     <string name="wifi_qr_code_animation_control">pause the animation</string>
+
+    <!-- Google stuoid fucking IA -->
+    <string name="gms_enabled_title">Google services</string>
+    <string name="wellbeing_title">Digital Wellbeing</string>
 </resources>

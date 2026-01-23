@@ -27,4 +27,5 @@
 
     <color name="edith_icon_background">@android:color/system_accent1_200</color>
     <color name="edith_icon_foreground">@android:color/system_neutral1_900</color>
+    <color name="edith_search_background">#FFFFFF</color>
 </resources>

@@ -33,6 +33,8 @@ import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.ApplicationInfoFlags;
 import android.content.pm.UserInfo;
 import android.content.res.Configuration;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Process;
@@ -43,11 +45,13 @@ import android.util.ArraySet;
 import android.util.FeatureFlagUtils;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 
 import androidx.annotation.VisibleForTesting;
+import androidx.core.graphics.ColorUtils;
 import androidx.core.graphics.Insets;
 import androidx.core.util.Consumer;
 import androidx.core.view.ViewCompat;
@@ -80,7 +84,11 @@ import com.android.settingslib.Utils;
 import com.android.settingslib.core.lifecycle.HideNonSystemOverlayMixin;
 import com.android.settingslib.widget.SettingsThemeHelper;
 
+import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.setupcompat.util.WizardManagerHelper;
+
+import eightbitlab.com.blurview.BlurView;
+import eightbitlab.com.blurview.RenderScriptBlur;
 
 import java.net.URISyntaxException;
 import java.util.List;
@@ -252,11 +260,15 @@ public class SettingsHomepageActivity extends FragmentActivity implements
             return;
         }
 
+        View decorView = getWindow().getDecorView();
+        ViewGroup root = (ViewGroup) decorView.findViewById(android.R.id.content);
+        
         setupEdgeToEdge();
         setContentView(R.layout.settings_homepage_container);
 
         mIsTwoPane = ActivityEmbeddingUtils.isAlreadyEmbedded(this);
 
+        updateAppBarMinHeight();
         initHomepageContainer();
         updateHomepageBackground();
         mLoadedListeners = new ArraySet<>();
@@ -266,6 +278,17 @@ public class SettingsHomepageActivity extends FragmentActivity implements
         getLifecycle().addObserver(new HideNonSystemOverlayMixin(this));
         mCategoryMixin = new CategoryMixin(this);
         getLifecycle().addObserver(mCategoryMixin);
+
+        BlurView searchBarBlur = findViewById(R.id.search_bar_blur);
+        Drawable windowBackground = decorView.getBackground();
+
+        int baseColor = getColor(R.color.edith_search_background);
+        int alpha = getResources().getInteger(R.integer.edith_search_bar_alpha);
+        int overlayColor = ColorUtils.setAlphaComponent(baseColor, alpha);
+
+        searchBarBlur.setupWith(root, new RenderScriptBlur(this))
+                .setFrameClearDrawable(windowBackground)
+                .setOverlayColor(overlayColor);
 
         final String highlightMenuKey = getHighlightMenuKey();
         // Only allow features on high ram devices.
@@ -371,7 +394,7 @@ public class SettingsHomepageActivity extends FragmentActivity implements
         mIsRegularLayout = !mIsRegularLayout;
 
         // Update search title padding
-        View searchTitle = findViewById(R.id.search_bar_title);
+        View searchTitle = findViewById(R.id.search_action_bar_title);
         if (searchTitle != null) {
             int paddingStart = getResources().getDimensionPixelSize(
                     mIsRegularLayout
@@ -393,16 +416,9 @@ public class SettingsHomepageActivity extends FragmentActivity implements
                 (v, windowInsets) -> {
                     Insets insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars()
                             | WindowInsetsCompat.Type.displayCutout());
-                    // Apply the insets paddings to the view.
-                    v.setPadding(insets.left, 0, insets.right, insets.bottom);
 
-                    // reset the top padding of search bar container to original top padding
-                    // plus insets top.
-                    View container = findViewById(R.id.app_bar_container);
-                    final int top_padding = getResources().getDimensionPixelSize(
-                            R.dimen.search_bar_container_top_padding);
-                    container.setPadding(container.getPaddingLeft(), top_padding + insets.top,
-                            container.getPaddingRight(), container.getPaddingBottom());
+                    // Apply the insets paddings to the view.
+                    v.setPadding(insets.left, insets.top, insets.right, insets.bottom);
 
                     // Return CONSUMED if you don't want the window insets to keep being
                     // passed down to descendant views.
@@ -415,12 +431,26 @@ public class SettingsHomepageActivity extends FragmentActivity implements
         FeatureFactory.getFeatureFactory().getSearchFeatureProvider()
                 .initSearchToolbar(this /* activity */, toolbar,
                         SettingsEnums.SETTINGS_HOMEPAGE);
+
+        AppBarLayout appBarLayout = findViewById(R.id.app_bar);
+        View homeTitle = findViewById(R.id.homepage_title);
+
+        appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+            @Override
+            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                int totalScrollRange = appBarLayout.getTotalScrollRange();
+                float collapseRatio = (float) -verticalOffset / totalScrollRange;
+
+                homeTitle.setAlpha(1 - collapseRatio);
+            }
+        });
     }
 
     private void updateHomepageUI() {
         final boolean newTwoPaneState = ActivityEmbeddingUtils.isAlreadyEmbedded(this);
         if (mIsTwoPane != newTwoPaneState) {
             mIsTwoPane = newTwoPaneState;
+            updateAppBarMinHeight();
             updateHomepageBackground();
         }
         updateSplitLayout();
@@ -432,11 +462,11 @@ public class SettingsHomepageActivity extends FragmentActivity implements
         }
 
         final Window window = getWindow();
-        final int color = mIsTwoPane
-                ? getColor(R.color.settings_two_pane_background_color)
-                : Utils.getColorAttrDefaultColor(this, android.R.attr.colorBackground);
+        final int color = Color.TRANSPARENT;
 
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+
+        window.setStatusBarColor(color);
 
         // Update content background.
         findViewById(android.R.id.content).setBackgroundColor(color);
@@ -728,6 +758,12 @@ public class SettingsHomepageActivity extends FragmentActivity implements
             scrollableContainer.setScrollCaptureHint(
                     View.SCROLL_CAPTURE_HINT_EXCLUDE_DESCENDANTS);
         }
+    }
+
+    private void updateAppBarMinHeight() {
+        final int searchBarHeight = getResources().getDimensionPixelSize(R.dimen.search_bar_height);
+        final int margin = getResources().getDimensionPixelSize(R.dimen.search_bar_margin);        
+        findViewById(R.id.app_bar_container).setMinimumHeight(searchBarHeight + margin * 2);
     }
 
     private static class SuggestionFragCreator implements FragmentCreator {

@@ -131,6 +131,7 @@ android_library {
         "dynamiccolors",
         "com.android.text.flags-aconfig-java",
         "edith-preference",
+        "BlurView",
     ],
 
     plugins: [

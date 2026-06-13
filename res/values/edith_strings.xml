@@ -402,4 +402,6 @@
     <string name="google_settings_summary">Manage your Google Account</string>
     <string name="wellbeing_title">Digital Wellbeing</string>
     <string name="not_connected">Not connected</string>
+    <string name="xd_theme_dark">Dark</string>
+    <string name="xd_theme_light">Light</string>
 </resources>

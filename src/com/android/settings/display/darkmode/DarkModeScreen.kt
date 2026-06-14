@@ -110,7 +110,6 @@ abstract class BaseDarkModeScreen(context: Context, val isUiOnly: Boolean) :
     override fun getPreferenceHierarchy(context: Context, coroutineScope: CoroutineScope) =
         preferenceHierarchy(context) {
             +DarkModeTopIntroPreference()
-            +DarkModeMainSwitchPreference(darkModeStorage, isUiOnly)
             +TwilightLocationPreference()
             if (android.view.accessibility.Flags.forceInvertColor()) {
                 +PreferenceCategory(

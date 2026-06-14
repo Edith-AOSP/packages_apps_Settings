@@ -20,6 +20,7 @@ import android.app.UiModeManager
 import android.app.settings.SettingsEnums
 import android.content.Context
 import android.content.res.Configuration
+import android.os.PowerManager
 import android.util.AttributeSet
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
@@ -42,6 +43,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -50,6 +52,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -103,6 +106,23 @@ class ThemeSwitchPreference @JvmOverloads constructor(
             isDark = enabled
         }
 
+        val powerManager = remember {
+            context.getSystemService(Context.POWER_SERVICE) as PowerManager
+        }
+        var isBatterySaver by remember {
+            mutableStateOf(powerManager.isPowerSaveMode)
+        }
+        DisposableEffect(context) {
+            val receiver = object : android.content.BroadcastReceiver() {
+                override fun onReceive(ctx: Context?, intent: android.content.Intent?) {
+                    isBatterySaver = powerManager.isPowerSaveMode
+                }
+            }
+            val filter = android.content.IntentFilter(PowerManager.ACTION_POWER_SAVE_MODE_CHANGED)
+            context.registerReceiver(receiver, filter, Context.RECEIVER_NOT_EXPORTED)
+            onDispose { context.unregisterReceiver(receiver) }
+        }
+
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -127,7 +147,8 @@ class ThemeSwitchPreference @JvmOverloads constructor(
                     isSelected = isDark,
                     isDarkThemePreview = true,
                     accentColor = accentColor,
-                    onClick = { setDarkMode(true) }
+                    enabled = !isBatterySaver || isDark,
+                    onClick = { if (!isBatterySaver || isDark) setDarkMode(true) }
                 )
                 ThemePreviewCard(
                     modifier = Modifier.weight(1f),
@@ -135,20 +156,27 @@ class ThemeSwitchPreference @JvmOverloads constructor(
                     isSelected = !isDark,
                     isDarkThemePreview = false,
                     accentColor = accentColor,
-                    onClick = { setDarkMode(false) }
+                    enabled = !isBatterySaver || !isDark,
+                    onClick = { if (!isBatterySaver || !isDark) setDarkMode(false) }
                 )
             }
             if (isDark) {
                 Spacer(modifier = Modifier.height(12.dp))
-                AdditionalOptionsRow(context, accentColor)
+                AdditionalOptionsRow(context, accentColor, isBatterySaver, isDark)
             }
         }
     }
 
     @Composable
-    private fun AdditionalOptionsRow(context: Context, accentColor: Int) {
+    private fun AdditionalOptionsRow(
+        context: Context,
+        accentColor: Int,
+        isBatterySaver: Boolean,
+        isDark: Boolean
+    ) {
         val cardBg = Styles.getCardContentBackgroundColor(context)
         val arrowBg = Styles.getContentBackgroundColor(context)
+        val textColor = Styles.getTextColorPrimary(context)
 
         Surface(
             modifier = Modifier
@@ -164,33 +192,51 @@ class ThemeSwitchPreference @JvmOverloads constructor(
             shape = RoundedCornerShape(12.dp),
             color = Color(cardBg),
         ) {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 20.dp, vertical = 16.dp),
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                Text(
-                    text = context.getString(R.string.dark_ui_mode),
-                    modifier = Modifier.weight(1f),
-                    maxLines = 1,
-                    overflow = TextOverflow.Clip,
-                    fontWeight = FontWeight.Medium,
-                    fontSize = 16.sp,
-                    color = Color(Styles.getTextColorPrimary(context)),
-                )
-                Box(
+            Column {
+                Row(
                     modifier = Modifier
-                        .size(28.dp)
-                        .clip(CircleShape)
-                        .background(Color(arrowBg)),
-                    contentAlignment = Alignment.Center,
+                        .fillMaxWidth()
+                        .padding(horizontal = 20.dp, vertical = 16.dp),
+                    verticalAlignment = Alignment.CenterVertically,
                 ) {
-                    Icon(
-                        imageVector = Icons.AutoMirrored.Filled.ArrowForward,
-                        contentDescription = null,
-                        tint = Color(accentColor),
-                        modifier = Modifier.size(16.dp),
+                    Text(
+                        text = context.getString(R.string.dark_ui_mode),
+                        modifier = Modifier.weight(1f),
+                        maxLines = 1,
+                        overflow = TextOverflow.Clip,
+                        fontWeight = FontWeight.Medium,
+                        fontSize = 16.sp,
+                        color = Color(textColor),
+                    )
+                    Box(
+                        modifier = Modifier
+                            .size(28.dp)
+                            .clip(CircleShape)
+                            .background(Color(arrowBg)),
+                        contentAlignment = Alignment.Center,
+                    ) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.ArrowForward,
+                            contentDescription = null,
+                            tint = Color(accentColor),
+                            modifier = Modifier.size(16.dp),
+                        )
+                    }
+                }
+                if (isBatterySaver) {
+                    Text(
+                        text = context.getString(
+                            if (isDark) R.string.dark_ui_mode_disabled_summary_dark_theme_on
+                            else R.string.dark_ui_mode_disabled_summary_dark_theme_off
+                        ),
+                        maxLines = 2,
+                        overflow = TextOverflow.Clip,
+                        fontWeight = FontWeight.Normal,
+                        fontSize = 14.sp,
+                        color = Color(textColor).copy(alpha = 0.6f),
+                        modifier = Modifier.padding(
+                            start = 20.dp, end = 20.dp, bottom = 16.dp
+                        ),
                     )
                 }
             }
@@ -205,17 +251,20 @@ private fun ThemePreviewCard(
     isSelected: Boolean,
     isDarkThemePreview: Boolean,
     accentColor: Int,
+    enabled: Boolean,
     onClick: () -> Unit
 ) {
     val borderColor = if (isSelected) Color(accentColor)
         else Color.Gray.copy(alpha = 0.3f)
     val backgroundColor = if (isSelected) Color(accentColor).copy(alpha = 0.08f)
         else Color.Transparent
+    val alpha = if (enabled) 1f else 0.4f
 
     Surface(
         modifier = modifier
             .clip(RoundedCornerShape(12.dp))
-            .clickable(onClick = onClick),
+            .graphicsLayer { this.alpha = alpha }
+            .clickable(enabled = enabled, onClick = onClick),
         shape = RoundedCornerShape(12.dp),
         color = backgroundColor,
         border = BorderStroke(

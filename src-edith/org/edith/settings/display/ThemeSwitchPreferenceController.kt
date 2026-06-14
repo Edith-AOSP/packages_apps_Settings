@@ -17,7 +17,6 @@
 package org.edith.settings.display
 
 import android.content.Context
-import androidx.preference.PreferenceGroup
 import androidx.preference.PreferenceScreen
 import com.android.settings.core.BasePreferenceController
 
@@ -29,11 +28,10 @@ class ThemeSwitchPreferenceController(context: Context) :
 
         val pref = ThemeSwitchPreference(mContext).apply {
             key = preferenceKey
-            order = -1
+            order = -250
             isIconSpaceReserved = false
         }
-        val category = screen.findPreference<PreferenceGroup>("category_key_appearance")!!
-        category.addPreference(pref)
+        screen.addPreference(pref)
     }
 
     override fun getAvailabilityStatus(): Int = AVAILABLE

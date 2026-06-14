@@ -178,7 +178,7 @@ class ThemeSwitchPreference @JvmOverloads constructor(
         val arrowBg = Styles.getContentBackgroundColor(context)
         val textColor = Styles.getTextColorPrimary(context)
 
-        Surface(
+            Surface(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(bottom = 12.dp)
@@ -192,51 +192,48 @@ class ThemeSwitchPreference @JvmOverloads constructor(
             shape = RoundedCornerShape(12.dp),
             color = Color(cardBg),
         ) {
-            Column {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 20.dp, vertical = 16.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                ) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 20.dp, end = 20.dp, top = 16.dp, bottom = 16.dp),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Column(modifier = Modifier.weight(1f)) {
                     Text(
                         text = context.getString(R.string.dark_ui_mode),
-                        modifier = Modifier.weight(1f),
                         maxLines = 1,
                         overflow = TextOverflow.Clip,
                         fontWeight = FontWeight.Medium,
                         fontSize = 16.sp,
                         color = Color(textColor),
                     )
-                    Box(
-                        modifier = Modifier
-                            .size(28.dp)
-                            .clip(CircleShape)
-                            .background(Color(arrowBg)),
-                        contentAlignment = Alignment.Center,
-                    ) {
-                        Icon(
-                            imageVector = Icons.AutoMirrored.Filled.ArrowForward,
-                            contentDescription = null,
-                            tint = Color(accentColor),
-                            modifier = Modifier.size(16.dp),
+                    if (isBatterySaver) {
+                        Spacer(modifier = Modifier.height(4.dp))
+                        Text(
+                            text = context.getString(
+                                if (isDark) R.string.dark_ui_mode_disabled_summary_dark_theme_on
+                                else R.string.dark_ui_mode_disabled_summary_dark_theme_off
+                            ),
+                            maxLines = 2,
+                            overflow = TextOverflow.Clip,
+                            fontWeight = FontWeight.Normal,
+                            fontSize = 14.sp,
+                            color = Color(textColor).copy(alpha = 0.6f),
                         )
                     }
                 }
-                if (isBatterySaver) {
-                    Text(
-                        text = context.getString(
-                            if (isDark) R.string.dark_ui_mode_disabled_summary_dark_theme_on
-                            else R.string.dark_ui_mode_disabled_summary_dark_theme_off
-                        ),
-                        maxLines = 2,
-                        overflow = TextOverflow.Clip,
-                        fontWeight = FontWeight.Normal,
-                        fontSize = 14.sp,
-                        color = Color(textColor).copy(alpha = 0.6f),
-                        modifier = Modifier.padding(
-                            start = 20.dp, end = 20.dp, bottom = 16.dp
-                        ),
+                Box(
+                    modifier = Modifier
+                        .size(28.dp)
+                        .clip(CircleShape)
+                        .background(Color(arrowBg)),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Filled.ArrowForward,
+                        contentDescription = null,
+                        tint = Color(accentColor),
+                        modifier = Modifier.size(16.dp),
                     )
                 }
             }

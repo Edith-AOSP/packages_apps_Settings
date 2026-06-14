@@ -25,11 +25,6 @@
         settings:searchable="false"
         settings:controller="com.android.settings.display.darkmode.DarkModeTopIntroPreferenceController"/>
 
-    <com.android.settingslib.widget.MainSwitchPreference
-        android:key="dark_ui_activated"
-        android:title="@string/dark_theme_main_switch_title"
-        settings:controller="com.android.settings.display.darkmode.DarkModeActivationPreferenceController"/>
-
     <com.android.settingslib.widget.BannerMessagePreference
         android:key="dark_ui_location_off"
         android:title="@string/twilight_mode_location_off_dialog_message"

@@ -25,7 +25,6 @@ import androidx.annotation.Nullable;
 import androidx.preference.PreferenceFragmentCompat;
 
 import com.android.settings.dashboard.DashboardFragment;
-import com.android.settings.display.BrightnessLevelPreferenceController;
 import com.android.settings.display.CameraGesturePreferenceController;
 import com.android.settings.display.DisplayScreen;
 import com.android.settings.display.ExternalDisplayPreferenceController;
@@ -40,6 +39,7 @@ import com.android.settingslib.core.AbstractPreferenceController;
 import com.android.settingslib.core.lifecycle.Lifecycle;
 import com.android.settingslib.search.SearchIndexable;
 
+import org.edith.settings.display.BrightnessSliderPreferenceController;
 import org.edith.settings.display.ThemeSwitchPreferenceController;
 
 import java.util.ArrayList;
@@ -97,7 +97,7 @@ public class DisplaySettings extends DashboardFragment {
         controllers.add(new VrDisplayPreferenceController(context));
         controllers.add(new ShowOperatorNamePreferenceController(context));
         controllers.add(new ThemePreferenceController(context));
-        controllers.add(new BrightnessLevelPreferenceController(context, lifecycle));
+        controllers.add(new BrightnessSliderPreferenceController(context));
         controllers.add(new ThemeSwitchPreferenceController(context));
 
         if (DesktopSettingsUtils.shouldShowTopLevelDeviceCategory(context)) {

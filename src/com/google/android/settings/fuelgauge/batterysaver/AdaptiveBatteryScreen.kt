@@ -104,7 +104,7 @@ class AdaptiveBatteryScreen(context: Context) :
 
     companion object {
         fun isAdaptiveBatteryAvailable(context: Context): Boolean =
-            true // context.resources.getBoolean(android.R.bool.config_unfoldTransitionEnabled)
+            context.resources.getBoolean(com.android.internal.R.bool.config_smart_battery_available)
     }
 }
 

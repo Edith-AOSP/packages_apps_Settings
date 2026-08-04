@@ -28,7 +28,7 @@ import android.widget.TimePicker;
 import androidx.appcompat.app.AlertDialog;
 import androidx.preference.PreferenceViewHolder;
 
-import com.android.settings.lineage.CustomDialogPreference;
+import com.android.settings.edith.preference.EdithDialogPreference;
 import com.android.settings.R;
 
 import java.time.LocalTime;
@@ -36,7 +36,7 @@ import java.time.format.DateTimeFormatter;
 
 import com.android.internal.lineage.health.HealthInterface;
 
-public abstract class TimePreference extends CustomDialogPreference<AlertDialog> {
+public abstract class TimePreference extends EdithDialogPreference<AlertDialog> {
     private static final String TAG = TimePreference.class.getSimpleName();
     private static final DateTimeFormatter mFormatter = DateTimeFormatter.ofLocalizedTime(SHORT);
 

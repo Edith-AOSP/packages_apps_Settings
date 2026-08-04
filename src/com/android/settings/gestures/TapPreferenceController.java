@@ -30,7 +30,7 @@ import com.android.settings.core.PreferenceControllerMixin;
 import com.android.settingslib.core.AbstractPreferenceController;
 import com.android.settingslib.widget.MainSwitchPreference;
 
-import com.android.settings.custom.preference.SecureSettingSwitchPreference;
+import com.android.settings.edith.preference.SecureSettingSwitchPreference;
 
 public class TapPreferenceController extends AbstractPreferenceController
         implements PreferenceControllerMixin, OnCheckedChangeListener {

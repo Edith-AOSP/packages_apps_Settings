@@ -34,7 +34,6 @@ import android.content.pm.PackageManager.ApplicationInfoFlags;
 import android.content.pm.UserInfo;
 import android.content.res.Configuration;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Process;
@@ -45,13 +44,11 @@ import android.util.ArraySet;
 import android.util.FeatureFlagUtils;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 
 import androidx.annotation.VisibleForTesting;
-import androidx.core.graphics.ColorUtils;
 import androidx.core.graphics.Insets;
 import androidx.core.util.Consumer;
 import androidx.core.view.ViewCompat;
@@ -86,9 +83,6 @@ import com.android.settingslib.widget.SettingsThemeHelper;
 
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.setupcompat.util.WizardManagerHelper;
-
-import eightbitlab.com.blurview.BlurView;
-import eightbitlab.com.blurview.RenderScriptBlur;
 
 import java.net.URISyntaxException;
 import java.util.List;
@@ -260,9 +254,6 @@ public class SettingsHomepageActivity extends FragmentActivity implements
             return;
         }
 
-        View decorView = getWindow().getDecorView();
-        ViewGroup root = (ViewGroup) decorView.findViewById(android.R.id.content);
-        
         setupEdgeToEdge();
         setContentView(R.layout.settings_homepage_container);
 
@@ -275,20 +266,20 @@ public class SettingsHomepageActivity extends FragmentActivity implements
 
         initSearchBarView();
 
+        final int searchBarHeight = getResources()
+                .getDimensionPixelSize(R.dimen.search_bar_height);
+        final int margin = getResources()
+                .getDimensionPixelSize(R.dimen.search_bar_margin);
+        final View scrollView = findViewById(R.id.main_content_scrollable_container);
+        scrollView.setPadding(
+                scrollView.getPaddingLeft(),
+                scrollView.getPaddingTop(),
+                scrollView.getPaddingRight(),
+                searchBarHeight + margin * 2);
+
         getLifecycle().addObserver(new HideNonSystemOverlayMixin(this));
         mCategoryMixin = new CategoryMixin(this);
         getLifecycle().addObserver(mCategoryMixin);
-
-        BlurView searchBarBlur = findViewById(R.id.search_bar_blur);
-        Drawable windowBackground = decorView.getBackground();
-
-        int baseColor = getColor(R.color.edith_search_background);
-        int alpha = getResources().getInteger(R.integer.edith_search_bar_alpha);
-        int overlayColor = ColorUtils.setAlphaComponent(baseColor, alpha);
-
-        searchBarBlur.setupWith(root, new RenderScriptBlur(this))
-                .setFrameClearDrawable(windowBackground)
-                .setOverlayColor(overlayColor);
 
         final String highlightMenuKey = getHighlightMenuKey();
         // Only allow features on high ram devices.
@@ -342,6 +333,11 @@ public class SettingsHomepageActivity extends FragmentActivity implements
             mCallback = new SplitInfoCallback(this);
             mSplitControllerAdapter.addSplitListener(this, Runnable::run, mCallback);
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
     }
 
     @Override
@@ -761,9 +757,7 @@ public class SettingsHomepageActivity extends FragmentActivity implements
     }
 
     private void updateAppBarMinHeight() {
-        final int searchBarHeight = getResources().getDimensionPixelSize(R.dimen.search_bar_height);
-        final int margin = getResources().getDimensionPixelSize(R.dimen.search_bar_margin);        
-        findViewById(R.id.app_bar_container).setMinimumHeight(searchBarHeight + margin * 2);
+        findViewById(R.id.app_bar_container).setMinimumHeight(0);
     }
 
     private static class SuggestionFragCreator implements FragmentCreator {

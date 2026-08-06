@@ -63,7 +63,7 @@ class RestrictedHomepagePreference @JvmOverloads constructor(
         super.onBindViewHolder(holder)
         (holder.itemView as ComposeView).apply {
             setViewCompositionStrategy(
-                ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed,
+                ViewCompositionStrategy.DisposeOnDetachedFromWindow,
             )
             setContent {
                 SettingsTheme {

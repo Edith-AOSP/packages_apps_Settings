@@ -29,4 +29,8 @@
      <dimen name="edith_top_icon_home">46dp</dimen>
      <dimen name="dashboard_tile_image_size">54dp</dimen>
      <dimen name="dashboard_tile_foreground_image_size">24dp</dimen>
+
+     <!-- Edith homepage preference corner radii -->
+     <dimen name="edith_homepage_corner_radius_large">24dp</dimen>
+     <dimen name="edith_homepage_corner_radius_small">4dp</dimen>
 </resources>

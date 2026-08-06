@@ -15,9 +15,12 @@
 <resources>
 
      <!-- Dashboard icons -->
-     <dimen name="edith_top_icon_max">36dp</dimen>
-     <dimen name="edith_top_icon_home">46dp</dimen>
-     <dimen name="dashboard_tile_image_size">54dp</dimen>
-     <dimen name="dashboard_tile_foreground_image_size">24dp</dimen>
+     <dimen name="edith_top_icon_max">30dp</dimen>
+     <dimen name="edith_top_icon_home">40dp</dimen>
+     <dimen name="dashboard_tile_image_size">46dp</dimen>
+     <dimen name="dashboard_tile_foreground_image_size">16dp</dimen>
+
+     <!-- Override SettingsLib corner radius -->
+     <dimen name="settingslib_preference_corner_radius">26dp</dimen>
 
 </resources>

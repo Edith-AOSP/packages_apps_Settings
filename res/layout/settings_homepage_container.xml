@@ -78,8 +78,16 @@
                 android:text="@string/settings_label"
                 style="@style/HomepageTitleText"/>
 
-            <include layout="@layout/search_bar" />
-
         </LinearLayout>
     </com.google.android.material.appbar.AppBarLayout>
+
+    <include
+        android:id="@+id/search_bar_include"
+        layout="@layout/search_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/search_bar_margin"
+        android:layout_marginBottom="@dimen/search_bar_margin"
+        android:layout_gravity="bottom" />
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

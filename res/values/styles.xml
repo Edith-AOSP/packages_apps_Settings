@@ -598,8 +598,8 @@
 
     <style name="SearchBarStyle">
         <item name="cardCornerRadius">@dimen/search_bar_corner_radius</item>
-        <item name="cardElevation">0dp</item>
-        <item name="cardBackgroundColor">@android:color/transparent</item>
+        <item name="cardElevation">8dp</item>
+        <item name="cardBackgroundColor">?android:attr/colorBackground</item>
     </style>
 
     <style name="SearchBarStyle_v2">

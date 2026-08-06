@@ -74,10 +74,7 @@ open class NetworkDashboardScreen : PreferenceScreenMixin, PreferenceIconProvide
                 // Note : The following 2 preferences are mutually exclusive and only at most one of
                 // them can be shown at a time. This is because they use different Preferences under
                 // the hood and are shown based on whether or not a watch is connected to the phone.
-                +AirplaneModeTogglePreference() order -5
                 +AirplaneModeSettingsScreen.KEY order 0
-            } else {
-                +AirplaneModePreference() order -5
             }
             if (Flags.catalystRestrictBackgroundParentEntry()) +DataSaverScreen.KEY order 10
         }

@@ -10,5 +10,6 @@
         android:width="@dimen/dashboard_tile_foreground_image_size"
         android:height="@dimen/dashboard_tile_foreground_image_size"
         android:gravity="center"
-        android:drawable="@drawable/edith_ic_airplanemode"/>
+        android:drawable="@drawable/edith_ic_airplanemode"
+        android:tint="@color/edith_icon_foreground"/>
 </layer-list>

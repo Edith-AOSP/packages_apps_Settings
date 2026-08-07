@@ -59,9 +59,6 @@ public class NetworkDashboardFragment extends DashboardFragment implements
     public void onAttach(Context context) {
         super.onAttach(context);
 
-        if (!isCatalystEnabled()) {
-            use(AirplaneModePreferenceController.class).setFragment(this);
-        }
         use(NetworkProviderCallsSmsController.class).init(this);
     }
 
@@ -97,15 +94,6 @@ public class NetworkDashboardFragment extends DashboardFragment implements
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
-        switch (requestCode) {
-            case AirplaneModePreferenceController.REQUEST_CODE_EXIT_ECM:
-                if (!isCatalystEnabled()) {
-                    use(AirplaneModePreferenceController.class)
-                            .onActivityResult(requestCode, resultCode, data);
-                }
-                break;
-        }
     }
 
     public static final BaseSearchIndexProvider SEARCH_INDEX_DATA_PROVIDER =

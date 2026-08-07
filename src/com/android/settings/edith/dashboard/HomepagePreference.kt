@@ -22,6 +22,7 @@ import android.util.AttributeSet
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -31,6 +32,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Switch
+import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -157,5 +160,99 @@ internal fun EdithHomepageContent(
                 tint = MaterialTheme.colorScheme.onSurfaceVariant,
             )
         }
+    }
+}
+
+@Composable
+internal fun EdithHomepageSwitchContent(
+    icon: Drawable?,
+    title: CharSequence?,
+    summary: CharSequence?,
+    iconVisible: Boolean,
+    iconPaddingStartPx: Int,
+    textPaddingStartPx: Int,
+    checked: Boolean = false,
+) {
+    val density = LocalDensity.current
+    val iconSize = dimensionResource(R.dimen.dashboard_tile_image_size)
+    val iconPadding =
+        if (iconPaddingStartPx >= 0) with(density) { iconPaddingStartPx.toDp() } else 8.dp
+    val textPadding =
+        if (textPaddingStartPx >= 0) with(density) { textPaddingStartPx.toDp() } else 8.dp
+
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .heightIn(min = 72.dp),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        if (iconVisible && icon != null) {
+            Box(
+                modifier = Modifier
+                    .padding(start = iconPadding, end = 10.dp)
+                    .size(iconSize),
+                contentAlignment = Alignment.Center,
+            ) {
+                Image(
+                    painter = rememberDrawablePainter(icon),
+                    contentDescription = null,
+                    contentScale = ContentScale.Inside,
+                    modifier = Modifier.fillMaxSize(),
+                )
+            }
+        }
+        Column(
+            modifier = Modifier
+                .weight(1f)
+                .padding(start = textPadding, top = 16.dp, bottom = 16.dp),
+        ) {
+            Text(
+                text = title?.toString() ?: "",
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+                fontWeight = FontWeight.Normal,
+            )
+            if (!summary.isNullOrEmpty()) {
+                Text(
+                    text = summary.toString(),
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
+            }
+        }
+        Switch(
+            checked = checked,
+            onCheckedChange = null,
+            modifier = Modifier.padding(end = 4.dp),
+            colors = SwitchDefaults.colors(
+                uncheckedThumbColor = MaterialTheme.colorScheme.surfaceContainerHighest,
+                uncheckedTrackColor = MaterialTheme.colorScheme.outlineVariant,
+            ),
+            thumbContent = if (checked) {
+                {
+                    Icon(
+                        painter = painterResource(
+                            com.android.settingslib.widget.theme.R.drawable
+                                .settingslib_expressive_icon_check),
+                        contentDescription = null,
+                        modifier = Modifier.size(16.dp),
+                        tint = MaterialTheme.colorScheme.primary,
+                    )
+                }
+            } else {
+                {
+                    Icon(
+                        painter = painterResource(
+                            com.android.settingslib.widget.theme.R.drawable
+                                .settingslib_expressive_icon_close),
+                        contentDescription = null,
+                        modifier = Modifier.size(16.dp),
+                        tint = MaterialTheme.colorScheme.outline,
+                    )
+                }
+            },
+        )
     }
 }

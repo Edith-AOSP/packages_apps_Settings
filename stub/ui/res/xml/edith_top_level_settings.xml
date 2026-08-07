@@ -23,19 +23,11 @@
     <com.android.settingslib.widget.UntitledPreferenceCategory
         android:order="-140"
         android:key="top_level_account_category">
-    </com.android.settingslib.widget.UntitledPreferenceCategory>
+        </com.android.settingslib.widget.UntitledPreferenceCategory>
 
     <com.android.settingslib.widget.UntitledPreferenceCategory
         android:order="-130"
         android:key="top_level_connectivity_category">
-        <com.android.settingslib.RestrictedSwitchPreference
-            android:key="airplane_mode_on"
-            android:order="-30"
-            android:title="@string/airplane_mode"
-            android:icon="@drawable/ic_dashboard_airplane_mode"
-            settings:controller="com.android.settings.network.AirplaneModePreferenceController"
-            settings:userRestriction="no_airplane_mode"/>
-
         <com.android.settings.edith.dashboard.HomepagePreference
             android:fragment="com.android.settings.network.NetworkDashboardFragment"
             android:icon="@drawable/ic_dashboard_network"
@@ -55,6 +47,12 @@
             android:summary="@string/connected_devices_dashboard_default_summary"
             settings:highlightableMenuKey="@string/menu_key_connected_devices"
             settings:controller="com.android.settings.connecteddevice.TopLevelConnectedDevicesPreferenceController"/>
+
+        <com.android.settings.edith.dashboard.RestrictedHomepageSwitchPreference
+            android:key="airplane_mode_on"
+            android:title="@string/airplane_mode"
+            android:icon="@drawable/ic_dashboard_airplane_mode"
+            android:order="-30" />
     </com.android.settingslib.widget.UntitledPreferenceCategory>
 
     <com.android.settingslib.widget.UntitledPreferenceCategory

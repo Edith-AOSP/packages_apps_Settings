@@ -24,6 +24,7 @@ import android.app.settings.SettingsEnums;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.os.UserManager;
 import android.provider.SearchIndexableResource;
 import android.text.TextUtils;
 import android.util.Log;
@@ -55,6 +56,7 @@ import com.android.settings.support.SupportPreferenceController;
 import com.android.settings.utils.DesktopSettingsUtils;
 import com.android.settings.widget.HomepagePreference;
 import com.android.settings.widget.HomepagePreferenceLayoutHelper.HomepagePreferenceLayout;
+import com.android.settings.edith.dashboard.RestrictedHomepageSwitchPreference;
 import com.android.settingslib.core.instrumentation.Instrumentable;
 import com.android.settingslib.drawer.Tile;
 import com.android.settingslib.search.SearchIndexable;
@@ -227,6 +229,24 @@ public class TopLevelSettings extends DashboardFragment implements SplitLayoutLi
                 preference.setVisible(false);
             }
         });
+
+        RestrictedHomepageSwitchPreference airplanePref =
+                findPreference("airplane_mode_on");
+        if (airplanePref != null
+                && com.android.settings.network.AirplaneModeUtilKt
+                    .isAirplaneModeEligible(getContext())) {
+            if (com.android.server.connectivity.Flags.syncAirplaneModeWithWatches()) {
+                boolean hasWatch = com.android.settings.network.AirplaneModeUtilKt
+                    .hasPairedWatchForAirplaneModeSync(getContext());
+                airplanePref.setVisible(!hasWatch);
+                if (hasWatch) {
+                    // TODO: add AirplaneModeSettingsScreen entry
+                }
+            } else {
+                airplanePref.checkRestrictionAndSetDisabled(
+                        UserManager.DISALLOW_AIRPLANE_MODE);
+            }
+        }
     }
 
     @Override

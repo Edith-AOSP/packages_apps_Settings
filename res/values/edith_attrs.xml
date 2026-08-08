@@ -19,4 +19,8 @@
         <attr name="defaultValuePure" format="float" />
         <attr name="digits" format="integer" />
     </declare-styleable>
+    <declare-styleable name="RestrictedHomepageSwitchPreference">
+        <attr name="pillCornerRadius" format="boolean" />
+        <attr name="minHeight" format="dimension" />
+    </declare-styleable>
 </resources>

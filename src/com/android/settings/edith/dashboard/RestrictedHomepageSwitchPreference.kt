@@ -2,6 +2,7 @@ package com.android.settings.edith.dashboard
 
 import android.content.Context
 import android.content.Intent
+import android.content.res.TypedArray
 import android.os.UserHandle
 import android.provider.Settings
 import android.util.AttributeSet
@@ -27,10 +28,22 @@ class RestrictedHomepageSwitchPreference @JvmOverloads constructor(
     private var _iconPaddingStart by mutableIntStateOf(-1)
     private var _textPaddingStart by mutableIntStateOf(-1)
     private var _checked by mutableStateOf(false)
+    private var _pillCornerRadius = false
+    private var _minHeightPx = -1f
 
     init {
         layoutResource = R.layout.preference_compose
         isSelectable = true
+
+        if (attrs != null) {
+            val a: TypedArray = context.obtainStyledAttributes(
+                attrs, R.styleable.RestrictedHomepageSwitchPreference)
+            _pillCornerRadius = a.getBoolean(
+                R.styleable.RestrictedHomepageSwitchPreference_pillCornerRadius, false)
+            _minHeightPx = a.getDimension(
+                R.styleable.RestrictedHomepageSwitchPreference_minHeight, -1f)
+            a.recycle()
+        }
     }
 
     fun setIconVisible(visible: Boolean) {
@@ -70,6 +83,12 @@ class RestrictedHomepageSwitchPreference @JvmOverloads constructor(
         _checked = Settings.Global.getInt(
             context.contentResolver, Settings.Global.AIRPLANE_MODE_ON, 0) != 0
 
+        if (_pillCornerRadius) {
+            holder.itemView.post {
+                holder.itemView.setBackgroundResource(R.drawable.edith_switch_pill_background)
+            }
+        }
+
         (holder.itemView as ComposeView).apply {
             setViewCompositionStrategy(
                 ViewCompositionStrategy.DisposeOnDetachedFromWindow,
@@ -84,6 +103,8 @@ class RestrictedHomepageSwitchPreference @JvmOverloads constructor(
                         iconPaddingStartPx = _iconPaddingStart,
                         textPaddingStartPx = _textPaddingStart,
                         checked = _checked,
+                        pillCornerRadius = _pillCornerRadius,
+                        minHeightPx = _minHeightPx,
                     )
                 }
             }

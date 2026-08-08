@@ -30,6 +30,7 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Switch
@@ -42,6 +43,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.dimensionResource
@@ -172,6 +174,8 @@ internal fun EdithHomepageSwitchContent(
     iconPaddingStartPx: Int,
     textPaddingStartPx: Int,
     checked: Boolean = false,
+    pillCornerRadius: Boolean = false,
+    minHeightPx: Float = -1f,
 ) {
     val density = LocalDensity.current
     val iconSize = dimensionResource(R.dimen.dashboard_tile_image_size)
@@ -179,11 +183,19 @@ internal fun EdithHomepageSwitchContent(
         if (iconPaddingStartPx >= 0) with(density) { iconPaddingStartPx.toDp() } else 8.dp
     val textPadding =
         if (textPaddingStartPx >= 0) with(density) { textPaddingStartPx.toDp() } else 8.dp
+    val minHeight = if (minHeightPx > 0f) with(density) { minHeightPx.toDp() } else 72.dp
+
+    val rowModifier = Modifier
+        .fillMaxWidth()
+        .heightIn(min = minHeight)
+    val clipModifier = if (pillCornerRadius) {
+        Modifier.clip(RoundedCornerShape(50))
+    } else {
+        Modifier
+    }
 
     Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .heightIn(min = 72.dp),
+        modifier = rowModifier.then(clipModifier),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         if (iconVisible && icon != null) {

@@ -23,7 +23,19 @@
     <com.android.settingslib.widget.UntitledPreferenceCategory
         android:order="-140"
         android:key="top_level_account_category">
-        </com.android.settingslib.widget.UntitledPreferenceCategory>
+    </com.android.settingslib.widget.UntitledPreferenceCategory>
+
+    <com.android.settingslib.widget.UntitledPreferenceCategory
+        android:order="-125"
+        android:key="top_level_airplane_category">
+        <com.android.settings.edith.dashboard.RestrictedHomepageSwitchPreference
+            android:key="airplane_mode_on"
+            android:title="@string/airplane_mode"
+            android:icon="@drawable/ic_dashboard_airplane_mode"
+            android:order="-5"
+            settings:pillCornerRadius="true"
+            settings:minHeight="68dp" />
+    </com.android.settingslib.widget.UntitledPreferenceCategory>
 
     <com.android.settingslib.widget.UntitledPreferenceCategory
         android:order="-130"
@@ -47,12 +59,6 @@
             android:summary="@string/connected_devices_dashboard_default_summary"
             settings:highlightableMenuKey="@string/menu_key_connected_devices"
             settings:controller="com.android.settings.connecteddevice.TopLevelConnectedDevicesPreferenceController"/>
-
-        <com.android.settings.edith.dashboard.RestrictedHomepageSwitchPreference
-            android:key="airplane_mode_on"
-            android:title="@string/airplane_mode"
-            android:icon="@drawable/ic_dashboard_airplane_mode"
-            android:order="-30" />
     </com.android.settingslib.widget.UntitledPreferenceCategory>
 
     <com.android.settingslib.widget.UntitledPreferenceCategory

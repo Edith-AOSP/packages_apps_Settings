@@ -528,18 +528,12 @@ public class DashboardFeatureProviderImpl implements DashboardFeatureProvider {
                 return;
             }
     
-            // Safely get tile title
-            CharSequence titleCs = tile.getTitle(preference.getContext());
-            String title = titleCs != null ? titleCs.toString() : "";
-
             // Handle homepage icons
-            if ("com.google.android.gms.app.settings.GoogleSettingsIALink".equals(tile.getComponentName())) {
-                iconDrawable = preference.getContext().getDrawable(R.drawable.ic_dashboard_google);
-            } else if ("com.google.android.apps.wellbeing".equals(tile.getPackageName())) {
-                iconDrawable = preference.getContext().getDrawable(R.drawable.ic_dashboard_wellbeing);
-            } else if ("com.google.android.gms.backup.component.BackupOrRestoreSettingsActivity".equals(tile.getComponentName())) {
-                iconDrawable = preference.getContext().getDrawable(R.drawable.ic_dashboard_backupop);
-            } else if (TextUtils.equals(tile.getCategory(), CategoryKey.CATEGORY_HOMEPAGE)) {
+            if (TextUtils.equals(tile.getCategory(), CategoryKey.CATEGORY_HOMEPAGE)) {
+                if (SettingsThemeHelper.isExpressiveTheme(mContext)) {
+                    preference.setIcon(getExpressiveHomepageIcon(tile, iconDrawable, iconPackage));
+                    return;
+                }
                 iconDrawable.setTint(Utils.getHomepageIconColor(preference.getContext()));
             }
 

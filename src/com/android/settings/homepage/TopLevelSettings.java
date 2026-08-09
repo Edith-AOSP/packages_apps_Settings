@@ -22,6 +22,7 @@ import static com.android.settingslib.search.SearchIndexable.MOBILE;
 import android.app.ActivityManager;
 import android.app.settings.SettingsEnums;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.UserManager;
@@ -57,6 +58,7 @@ import com.android.settings.utils.DesktopSettingsUtils;
 import com.android.settings.widget.HomepagePreference;
 import com.android.settings.widget.HomepagePreferenceLayoutHelper.HomepagePreferenceLayout;
 import com.android.settings.edith.dashboard.ConnectivityCardsController;
+import com.android.settings.edith.dashboard.GoogleCardPreference;
 import com.android.settings.edith.dashboard.RestrictedHomepageSwitchPreference;
 import com.android.settingslib.core.AbstractPreferenceController;
 import com.android.settingslib.core.instrumentation.Instrumentable;
@@ -235,8 +237,7 @@ public class TopLevelSettings extends DashboardFragment implements SplitLayoutLi
 
         iteratePreferences(preference -> {
             String prefKey = preference.getKey();
-            if ("top_level_wellbeing".equals(prefKey) 
-                || "top_level_google".equals(prefKey)) {
+            if ("top_level_wellbeing".equals(prefKey)) {
                 preference.setVisible(false);
             }
         });
@@ -387,6 +388,10 @@ public class TopLevelSettings extends DashboardFragment implements SplitLayoutLi
         if ("com.google.android.gms.backup.component.BackupOrRestoreSettingsActivity"
                 .equals(tile.getComponentName())) {
             return null;
+        }
+
+        if (TextUtils.equals(tile.getKey(getPrefContext()), "top_level_google")) {
+            return new GoogleCardPreference(getPrefContext());
         }
 
         return new HomepagePreference(getPrefContext());

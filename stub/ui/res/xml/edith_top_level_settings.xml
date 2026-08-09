@@ -27,7 +27,7 @@
 
     <com.android.settingslib.widget.LayoutPreference
         android:key="homepage_connectivity_cards"
-        android:order="-135"
+        android:order="-140"
         android:layout="@layout/homepage_connectivity_cards"
         android:selectable="false" />
 
@@ -40,7 +40,7 @@
             android:icon="@drawable/ic_dashboard_airplane_mode"
             android:order="-5"
             settings:pillCornerRadius="true"
-            settings:minHeight="68dp" />
+            settings:minHeight="70dp" />
     </com.android.settingslib.widget.UntitledPreferenceCategory>
 
 

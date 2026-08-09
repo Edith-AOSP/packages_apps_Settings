@@ -238,14 +238,12 @@ internal fun EdithHomepageSwitchContent(
                 )
             }
         }
+        val switchColors = SwitchDefaults.colors()
         Switch(
             checked = checked,
             onCheckedChange = null,
-            modifier = Modifier.padding(end = 4.dp),
-            colors = SwitchDefaults.colors(
-                uncheckedThumbColor = MaterialTheme.colorScheme.surfaceContainerHighest,
-                uncheckedTrackColor = MaterialTheme.colorScheme.outlineVariant,
-            ),
+            modifier = Modifier.padding(end = 0.dp),
+            colors = switchColors,
             thumbContent = if (checked) {
                 {
                     Icon(
@@ -265,7 +263,7 @@ internal fun EdithHomepageSwitchContent(
                                 .settingslib_expressive_icon_close),
                         contentDescription = null,
                         modifier = Modifier.size(16.dp),
-                        tint = MaterialTheme.colorScheme.outline,
+                        tint = MaterialTheme.colorScheme.surface,
                     )
                 }
             },

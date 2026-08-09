@@ -20,10 +20,10 @@
     xmlns:settings="http://schemas.android.com/apk/res-auto"
     android:key="top_level_settings">
 
+
     <com.android.settingslib.widget.UntitledPreferenceCategory
-        android:order="-140"
-        android:key="top_level_account_category">
-    </com.android.settingslib.widget.UntitledPreferenceCategory>
+        android:order="-145"
+        android:key="top_level_account_category" />
 
     <com.android.settingslib.widget.LayoutPreference
         android:key="homepage_connectivity_cards"
@@ -198,14 +198,6 @@
             android:summary="@string/location_settings_loading_app_permission_stats"
             settings:highlightableMenuKey="@string/menu_key_location"
             settings:controller="com.android.settings.location.TopLevelLocationPreferenceController"/>
-
-        <com.android.settings.edith.dashboard.HomepagePreference
-            android:icon="@drawable/ic_dashboard_google"
-            android:key="top_level_services"
-            android:order="-52"
-            android:title="@string/gms_enabled_title"
-            settings:highlightableMenuKey="top_level_google"
-            settings:controller="com.android.settings.edith.ia.GooglePreferenceController"/>
 
         <com.android.settings.edith.dashboard.HomepagePreference
             android:fragment="com.android.settings.accounts.AccountDashboardFragment"

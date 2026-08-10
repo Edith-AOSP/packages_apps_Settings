@@ -401,4 +401,5 @@
     <string name="gms_enabled_title">Google services</string>
     <string name="google_settings_summary">Manage your Google Account</string>
     <string name="wellbeing_title">Digital Wellbeing</string>
+    <string name="not_connected">Not connected</string>
 </resources>

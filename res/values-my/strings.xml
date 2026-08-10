@@ -3621,9 +3621,9 @@
     <string name="sim_selection_required_pref" msgid="231437651041498359">"ရွေးချယ်ရန် လိုအပ်"</string>
     <string name="sim_selection_channel_title" msgid="3193666315607572484">"ဆင်းမ်ကတ် ရွေးချယ်ရန်"</string>
     <string name="dashboard_title" msgid="5660733037244683387">"ဆက်တင်များ"</string>
-    <string name="network_dashboard_title" msgid="788543070557731240">"ကွန်ရက်နှင့် အင်တာနက်"</string>
+    <string name="network_dashboard_title" msgid="788543070557731240">"ချိတ်ဆက်မှု"</string>
     <string name="network_dashboard_summary_no_mobile" msgid="4022575916334910790">"Wi-Fi၊ ဟော့စပေါ့"</string>
-    <string name="connected_devices_dashboard_title" msgid="19868275519754895">"ချိတ်ဆက် စက်များ"</string>
+    <string name="connected_devices_dashboard_title" msgid="19868275519754895">"စက်များ"</string>
     <string name="connected_devices_dashboard_default_summary" msgid="7211769956193710397">"ဘလူးတုသ်၊ တွဲချိတ်ခြင်း"</string>
     <string name="connected_devices_dashboard_summary" msgid="6927727617078296491">"ဘလူးတုသ်၊ မောင်းနှင်မုဒ်၊ NFC"</string>
     <string name="connected_devices_dashboard_no_nfc_summary" msgid="8424794257586524040">"ဘလူးတုသ်၊ မောင်းနှင်မုဒ်"</string>

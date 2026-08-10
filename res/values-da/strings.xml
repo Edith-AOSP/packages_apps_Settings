@@ -3621,9 +3621,9 @@
     <string name="sim_selection_required_pref" msgid="231437651041498359">"Du har ikke valgt endnu"</string>
     <string name="sim_selection_channel_title" msgid="3193666315607572484">"Valg af SIM-kort"</string>
     <string name="dashboard_title" msgid="5660733037244683387">"Indstillinger"</string>
-    <string name="network_dashboard_title" msgid="788543070557731240">"Netværk og internet"</string>
+    <string name="network_dashboard_title" msgid="788543070557731240">"Forbindelse"</string>
     <string name="network_dashboard_summary_no_mobile" msgid="4022575916334910790">"Wi-Fi, hotspot"</string>
-    <string name="connected_devices_dashboard_title" msgid="19868275519754895">"Forbundne enheder"</string>
+    <string name="connected_devices_dashboard_title" msgid="19868275519754895">"Enheder"</string>
     <string name="connected_devices_dashboard_default_summary" msgid="7211769956193710397">"Bluetooth, parring"</string>
     <string name="connected_devices_dashboard_summary" msgid="6927727617078296491">"Bluetooth, køretilstand, NFC"</string>
     <string name="connected_devices_dashboard_no_nfc_summary" msgid="8424794257586524040">"Bluetooth, køretilstand"</string>

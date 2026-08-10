@@ -3621,9 +3621,9 @@
     <string name="sim_selection_required_pref" msgid="231437651041498359">"තේරීමක් අවශ්‍යයි"</string>
     <string name="sim_selection_channel_title" msgid="3193666315607572484">"SIM තේරීම"</string>
     <string name="dashboard_title" msgid="5660733037244683387">"සැකසීම්"</string>
-    <string name="network_dashboard_title" msgid="788543070557731240">"ජාලය සහ අන්තර්ජාලය"</string>
+    <string name="network_dashboard_title" msgid="788543070557731240">"සම්බන්ධතාව"</string>
     <string name="network_dashboard_summary_no_mobile" msgid="4022575916334910790">"Wi-Fi, හොට්ස්පොට්"</string>
-    <string name="connected_devices_dashboard_title" msgid="19868275519754895">"සම්බන්ධ කළ උපාංග"</string>
+    <string name="connected_devices_dashboard_title" msgid="19868275519754895">"උපාංග"</string>
     <string name="connected_devices_dashboard_default_summary" msgid="7211769956193710397">"බ්ලූටූත්, යුගල කිරීම"</string>
     <string name="connected_devices_dashboard_summary" msgid="6927727617078296491">"බ්ලූටූත්, රිය පැදවීම් ප්‍රකාරය, NFC"</string>
     <string name="connected_devices_dashboard_no_nfc_summary" msgid="8424794257586524040">"බ්ලූටූත්, රිය පැවීම් ප්‍රකාරය"</string>

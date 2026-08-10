@@ -3621,9 +3621,9 @@
     <string name="sim_selection_required_pref" msgid="231437651041498359">"चुना जाना ज़रूरी है"</string>
     <string name="sim_selection_channel_title" msgid="3193666315607572484">"सिम का चुनाव"</string>
     <string name="dashboard_title" msgid="5660733037244683387">"सेटिंग"</string>
-    <string name="network_dashboard_title" msgid="788543070557731240">"नेटवर्क और इंटरनेट"</string>
+    <string name="network_dashboard_title" msgid="788543070557731240">"कनेक्टिविटी"</string>
     <string name="network_dashboard_summary_no_mobile" msgid="4022575916334910790">"वाई-फ़ाई, हॉटस्पॉट"</string>
-    <string name="connected_devices_dashboard_title" msgid="19868275519754895">"कनेक्ट किए गए डिवाइस"</string>
+    <string name="connected_devices_dashboard_title" msgid="19868275519754895">"डिवाइस"</string>
     <string name="connected_devices_dashboard_default_summary" msgid="7211769956193710397">"ब्लूटूथ, दूसरे डिवाइसों से जोड़ने की सेटिंग"</string>
     <string name="connected_devices_dashboard_summary" msgid="6927727617078296491">"ब्लूटूथ, ड्राइविंग मोड, NFC"</string>
     <string name="connected_devices_dashboard_no_nfc_summary" msgid="8424794257586524040">"ब्लूटूथ, ड्राइविंग मोड"</string>

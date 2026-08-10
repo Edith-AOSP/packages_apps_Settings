@@ -3621,9 +3621,9 @@
     <string name="sim_selection_required_pref" msgid="231437651041498359">"Сонгох шаардлагатай"</string>
     <string name="sim_selection_channel_title" msgid="3193666315607572484">"SIM-н сонголт"</string>
     <string name="dashboard_title" msgid="5660733037244683387">"Тохиргоо"</string>
-    <string name="network_dashboard_title" msgid="788543070557731240">"Сүлжээ, интернэт"</string>
+    <string name="network_dashboard_title" msgid="788543070557731240">"Холболт"</string>
     <string name="network_dashboard_summary_no_mobile" msgid="4022575916334910790">"Wi-Fi, сүлжээний цэг"</string>
-    <string name="connected_devices_dashboard_title" msgid="19868275519754895">"Холбогдсон төхөөрөмж"</string>
+    <string name="connected_devices_dashboard_title" msgid="19868275519754895">"Төхөөрөмжүүд"</string>
     <string name="connected_devices_dashboard_default_summary" msgid="7211769956193710397">"Bluetooth, хослуулалт"</string>
     <string name="connected_devices_dashboard_summary" msgid="6927727617078296491">"Bluetooth, автомашин жолоодох горим, NFC"</string>
     <string name="connected_devices_dashboard_no_nfc_summary" msgid="8424794257586524040">"Bluetooth, автомашин жолоодох горим"</string>

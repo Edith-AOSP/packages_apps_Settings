@@ -3621,9 +3621,9 @@
     <string name="sim_selection_required_pref" msgid="231437651041498359">"ជម្រើស​ដែលទាមទារ"</string>
     <string name="sim_selection_channel_title" msgid="3193666315607572484">"ការជ្រើសរើសស៊ីម"</string>
     <string name="dashboard_title" msgid="5660733037244683387">"ការកំណត់"</string>
-    <string name="network_dashboard_title" msgid="788543070557731240">"បណ្តាញ និង​អ៊ីនធឺណិត"</string>
+    <string name="network_dashboard_title" msgid="788543070557731240">"ការតភ្ជាប់"</string>
     <string name="network_dashboard_summary_no_mobile" msgid="4022575916334910790">"ហតស្ប៉ត, Wi-Fi"</string>
-    <string name="connected_devices_dashboard_title" msgid="19868275519754895">"ឧបករណ៍ដែលបានភ្ជាប់"</string>
+    <string name="connected_devices_dashboard_title" msgid="19868275519754895">"ឧបករណ៍"</string>
     <string name="connected_devices_dashboard_default_summary" msgid="7211769956193710397">"ប៊្លូធូស ការផ្គូផ្គង"</string>
     <string name="connected_devices_dashboard_summary" msgid="6927727617078296491">"ប៊្លូធូស, មុខងារ​បើកបរ, NFC"</string>
     <string name="connected_devices_dashboard_no_nfc_summary" msgid="8424794257586524040">"ប៊្លូធូស មុខងារ​បើកបរ"</string>

@@ -3621,9 +3621,9 @@
     <string name="sim_selection_required_pref" msgid="231437651041498359">"A seleção é necessária"</string>
     <string name="sim_selection_channel_title" msgid="3193666315607572484">"Seleção de SIM"</string>
     <string name="dashboard_title" msgid="5660733037244683387">"Definições"</string>
-    <string name="network_dashboard_title" msgid="788543070557731240">"Rede e Internet"</string>
+    <string name="network_dashboard_title" msgid="788543070557731240">"Conectividade"</string>
     <string name="network_dashboard_summary_no_mobile" msgid="4022575916334910790">"Wi-Fi, zona Wi-Fi"</string>
-    <string name="connected_devices_dashboard_title" msgid="19868275519754895">"Dispositivos ligados"</string>
+    <string name="connected_devices_dashboard_title" msgid="19868275519754895">"Dispositivos"</string>
     <string name="connected_devices_dashboard_default_summary" msgid="7211769956193710397">"Bluetooth, sincronização"</string>
     <string name="connected_devices_dashboard_summary" msgid="6927727617078296491">"Bluetooth, modo de condução, NFC"</string>
     <string name="connected_devices_dashboard_no_nfc_summary" msgid="8424794257586524040">"Bluetooth, modo de condução"</string>

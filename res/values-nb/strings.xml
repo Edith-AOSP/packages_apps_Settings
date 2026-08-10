@@ -3621,9 +3621,9 @@
     <string name="sim_selection_required_pref" msgid="231437651041498359">"Du må velge en SIM-innstilling"</string>
     <string name="sim_selection_channel_title" msgid="3193666315607572484">"Valg av SIM-kort"</string>
     <string name="dashboard_title" msgid="5660733037244683387">"Innstillinger"</string>
-    <string name="network_dashboard_title" msgid="788543070557731240">"Nettverk og internett"</string>
+    <string name="network_dashboard_title" msgid="788543070557731240">"Tilkobling"</string>
     <string name="network_dashboard_summary_no_mobile" msgid="4022575916334910790">"Wifi, wifi-sone"</string>
-    <string name="connected_devices_dashboard_title" msgid="19868275519754895">"Tilkoblede enheter"</string>
+    <string name="connected_devices_dashboard_title" msgid="19868275519754895">"Enheter"</string>
     <string name="connected_devices_dashboard_default_summary" msgid="7211769956193710397">"Bluetooth, tilkobling"</string>
     <string name="connected_devices_dashboard_summary" msgid="6927727617078296491">"Bluetooth, kjøremodus, NFC"</string>
     <string name="connected_devices_dashboard_no_nfc_summary" msgid="8424794257586524040">"Bluetooth, kjøremodus"</string>

@@ -3621,9 +3621,9 @@
     <string name="sim_selection_required_pref" msgid="231437651041498359">"선택 필요"</string>
     <string name="sim_selection_channel_title" msgid="3193666315607572484">"SIM 선택"</string>
     <string name="dashboard_title" msgid="5660733037244683387">"설정"</string>
-    <string name="network_dashboard_title" msgid="788543070557731240">"네트워크 및 인터넷"</string>
+    <string name="network_dashboard_title" msgid="788543070557731240">"연결"</string>
     <string name="network_dashboard_summary_no_mobile" msgid="4022575916334910790">"Wi‑Fi, 핫스팟"</string>
-    <string name="connected_devices_dashboard_title" msgid="19868275519754895">"연결된 기기"</string>
+    <string name="connected_devices_dashboard_title" msgid="19868275519754895">"기기"</string>
     <string name="connected_devices_dashboard_default_summary" msgid="7211769956193710397">"블루투스, 페어링"</string>
     <string name="connected_devices_dashboard_summary" msgid="6927727617078296491">"블루투스, 운전 모드, NFC"</string>
     <string name="connected_devices_dashboard_no_nfc_summary" msgid="8424794257586524040">"블루투스, 운전 모드"</string>

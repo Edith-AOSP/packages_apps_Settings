@@ -3621,9 +3621,9 @@
     <string name="sim_selection_required_pref" msgid="231437651041498359">"ମନୋନୟନ ଆବଶ୍ୟକୀୟ"</string>
     <string name="sim_selection_channel_title" msgid="3193666315607572484">"SIM ଚୟନ"</string>
     <string name="dashboard_title" msgid="5660733037244683387">"ସେଟିଂସ"</string>
-    <string name="network_dashboard_title" msgid="788543070557731240">"ନେଟୱାର୍କ ଓ ଇଣ୍ଟର୍ନେଟ"</string>
+    <string name="network_dashboard_title" msgid="788543070557731240">"ସଂଯୋଗ"</string>
     <string name="network_dashboard_summary_no_mobile" msgid="4022575916334910790">"ୱାଇ-ଫାଇ, ହଟସ୍ପଟ୍"</string>
-    <string name="connected_devices_dashboard_title" msgid="19868275519754895">"କନେକ୍ଟ କରାଯାଇଥିବା ଡିଭାଇସ"</string>
+    <string name="connected_devices_dashboard_title" msgid="19868275519754895">"ଡିଭାଇସ"</string>
     <string name="connected_devices_dashboard_default_summary" msgid="7211769956193710397">"ବ୍ଲୁଟୁଥ, ପେୟାରିଂ"</string>
     <string name="connected_devices_dashboard_summary" msgid="6927727617078296491">"ବ୍ଲୁଟୂଥ୍‍‌, ଡ୍ରାଇଭିଙ୍ଗ ମୋଡ୍, NFC"</string>
     <string name="connected_devices_dashboard_no_nfc_summary" msgid="8424794257586524040">"ବ୍ଲୁଟୂଥ୍‍‌, ଡ୍ରାଇଭିଙ୍ଗ ମୋଡ୍"</string>

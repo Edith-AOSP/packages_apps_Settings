@@ -3621,9 +3621,9 @@
     <string name="sim_selection_required_pref" msgid="231437651041498359">"தேர்வு தேவை"</string>
     <string name="sim_selection_channel_title" msgid="3193666315607572484">"சிம் தேர்வு"</string>
     <string name="dashboard_title" msgid="5660733037244683387">"அமைப்பு"</string>
-    <string name="network_dashboard_title" msgid="788543070557731240">"நெட்வொர்க்கும் இணையமும்"</string>
+    <string name="network_dashboard_title" msgid="788543070557731240">"இணைப்பு"</string>
     <string name="network_dashboard_summary_no_mobile" msgid="4022575916334910790">"வைஃபை, ஹாட்ஸ்பாட்"</string>
-    <string name="connected_devices_dashboard_title" msgid="19868275519754895">"இணைத்த சாதனங்கள்"</string>
+    <string name="connected_devices_dashboard_title" msgid="19868275519754895">"சாதனங்கள்"</string>
     <string name="connected_devices_dashboard_default_summary" msgid="7211769956193710397">"புளூடூத், இணைத்தல்"</string>
     <string name="connected_devices_dashboard_summary" msgid="6927727617078296491">"புளூடூத், வாகனம் ஓட்டும் பயன்முறை, NFC"</string>
     <string name="connected_devices_dashboard_no_nfc_summary" msgid="8424794257586524040">"புளூடூத், வாகனம் ஓட்டும் பயன்முறை"</string>

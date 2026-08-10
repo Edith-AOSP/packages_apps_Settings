@@ -3621,9 +3621,9 @@
     <string name="sim_selection_required_pref" msgid="231437651041498359">"নির্বাচন করার প্রয়োজন"</string>
     <string name="sim_selection_channel_title" msgid="3193666315607572484">"সিম বেছে নেওয়া"</string>
     <string name="dashboard_title" msgid="5660733037244683387">"সেটিংস"</string>
-    <string name="network_dashboard_title" msgid="788543070557731240">"নেটওয়ার্ক ও ইন্টারনেট"</string>
+    <string name="network_dashboard_title" msgid="788543070557731240">"সংযোগ"</string>
     <string name="network_dashboard_summary_no_mobile" msgid="4022575916334910790">"ওয়াই-ফাই, হটস্পট"</string>
-    <string name="connected_devices_dashboard_title" msgid="19868275519754895">"কানেক্ট করা ডিভাইস"</string>
+    <string name="connected_devices_dashboard_title" msgid="19868275519754895">"ডিভাইস"</string>
     <string name="connected_devices_dashboard_default_summary" msgid="7211769956193710397">"ব্লুটুথ, পেয়ার করা"</string>
     <string name="connected_devices_dashboard_summary" msgid="6927727617078296491">"ব্লুটুথ, ড্রাইভিং মোড, এনএফসি"</string>
     <string name="connected_devices_dashboard_no_nfc_summary" msgid="8424794257586524040">"ব্লুটুথ, ড্রাইভিং মোড"</string>

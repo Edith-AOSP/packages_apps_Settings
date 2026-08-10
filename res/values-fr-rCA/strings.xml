@@ -3621,9 +3621,9 @@
     <string name="sim_selection_required_pref" msgid="231437651041498359">"Veuillez indiquer votre préférence"</string>
     <string name="sim_selection_channel_title" msgid="3193666315607572484">"Sélection de carte SIM"</string>
     <string name="dashboard_title" msgid="5660733037244683387">"Paramètres"</string>
-    <string name="network_dashboard_title" msgid="788543070557731240">"Réseau et Internet"</string>
+    <string name="network_dashboard_title" msgid="788543070557731240">"Connectivité"</string>
     <string name="network_dashboard_summary_no_mobile" msgid="4022575916334910790">"Wi-Fi, point d\'accès"</string>
-    <string name="connected_devices_dashboard_title" msgid="19868275519754895">"Appareils connectés"</string>
+    <string name="connected_devices_dashboard_title" msgid="19868275519754895">"Appareils"</string>
     <string name="connected_devices_dashboard_default_summary" msgid="7211769956193710397">"Bluetooth, association"</string>
     <string name="connected_devices_dashboard_summary" msgid="6927727617078296491">"Bluetooth, mode Voiture, CCP"</string>
     <string name="connected_devices_dashboard_no_nfc_summary" msgid="8424794257586524040">"Bluetooth, mode Voiture"</string>

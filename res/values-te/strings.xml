@@ -3621,9 +3621,9 @@
     <string name="sim_selection_required_pref" msgid="231437651041498359">"ఎంపిక అవసరం"</string>
     <string name="sim_selection_channel_title" msgid="3193666315607572484">"సిమ్ ఎంపిక"</string>
     <string name="dashboard_title" msgid="5660733037244683387">"సెట్టింగ్‌లు"</string>
-    <string name="network_dashboard_title" msgid="788543070557731240">"నెట్‌వర్క్, ఇంటర్నెట్"</string>
+    <string name="network_dashboard_title" msgid="788543070557731240">"కనెక్టివిటీ"</string>
     <string name="network_dashboard_summary_no_mobile" msgid="4022575916334910790">"Wi-Fi, హాట్‌స్పాట్"</string>
-    <string name="connected_devices_dashboard_title" msgid="19868275519754895">"కనెక్ట్ అయిన డివైజ్‌లు"</string>
+    <string name="connected_devices_dashboard_title" msgid="19868275519754895">"డివైజ్‌లు"</string>
     <string name="connected_devices_dashboard_default_summary" msgid="7211769956193710397">"బ్లూటూత్, పెయిరింగ్"</string>
     <string name="connected_devices_dashboard_summary" msgid="6927727617078296491">"బ్లూటూత్, డ్రైవింగ్ మోడ్, NFC"</string>
     <string name="connected_devices_dashboard_no_nfc_summary" msgid="8424794257586524040">"బ్లూటూత్, డ్రైవింగ్ మోడ్"</string>

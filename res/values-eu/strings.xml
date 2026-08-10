@@ -3621,9 +3621,9 @@
     <string name="sim_selection_required_pref" msgid="231437651041498359">"Zerbait hautatu behar da"</string>
     <string name="sim_selection_channel_title" msgid="3193666315607572484">"SIMaren hautapena"</string>
     <string name="dashboard_title" msgid="5660733037244683387">"Ezarpenak"</string>
-    <string name="network_dashboard_title" msgid="788543070557731240">"Sareak eta Internet"</string>
+    <string name="network_dashboard_title" msgid="788543070557731240">"Konektibitatea"</string>
     <string name="network_dashboard_summary_no_mobile" msgid="4022575916334910790">"Wifia, wifi-gunea"</string>
-    <string name="connected_devices_dashboard_title" msgid="19868275519754895">"Konektatutako gailuak"</string>
+    <string name="connected_devices_dashboard_title" msgid="19868275519754895">"Gailuak"</string>
     <string name="connected_devices_dashboard_default_summary" msgid="7211769956193710397">"Bluetootha, parekatzea"</string>
     <string name="connected_devices_dashboard_summary" msgid="6927727617078296491">"Bluetooth, gidatze modua, NFC"</string>
     <string name="connected_devices_dashboard_no_nfc_summary" msgid="8424794257586524040">"Bluetooth, gidatze modua"</string>

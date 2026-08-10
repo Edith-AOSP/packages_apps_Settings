@@ -3621,9 +3621,9 @@
     <string name="sim_selection_required_pref" msgid="231437651041498359">"ຕ້ອງເລືອກ​ອັນໃດອັນນຶ່ງ"</string>
     <string name="sim_selection_channel_title" msgid="3193666315607572484">"ການເລືອກ SIM"</string>
     <string name="dashboard_title" msgid="5660733037244683387">"ການ​ຕັ້ງ​ຄ່າ"</string>
-    <string name="network_dashboard_title" msgid="788543070557731240">"ເຄືອຂ່າຍ ແລະ ອິນເຕີເນັດ"</string>
+    <string name="network_dashboard_title" msgid="788543070557731240">"ການເຊື່ອມຕໍ່"</string>
     <string name="network_dashboard_summary_no_mobile" msgid="4022575916334910790">"Wi‑Fi, ຮັອດສະປອດ"</string>
-    <string name="connected_devices_dashboard_title" msgid="19868275519754895">"ອຸປະກອນທີ່ເຊື່ອມຕໍ່ແລ້ວ"</string>
+    <string name="connected_devices_dashboard_title" msgid="19868275519754895">"ອຸປະກອນ"</string>
     <string name="connected_devices_dashboard_default_summary" msgid="7211769956193710397">"Bluetooth, ການຈັບຄູ່"</string>
     <string name="connected_devices_dashboard_summary" msgid="6927727617078296491">"Bluetooth, ໂໝດຂັບລົດ, NFC"</string>
     <string name="connected_devices_dashboard_no_nfc_summary" msgid="8424794257586524040">"Bluetooth, ໂໝດຂັບລົດ"</string>

@@ -3623,9 +3623,9 @@
     <string name="sim_selection_required_pref" msgid="231437651041498359">"انتخاب مورد نیاز است"</string>
     <string name="sim_selection_channel_title" msgid="3193666315607572484">"انتخاب سیم‌کارت"</string>
     <string name="dashboard_title" msgid="5660733037244683387">"تنظیمات"</string>
-    <string name="network_dashboard_title" msgid="788543070557731240">"شبکه و اینترنت"</string>
+    <string name="network_dashboard_title" msgid="788543070557731240">"اتصال"</string>
     <string name="network_dashboard_summary_no_mobile" msgid="4022575916334910790">"‏Wi-Fi، نقطه اتصال"</string>
-    <string name="connected_devices_dashboard_title" msgid="19868275519754895">"دستگاه‌های متصل‌شده"</string>
+    <string name="connected_devices_dashboard_title" msgid="19868275519754895">"دستگاه‌ها"</string>
     <string name="connected_devices_dashboard_default_summary" msgid="7211769956193710397">"بلوتوث، جفت‌سازی"</string>
     <string name="connected_devices_dashboard_summary" msgid="6927727617078296491">"‏بلوتوث، حالت رانندگی، NFC"</string>
     <string name="connected_devices_dashboard_no_nfc_summary" msgid="8424794257586524040">"بلوتوث، حالت رانندگی"</string>

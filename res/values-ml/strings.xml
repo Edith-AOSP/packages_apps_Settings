@@ -3621,9 +3621,9 @@
     <string name="sim_selection_required_pref" msgid="231437651041498359">"തിരഞ്ഞെടുക്കൽ ആവശ്യമാണ്"</string>
     <string name="sim_selection_channel_title" msgid="3193666315607572484">"സിം തിരഞ്ഞെടുക്കൽ"</string>
     <string name="dashboard_title" msgid="5660733037244683387">"ക്രമീകരണം"</string>
-    <string name="network_dashboard_title" msgid="788543070557731240">"നെറ്റ്‌വർക്കും ഇന്റർനെറ്റും"</string>
+    <string name="network_dashboard_title" msgid="788543070557731240">"കണക്റ്റിവിറ്റി"</string>
     <string name="network_dashboard_summary_no_mobile" msgid="4022575916334910790">"വൈഫൈ, ഹോട്ട്സ്പോട്ട്"</string>
-    <string name="connected_devices_dashboard_title" msgid="19868275519754895">"കണക്‌റ്റ് ചെയ്ത ഉപകരണങ്ങൾ"</string>
+    <string name="connected_devices_dashboard_title" msgid="19868275519754895">"ഉപകരണങ്ങൾ"</string>
     <string name="connected_devices_dashboard_default_summary" msgid="7211769956193710397">"ബ്ലൂടൂത്ത്, ജോടിയാക്കൽ"</string>
     <string name="connected_devices_dashboard_summary" msgid="6927727617078296491">"Bluetooth, ഡ്രൈവിംഗ് മോഡ്, NFC"</string>
     <string name="connected_devices_dashboard_no_nfc_summary" msgid="8424794257586524040">"Bluetooth, ഡ്രൈവിംഗ് മോഡ്"</string>

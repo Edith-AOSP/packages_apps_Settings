@@ -3621,9 +3621,9 @@
     <string name="sim_selection_required_pref" msgid="231437651041498359">"Keuse vereis"</string>
     <string name="sim_selection_channel_title" msgid="3193666315607572484">"SIM-keuse"</string>
     <string name="dashboard_title" msgid="5660733037244683387">"Instellings"</string>
-    <string name="network_dashboard_title" msgid="788543070557731240">"Netwerk en internet"</string>
+    <string name="network_dashboard_title" msgid="788543070557731240">"Konnektiwiteit"</string>
     <string name="network_dashboard_summary_no_mobile" msgid="4022575916334910790">"Wi‑fi, warmkol"</string>
-    <string name="connected_devices_dashboard_title" msgid="19868275519754895">"Gekoppelde toestelle"</string>
+    <string name="connected_devices_dashboard_title" msgid="19868275519754895">"Toestelle"</string>
     <string name="connected_devices_dashboard_default_summary" msgid="7211769956193710397">"Bluetooth, saambinding"</string>
     <string name="connected_devices_dashboard_summary" msgid="6927727617078296491">"Bluetooth, rymodus, NFC"</string>
     <string name="connected_devices_dashboard_no_nfc_summary" msgid="8424794257586524040">"Bluetooth, rymodus"</string>

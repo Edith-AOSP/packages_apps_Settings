@@ -17,17 +17,8 @@
 package com.android.settings.edith.dashboard
 
 import android.app.settings.SettingsEnums
-import android.bluetooth.BluetoothAdapter
-import android.bluetooth.BluetoothDevice
-import android.bluetooth.BluetoothManager
-import android.bluetooth.BluetoothProfile
-import android.content.BroadcastReceiver
 import android.content.Context
-import android.content.Intent
-import android.content.IntentFilter
-import android.net.wifi.WifiManager
-import android.os.Handler
-import android.os.Looper
+import android.net.NetworkCapabilities
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -43,13 +34,16 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
@@ -57,10 +51,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.core.content.ContextCompat
 import androidx.preference.PreferenceScreen
 import com.android.settings.R
+import com.android.settings.bluetooth.Utils
 import com.android.settings.core.SubSettingLauncher
+import com.android.settings.network.InternetPreferenceRepository
+import com.android.settingslib.bluetooth.BluetoothCallback
+import com.android.settingslib.bluetooth.CachedBluetoothDevice
+import com.android.settingslib.bluetooth.LocalBluetoothManager
 import com.android.settingslib.core.AbstractPreferenceController
 import com.android.settingslib.spa.framework.compose.rememberDrawablePainter
 import com.android.settingslib.spa.framework.theme.SettingsTheme
@@ -68,73 +66,10 @@ import com.android.settingslib.widget.LayoutPreference
 
 class ConnectivityCardsController(context: Context) : AbstractPreferenceController(context) {
 
-    private var adapter: BluetoothAdapter? = null
-    private var wifiManager: WifiManager? = null
-    private var a2dpProfile: BluetoothProfile? = null
-    private val handler = Handler(Looper.getMainLooper())
-
-    private var wifiSsid by mutableStateOf<String?>(null)
-    private var deviceName by mutableStateOf<String?>(null)
-
-    private val profileListener = object : BluetoothProfile.ServiceListener {
-        override fun onServiceConnected(profile: Int, proxy: BluetoothProfile?) {
-            if (profile == BluetoothProfile.A2DP) {
-                a2dpProfile = proxy
-                handler.post { updateDeviceState() }
-            }
-        }
-
-        override fun onServiceDisconnected(profile: Int) {
-            if (profile == BluetoothProfile.A2DP) {
-                a2dpProfile = null
-                handler.post { updateDeviceState() }
-            }
-        }
-    }
-
-    private val receiver = object : BroadcastReceiver() {
-        override fun onReceive(context: Context, intent: Intent) {
-            when (intent.action) {
-                BluetoothDevice.ACTION_ACL_CONNECTED,
-                BluetoothDevice.ACTION_ACL_DISCONNECTED,
-                BluetoothAdapter.ACTION_CONNECTION_STATE_CHANGED,
-                BluetoothAdapter.ACTION_STATE_CHANGED -> {
-                    handler.post { updateDeviceState() }
-                }
-                WifiManager.NETWORK_STATE_CHANGED_ACTION,
-                WifiManager.WIFI_STATE_CHANGED_ACTION -> {
-                    handler.post { updateWifiState() }
-                }
-            }
-        }
-    }
-
     override fun displayPreference(screen: PreferenceScreen) {
         super.displayPreference(screen)
 
         val cards = screen.findPreference<LayoutPreference>(KEY) ?: return
-
-        wifiManager = mContext.getSystemService(Context.WIFI_SERVICE) as? WifiManager
-        val btManager = mContext.getSystemService(Context.BLUETOOTH_SERVICE) as? BluetoothManager
-        adapter = btManager?.adapter
-
-        if (adapter != null) {
-            adapter?.getProfileProxy(mContext, profileListener, BluetoothProfile.A2DP)
-        }
-
-        val filter = IntentFilter().apply {
-            addAction(BluetoothDevice.ACTION_ACL_CONNECTED)
-            addAction(BluetoothDevice.ACTION_ACL_DISCONNECTED)
-            addAction(BluetoothAdapter.ACTION_CONNECTION_STATE_CHANGED)
-            addAction(BluetoothAdapter.ACTION_STATE_CHANGED)
-            addAction(WifiManager.NETWORK_STATE_CHANGED_ACTION)
-            addAction(WifiManager.WIFI_STATE_CHANGED_ACTION)
-        }
-        ContextCompat.registerReceiver(mContext, receiver, filter,
-            ContextCompat.RECEIVER_NOT_EXPORTED)
-
-        updateWifiState()
-        updateDeviceState()
 
         val composeView = cards.findViewById<ComposeView>(R.id.connectivity_compose)
         composeView?.setViewCompositionStrategy(
@@ -142,48 +77,9 @@ class ConnectivityCardsController(context: Context) : AbstractPreferenceControll
         )
         composeView?.setContent {
             SettingsTheme {
-                ConnectivityCards(
-                    wifiSsid = wifiSsid,
-                    deviceName = deviceName,
-                    onNetworkClick = {
-                        SubSettingLauncher(mContext)
-                            .setDestination("com.android.settings.network.NetworkDashboardFragment")
-                            .setSourceMetricsCategory(SettingsEnums.SETTINGS_NETWORK_CATEGORY)
-                            .launch()
-                    },
-                    onDevicesClick = {
-                        SubSettingLauncher(mContext)
-                            .setDestination("com.android.settings.connecteddevice.ConnectedDeviceDashboardFragment")
-                            .setSourceMetricsCategory(SettingsEnums.SETTINGS_NETWORK_CATEGORY)
-                            .launch()
-                    },
-                )
+                ConnectivityCards()
             }
         }
-    }
-
-    private fun updateWifiState() {
-        wifiSsid = getConnectedWifiSsid()
-    }
-
-    private fun updateDeviceState() {
-        deviceName = getConnectedDeviceName()
-    }
-
-    private fun getConnectedWifiSsid(): String? {
-        val wifi = wifiManager ?: return null
-        if (!wifi.isWifiEnabled) return null
-        val info = wifi.connectionInfo ?: return null
-        val ssid = info.ssid ?: return null
-        if (ssid == "<unknown ssid>" || ssid.isEmpty()) return null
-        return ssid.replace("\"", "")
-    }
-
-    private fun getConnectedDeviceName(): String? {
-        val proxy = a2dpProfile ?: return null
-        val devices = proxy.connectedDevices ?: return null
-        if (devices.isEmpty()) return null
-        return devices.firstOrNull()?.name ?: devices.firstOrNull()?.address
     }
 
     override fun isAvailable(): Boolean = true
@@ -196,15 +92,62 @@ class ConnectivityCardsController(context: Context) : AbstractPreferenceControll
 }
 
 @Composable
-private fun ConnectivityCards(
-    wifiSsid: String?,
-    deviceName: String?,
-    onNetworkClick: () -> Unit,
-    onDevicesClick: () -> Unit,
-) {
+private fun ConnectivityCards() {
+    val context = LocalContext.current
     val cornerRadius = dimensionResource(R.dimen.settingslib_preference_corner_radius)
     val iconSize = dimensionResource(R.dimen.dashboard_tile_image_size)
     val shape = RoundedCornerShape(cornerRadius)
+
+    // ---------- Internet state ----------
+    var internetSummary by remember { mutableStateOf("") }
+    var internetConnected by remember { mutableStateOf(false) }
+    val internetRepo = remember { InternetPreferenceRepository(context) }
+    LaunchedEffect(internetRepo) {
+        internetRepo.displayInfoFlow().collect { displayInfo ->
+            internetSummary = displayInfo.summary
+            val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE)
+                as android.net.ConnectivityManager
+            val caps = cm.getNetworkCapabilities(cm.activeNetwork)
+            internetConnected = caps != null &&
+                caps.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) &&
+                caps.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED)
+        }
+    }
+
+    // ---------- Bluetooth state ----------
+    var devicesSummary by remember { mutableStateOf(context.getString(R.string.not_connected)) }
+    var devicesConnected by remember { mutableStateOf(false) }
+    DisposableEffect(context) {
+        val btManager: LocalBluetoothManager? = Utils.getLocalBluetoothManager(context)
+        val callback = object : BluetoothCallback {
+            override fun onBluetoothStateChanged(bluetoothState: Int) { update() }
+            override fun onConnectionStateChanged(
+                device: CachedBluetoothDevice?, state: Int) { update() }
+            override fun onAclConnectionStateChanged(
+                device: CachedBluetoothDevice, state: Int) { update() }
+            override fun onActiveDeviceChanged(
+                device: CachedBluetoothDevice?, bluetoothProfile: Int) { update() }
+            override fun onDeviceBondStateChanged(
+                device: CachedBluetoothDevice, bondState: Int) { update() }
+            override fun onProfileConnectionStateChanged(
+                device: CachedBluetoothDevice, state: Int, bluetoothProfile: Int) { update() }
+
+            fun update() {
+                val manager = btManager ?: return
+                val adapter = manager.bluetoothAdapter ?: return
+                val connected = adapter.bondedDevices?.firstOrNull { it.isConnected }
+                devicesConnected = connected != null
+                devicesSummary = if (!adapter.isEnabled) {
+                    context.getString(com.android.settingslib.R.string.bluetooth_disconnected)
+                } else {
+                    connected?.name ?: context.getString(R.string.not_connected)
+                }
+            }
+        }
+        btManager?.eventManager?.registerCallback(callback)
+        callback.update()
+        onDispose { btManager?.eventManager?.unregisterCallback(callback) }
+    }
 
     Row(
         modifier = Modifier
@@ -212,32 +155,44 @@ private fun ConnectivityCards(
             .padding(horizontal = 16.dp),
         horizontalArrangement = Arrangement.spacedBy(12.dp),
     ) {
-        ConnectivityCard(
-            modifier = Modifier.weight(1f),
-            icon = rememberDrawablePainter(
-                LocalContext.current.getDrawable(R.drawable.ic_dashboard_network)
-            ),
-            title = stringResource(R.string.network_dashboard_title),
-            summary = wifiSsid ?: stringResource(R.string.not_connected),
-            isActive = wifiSsid != null,
-            shape = shape,
-            iconSize = iconSize,
-            onClick = onNetworkClick,
-        )
+            ConnectivityCard(
+                modifier = Modifier.weight(1f),
+                icon = rememberDrawablePainter(
+                    context.getDrawable(R.drawable.ic_dashboard_network)
+                ),
+                title = stringResource(R.string.network_dashboard_title),
+                summary = internetSummary.ifEmpty {
+                    stringResource(R.string.not_connected)
+                },
+                isActive = internetConnected,
+                shape = shape,
+                iconSize = iconSize,
+                onClick = {
+                    SubSettingLauncher(context)
+                        .setDestination("com.android.settings.network.NetworkDashboardFragment")
+                        .setSourceMetricsCategory(SettingsEnums.SETTINGS_NETWORK_CATEGORY)
+                        .launch()
+                },
+            )
 
-        ConnectivityCard(
-            modifier = Modifier.weight(1f),
-            icon = rememberDrawablePainter(
-                LocalContext.current.getDrawable(R.drawable.ic_dashboard_devices)
-            ),
-            title = stringResource(R.string.connected_devices_dashboard_title),
-            summary = deviceName ?: stringResource(R.string.not_connected),
-            isActive = deviceName != null,
-            shape = shape,
-            iconSize = iconSize,
-            onClick = onDevicesClick,
-        )
-    }
+            ConnectivityCard(
+                modifier = Modifier.weight(1f),
+                icon = rememberDrawablePainter(
+                    context.getDrawable(R.drawable.ic_dashboard_devices)
+                ),
+                title = stringResource(R.string.connected_devices_dashboard_title),
+                summary = devicesSummary,
+                isActive = devicesConnected,
+                shape = shape,
+                iconSize = iconSize,
+                onClick = {
+                    SubSettingLauncher(context)
+                        .setDestination("com.android.settings.connecteddevice.ConnectedDeviceDashboardFragment")
+                        .setSourceMetricsCategory(SettingsEnums.SETTINGS_NETWORK_CATEGORY)
+                        .launch()
+                },
+            )
+        }
 }
 
 @Composable
@@ -292,7 +247,7 @@ private fun ConnectivityCard(
             Text(
                 text = summary,
                 maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
+                overflow = TextOverflow.Clip,
                 fontSize = 13.sp,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )

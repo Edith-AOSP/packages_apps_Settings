@@ -32,7 +32,7 @@
         android:selectable="false" />
 
     <com.android.settingslib.widget.UntitledPreferenceCategory
-        android:order="-125"
+        android:order="-135"
         android:key="top_level_airplane_category">
         <com.android.settings.edith.dashboard.RestrictedHomepageSwitchPreference
             android:key="airplane_mode_on"

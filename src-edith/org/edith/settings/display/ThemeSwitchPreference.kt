@@ -132,7 +132,7 @@ class ThemeSwitchPreference @JvmOverloads constructor(
                 text = context.getString(R.string.device_theme),
                 maxLines = 1,
                 overflow = TextOverflow.Clip,
-                fontWeight = FontWeight.Medium,
+                fontWeight = FontWeight.Normal,
                 fontSize = 16.sp,
                 color = Color(textColor),
             )
@@ -202,7 +202,7 @@ class ThemeSwitchPreference @JvmOverloads constructor(
                         text = context.getString(R.string.dark_ui_mode),
                         maxLines = 1,
                         overflow = TextOverflow.Clip,
-                        fontWeight = FontWeight.Medium,
+                        fontWeight = FontWeight.Normal,
                         fontSize = 16.sp,
                         color = Color(textColor),
                     )

@@ -80,10 +80,7 @@ class BrightnessSliderPreference @JvmOverloads constructor(
 
     override fun onBindViewHolder(holder: PreferenceViewHolder) {
         super.onBindViewHolder(holder)
-        val itemView = holder.itemView
-        itemView.background = null
-        itemView.minimumHeight = 0
-        itemView.setPadding(0, 0, 0, 0)
+        holder.itemView.background = null
     }
 
     @Composable
@@ -192,7 +189,7 @@ class BrightnessSliderPreference @JvmOverloads constructor(
                     text = context.getString(R.string.brightness),
                     maxLines = 1,
                     overflow = TextOverflow.Clip,
-                    fontWeight = FontWeight.Medium,
+                    fontWeight = FontWeight.Normal,
                     fontSize = 16.sp,
                     color = Color(titleColor),
                 )

@@ -37,9 +37,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -54,6 +53,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -162,7 +162,7 @@ class ThemeSwitchPreference @JvmOverloads constructor(
             }
             if (isDark) {
                 Spacer(modifier = Modifier.height(12.dp))
-                AdditionalOptionsRow(context, accentColor, isBatterySaver, isDark)
+                AdditionalOptionsRow(context, isBatterySaver, isDark)
             }
         }
     }
@@ -170,12 +170,10 @@ class ThemeSwitchPreference @JvmOverloads constructor(
     @Composable
     private fun AdditionalOptionsRow(
         context: Context,
-        accentColor: Int,
         isBatterySaver: Boolean,
         isDark: Boolean
     ) {
         val cardBg = Styles.getCardContentBackgroundColor(context)
-        val arrowBg = Styles.getContentBackgroundColor(context)
         val textColor = Styles.getTextColorPrimary(context)
 
             Surface(
@@ -224,15 +222,14 @@ class ThemeSwitchPreference @JvmOverloads constructor(
                 Box(
                     modifier = Modifier
                         .size(28.dp)
-                        .clip(CircleShape)
-                        .background(Color(arrowBg)),
+                        .background(MaterialTheme.colorScheme.surfaceVariant, CircleShape)
+                        .padding(8.dp),
                     contentAlignment = Alignment.Center,
                 ) {
                     Icon(
-                        imageVector = Icons.AutoMirrored.Filled.ArrowForward,
+                        painter = painterResource(R.drawable.ic_arrow_forward),
                         contentDescription = null,
-                        tint = Color(accentColor),
-                        modifier = Modifier.size(16.dp),
+                        tint = MaterialTheme.colorScheme.onSurfaceVariant,
                     )
                 }
             }

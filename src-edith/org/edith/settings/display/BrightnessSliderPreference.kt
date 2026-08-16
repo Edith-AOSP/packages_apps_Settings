@@ -90,20 +90,29 @@ class BrightnessSliderPreference @JvmOverloads constructor(
         val displayManager = remember {
             context.getSystemService(Context.DISPLAY_SERVICE) as DisplayManager
         }
-        val maxBrightness = remember {
-            context.resources.getInteger(
-                com.android.internal.R.integer.config_screenBrightnessSettingMaximum
+        fun readGammaBrightness(): Int {
+            val info = displayManager.getDisplay(Display.DEFAULT_DISPLAY)?.brightnessInfo
+                ?: return BrightnessUtils.GAMMA_SPACE_MIN
+            return BrightnessUtils.convertLinearToGammaFloat(
+                info.brightness,
+                info.brightnessMinimum,
+                info.brightnessMaximum,
             )
         }
 
-        fun readGammaBrightness(): Int {
-            val linear = Settings.System.getInt(resolver, Settings.System.SCREEN_BRIGHTNESS, 0)
-            return BrightnessUtils.convertLinearToGamma(linear, 0, maxBrightness)
-        }
-
-        fun writeGammaBrightness(gamma: Int) {
-            val linear = BrightnessUtils.convertGammaToLinear(gamma, 0, maxBrightness)
-            Settings.System.putInt(resolver, Settings.System.SCREEN_BRIGHTNESS, linear)
+        fun writeGammaBrightness(gamma: Int, temporary: Boolean) {
+            val display = displayManager.getDisplay(Display.DEFAULT_DISPLAY) ?: return
+            val info = display.brightnessInfo ?: return
+            val linear = BrightnessUtils.convertGammaToLinearFloat(
+                gamma,
+                info.brightnessMinimum,
+                info.brightnessMaximum,
+            )
+            if (temporary) {
+                displayManager.setTemporaryBrightness(display.displayId, linear)
+            } else {
+                displayManager.setBrightness(display.displayId, linear)
+            }
         }
 
         var currentBrightness by remember {
@@ -212,14 +221,14 @@ class BrightnessSliderPreference @JvmOverloads constructor(
                         BrightnessUtils.GAMMA_SPACE_MIN, BrightnessUtils.GAMMA_SPACE_MAX
                     )
                     currentBrightness = value
-                    writeGammaBrightness(value)
+                    writeGammaBrightness(value, temporary = true)
                 },
                 onValueChangeFinished = {
                     isDragging = false
                     val value = currentBrightness.coerceIn(
                         BrightnessUtils.GAMMA_SPACE_MIN, BrightnessUtils.GAMMA_SPACE_MAX
                     )
-                    writeGammaBrightness(value)
+                    writeGammaBrightness(value, temporary = false)
                 },
                 valueRange = BrightnessUtils.GAMMA_SPACE_MIN.toFloat()..BrightnessUtils.GAMMA_SPACE_MAX.toFloat(),
                 colors = sliderColors,

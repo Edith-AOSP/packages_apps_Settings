@@ -404,4 +404,13 @@
     <string name="not_connected">Not connected</string>
     <string name="xd_theme_dark">Dark</string>
     <string name="xd_theme_light">Light</string>
+
+    <!-- About device card -->
+    <!-- Title of the about device hero card. Empty falls back to ro.product.model (Build.MODEL).
+         Device-specific overlays may override this value. -->
+    <string name="edith_about_device_title" translatable="false"></string>
+    <!-- Manufacturer string of the about device hero card. Empty falls back to ro.product.brand (Build.BRAND). -->
+    <string name="edith_about_device_brand" translatable="false"></string>
+    <!-- Prefix shown before the manufacturer on the about device hero card, e.g. "by Google". -->
+    <string name="edith_about_device_by_brand" translatable="false">by %1$s</string>
 </resources>

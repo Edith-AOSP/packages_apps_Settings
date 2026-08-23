@@ -16,28 +16,59 @@
      limitations under the License.
 -->
 
-<com.google.android.material.card.MaterialCardView
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/search_bar"
-    style="@style/SearchBarStyle"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-    <Toolbar
-        android:id="@+id/search_action_bar"
-        android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="center_vertical">
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/search_bar"
+        style="@style/SearchBarStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
+        <Toolbar
+            android:id="@+id/search_action_bar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/search_bar_height"
+            android:paddingStart="@dimen/search_bar_padding_start"
+            android:paddingEnd="@dimen/search_bar_padding_end"
+            android:contentInsetStartWithNavigation="@dimen/search_bar_content_inset"
+            android:navigationIcon="@drawable/ic_homepage_search">
+            <TextView
+                android:id="@+id/search_action_bar_title"
+                style="@style/TextAppearance.SearchBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="@dimen/search_bar_title_padding_start"
+                android:layout_gravity="start"
+                android:text="@string/search_menu"/>
+        </Toolbar>
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/about_device_icon"
+        android:layout_width="@dimen/search_bar_height"
         android:layout_height="@dimen/search_bar_height"
-        android:paddingStart="@dimen/search_bar_padding_start"
-        android:paddingEnd="@dimen/search_bar_padding_end"
-        android:contentInsetStartWithNavigation="@dimen/search_bar_content_inset"
-        android:navigationIcon="@drawable/ic_homepage_search">
-        <TextView
-            android:id="@+id/search_action_bar_title"
-            style="@style/TextAppearance.SearchBar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingStart="@dimen/search_bar_title_padding_start"
-            android:layout_gravity="start"
-            android:text="@string/search_menu"/>
-    </Toolbar>
-</com.google.android.material.card.MaterialCardView>
+        android:layout_marginStart="12dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="@drawable/edith_search_bar_icon_ripple"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="6dp"
+        app:cardBackgroundColor="@color/settingslib_materialColorPrimary">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:contentDescription="@string/about_settings"
+            android:src="@drawable/ic_info_outline_24dp"
+            android:tint="@color/settingslib_materialColorOnPrimary"
+            android:scaleType="centerInside"
+            android:padding="8dp"/>
+    </com.google.android.material.card.MaterialCardView>
+
+</LinearLayout>

@@ -73,6 +73,7 @@ import com.android.settings.activityembedding.ActivityEmbeddingUtils;
 import com.android.settings.activityembedding.EmbeddedDeepLinkUtils;
 import com.android.settings.core.CategoryMixin;
 import com.android.settings.core.FeatureFlags;
+import com.android.settings.core.SubSettingLauncher;
 import com.android.settings.flags.Flags;
 import com.android.settings.homepage.contextualcards.ContextualCardsFragment;
 import com.android.settings.overlay.FeatureFactory;
@@ -427,6 +428,13 @@ public class SettingsHomepageActivity extends FragmentActivity implements
         FeatureFactory.getFeatureFactory().getSearchFeatureProvider()
                 .initSearchToolbar(this /* activity */, toolbar,
                         SettingsEnums.SETTINGS_HOMEPAGE);
+
+        findViewById(R.id.about_device_icon).setOnClickListener(
+                v -> new SubSettingLauncher(this)
+                        .setDestination(
+                                "com.android.settings.deviceinfo.aboutphone.MyDeviceInfoFragment")
+                        .setSourceMetricsCategory(SettingsEnums.SETTINGS_HOMEPAGE)
+                        .launch());
 
         AppBarLayout appBarLayout = findViewById(R.id.app_bar);
         View homeTitle = findViewById(R.id.homepage_title);

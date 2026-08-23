@@ -20,7 +20,9 @@ import android.app.settings.SettingsEnums
 import android.content.Context
 import android.net.NetworkCapabilities
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -28,6 +30,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -41,6 +44,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.LocalContext
@@ -158,7 +163,7 @@ private fun ConnectivityCards() {
             ConnectivityCard(
                 modifier = Modifier.weight(1f),
                 icon = rememberDrawablePainter(
-                    context.getDrawable(R.drawable.ic_dashboard_network)
+                    context.getDrawable(R.drawable.ic_suggestion_wireless)
                 ),
                 title = stringResource(R.string.network_dashboard_title),
                 summary = internetSummary.ifEmpty {
@@ -178,7 +183,7 @@ private fun ConnectivityCards() {
             ConnectivityCard(
                 modifier = Modifier.weight(1f),
                 icon = rememberDrawablePainter(
-                    context.getDrawable(R.drawable.ic_dashboard_devices)
+                    context.getDrawable(R.drawable.edith_ic_devices_other)
                 ),
                 title = stringResource(R.string.connected_devices_dashboard_title),
                 summary = devicesSummary,
@@ -212,7 +217,7 @@ private fun ConnectivityCard(
         shape = shape,
         colors = CardDefaults.cardColors(
             containerColor = if (isActive) {
-                MaterialTheme.colorScheme.primaryContainer
+                MaterialTheme.colorScheme.primary
             } else {
                 MaterialTheme.colorScheme.surfaceBright
             },
@@ -224,12 +229,35 @@ private fun ConnectivityCard(
                 .fillMaxWidth()
                 .padding(start = 16.dp, end = 20.dp, top = 18.dp, bottom = 18.dp),
         ) {
-            Image(
-                painter = icon,
-                contentDescription = null,
-                modifier = Modifier.size(iconSize),
-                contentScale = ContentScale.Inside,
-            )
+            Box(
+                modifier = Modifier
+                    .size(iconSize)
+                    .background(
+                        color = if (isActive) {
+                            MaterialTheme.colorScheme.surfaceContainer
+                        } else {
+                            MaterialTheme.colorScheme.primary
+                        },
+                        shape = CircleShape,
+                    ),
+                contentAlignment = Alignment.Center,
+            ) {
+                Image(
+                    painter = icon,
+                    contentDescription = null,
+                    modifier = Modifier.size(
+                        dimensionResource(R.dimen.dashboard_tile_foreground_image_size)
+                    ),
+                    contentScale = ContentScale.Inside,
+                    colorFilter = ColorFilter.tint(
+                        if (isActive) {
+                            MaterialTheme.colorScheme.onSurface
+                        } else {
+                            MaterialTheme.colorScheme.onPrimary
+                        }
+                    ),
+                )
+            }
 
             Spacer(modifier = Modifier.height(16.dp))
 
@@ -237,9 +265,13 @@ private fun ConnectivityCard(
                 text = title,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
-                fontWeight = FontWeight.Medium,
+                fontWeight = FontWeight.Normal,
                 fontSize = 16.sp,
-                color = MaterialTheme.colorScheme.onSurface,
+                color = if (isActive) {
+                    MaterialTheme.colorScheme.onPrimary
+                } else {
+                    MaterialTheme.colorScheme.onSurface
+                },
             )
 
             Spacer(modifier = Modifier.height(0.dp))
@@ -249,7 +281,11 @@ private fun ConnectivityCard(
                 maxLines = 1,
                 overflow = TextOverflow.Clip,
                 fontSize = 13.sp,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                color = if (isActive) {
+                    MaterialTheme.colorScheme.onPrimary
+                } else {
+                    MaterialTheme.colorScheme.onSurfaceVariant
+                },
             )
         }
     }

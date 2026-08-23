@@ -52,10 +52,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:singleLine="true"
-                    android:textSize="26sp"
+                    android:textSize="28sp"
                     android:ellipsize="marquee"
                     android:textFontWeight="600"
-                    android:layout_marginTop="8dp" />
+                    android:layout_marginTop="12dp" />
 
                 <TextView
                     android:id="@+id/about_summary"

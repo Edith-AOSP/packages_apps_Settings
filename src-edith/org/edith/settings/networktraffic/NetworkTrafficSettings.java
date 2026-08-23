@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.android.settings.edith.networktraffic;
+package org.edith.settings.networktraffic;
 
 import android.content.ContentResolver;
 import android.os.Bundle;

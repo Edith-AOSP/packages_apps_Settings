@@ -14,7 +14,7 @@
  * limitations under the License
  */
 
-package com.android.settings.edith.touch;
+package org.edith.settings.touch;
 
 import android.content.Context;
 import com.android.internal.lineage.hardware.LineageHardwareManager;

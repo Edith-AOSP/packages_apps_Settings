@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.android.settings.edith.dashboard
+package org.edith.settings.dashboard
 
 import android.content.Context
 import android.graphics.drawable.Drawable

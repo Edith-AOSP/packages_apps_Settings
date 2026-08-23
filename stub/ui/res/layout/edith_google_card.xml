@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="128dp">
 
-        <com.android.settings.edith.widget.WallpaperBlurView
+        <org.edith.settings.widget.WallpaperBlurView
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 

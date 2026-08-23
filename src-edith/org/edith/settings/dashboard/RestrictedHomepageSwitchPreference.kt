@@ -1,4 +1,4 @@
-package com.android.settings.edith.dashboard
+package org.edith.settings.dashboard
 
 import android.content.Context
 import android.content.Intent

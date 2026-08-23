@@ -56,6 +56,7 @@ android_library {
         "src/**/*.java",
         "src/**/*.kt",
         "src-edith/**/*.kt",
+        "src-edith/**/*.java",
     ],
     exclude_srcs: [
         "src/com/android/settings/biometrics/fingerprint2/lib/**/*.kt",

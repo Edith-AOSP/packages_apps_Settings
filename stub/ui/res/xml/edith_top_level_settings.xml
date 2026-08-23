@@ -34,7 +34,7 @@
     <com.android.settingslib.widget.UntitledPreferenceCategory
         android:order="-135"
         android:key="top_level_airplane_category">
-        <com.android.settings.edith.dashboard.RestrictedHomepageSwitchPreference
+        <org.edith.settings.dashboard.RestrictedHomepageSwitchPreference
             android:key="airplane_mode_on"
             android:title="@string/airplane_mode"
             android:icon="@drawable/ic_dashboard_airplane_mode"
@@ -47,7 +47,7 @@
     <com.android.settingslib.widget.UntitledPreferenceCategory
         android:order="-120"
         android:key="top_level_personalize_category">
-        <com.android.settings.edith.dashboard.HomepagePreference
+        <org.edith.settings.dashboard.HomepagePreference
             android:fragment="com.android.settings.applications.AppDashboardFragment"
             android:icon="@drawable/ic_dashboard_apps"
             android:key="top_level_apps"
@@ -56,7 +56,7 @@
             android:summary="@string/app_and_notification_dashboard_summary"
             settings:highlightableMenuKey="@string/menu_key_apps"/>
 
-        <com.android.settings.edith.dashboard.HomepagePreference
+        <org.edith.settings.dashboard.HomepagePreference
             android:fragment="com.android.settings.notification.ConfigureNotificationSettings"
             android:icon="@drawable/ic_dashboard_notifications"
             android:key="top_level_notifications"
@@ -65,7 +65,7 @@
             android:summary="@string/notification_dashboard_summary"
             settings:highlightableMenuKey="@string/menu_key_notifications"/>
 
-        <com.android.settings.edith.dashboard.HomepagePreference
+        <org.edith.settings.dashboard.HomepagePreference
             android:fragment="com.android.settings.notification.SoundSettings"
             android:icon="@drawable/ic_dashboard_sound"
             android:key="top_level_sound"
@@ -74,7 +74,7 @@
             android:summary="@string/sound_dashboard_summary"
             settings:highlightableMenuKey="@string/menu_key_sound" />
 
-        <com.android.settings.edith.dashboard.RestrictedHomepagePreference
+        <org.edith.settings.dashboard.RestrictedHomepagePreference
             android:fragment="com.android.settings.notification.modes.ZenModesListFragment"
             android:icon="@drawable/ic_dashboard_modes"
             android:key="top_level_priority_modes"
@@ -84,7 +84,7 @@
             settings:highlightableMenuKey="@string/menu_key_priority_modes"
             settings:controller="com.android.settings.notification.modes.ZenModesLinkPreferenceController"/>
 
-        <com.android.settings.edith.dashboard.HomepagePreference
+        <org.edith.settings.dashboard.HomepagePreference
             android:fragment="com.android.settings.communal.CommunalDashboardFragment"
             android:icon="@drawable/ic_dashboard_communal"
             android:key="top_level_communal"
@@ -94,7 +94,7 @@
             settings:highlightableMenuKey="@string/menu_key_communal"
             settings:controller="com.android.settings.communal.CommunalPreferenceController"/>
 
-        <com.android.settings.edith.dashboard.HomepagePreference
+        <org.edith.settings.dashboard.HomepagePreference
             android:fragment="com.android.settings.DisplaySettings"
             android:icon="@drawable/ic_dashboard_display"
             android:key="top_level_display"
@@ -104,7 +104,7 @@
             settings:highlightableMenuKey="@string/menu_key_display"
             settings:controller="com.android.settings.display.TopLevelDisplayPreferenceController"/>
 
-        <com.android.settings.edith.dashboard.RestrictedHomepagePreference
+        <org.edith.settings.dashboard.RestrictedHomepagePreference
             android:icon="@drawable/ic_dashboard_wallpaper"
             android:key="top_level_wallpaper"
             android:order="-10"
@@ -117,7 +117,7 @@
     <com.android.settingslib.widget.UntitledPreferenceCategory
         android:order="-110"
         android:key="top_level_system_info_category">
-        <com.android.settings.edith.dashboard.HomepagePreference
+        <org.edith.settings.dashboard.HomepagePreference
             android:fragment="com.android.settings.deviceinfo.StorageDashboardFragment"
             android:icon="@drawable/ic_dashboard_storage"
             android:key="top_level_storage"
@@ -127,7 +127,7 @@
             settings:highlightableMenuKey="@string/menu_key_storage"
             settings:controller="com.android.settings.deviceinfo.TopLevelStoragePreferenceController"/>
 
-        <com.android.settings.edith.dashboard.HomepagePreference
+        <org.edith.settings.dashboard.HomepagePreference
             android:fragment="com.android.settings.fuelgauge.batteryusage.PowerUsageSummary"
             android:icon="@drawable/ic_dashboard_battery"
             android:key="top_level_battery"
@@ -137,7 +137,7 @@
             settings:highlightableMenuKey="@string/menu_key_battery"
             settings:controller="com.android.settings.fuelgauge.TopLevelBatteryPreferenceController"/>
 
-        <com.android.settings.edith.dashboard.HomepagePreference
+        <org.edith.settings.dashboard.HomepagePreference
             android:fragment="com.android.settings.system.SystemDashboardFragment"
             android:icon="@drawable/ic_dashboard_system"
             android:key="top_level_system"
@@ -146,7 +146,7 @@
             android:summary="@string/system_dashboard_summary"
             settings:highlightableMenuKey="@string/menu_key_system"/>
 
-        <com.android.settings.edith.dashboard.HomepagePreference
+        <org.edith.settings.dashboard.HomepagePreference
             android:fragment="com.android.settings.deviceinfo.aboutphone.MyDeviceInfoFragment"
             android:icon="@drawable/ic_dashboard_about"
             android:key="top_level_about_device"
@@ -160,7 +160,7 @@
     <com.android.settingslib.widget.UntitledPreferenceCategory
         android:order="-100"
         android:key="top_level_security_privacy_category">
-        <com.android.settings.edith.dashboard.HomepagePreference
+        <org.edith.settings.dashboard.HomepagePreference
             android:icon="@drawable/ic_dashboard_security"
             android:key="top_level_safety_center"
             android:order="-50"
@@ -169,7 +169,7 @@
             settings:highlightableMenuKey="@string/menu_key_safety_center"
             settings:controller="com.android.settings.safetycenter.TopLevelSafetyCenterEntryPreferenceController"/>
 
-        <com.android.settings.edith.dashboard.HomepagePreference
+        <org.edith.settings.dashboard.HomepagePreference
             android:fragment="com.android.settings.security.SecuritySettings"
             android:icon="@drawable/ic_dashboard_security"
             android:key="top_level_security"
@@ -179,7 +179,7 @@
             settings:highlightableMenuKey="@string/menu_key_security"
             settings:controller="com.android.settings.security.TopLevelSecurityEntryPreferenceController"/>
 
-        <com.android.settings.edith.dashboard.HomepagePreference
+        <org.edith.settings.dashboard.HomepagePreference
             android:fragment="com.android.settings.privacy.PrivacyDashboardFragment"
             android:icon="@drawable/ic_dashboard_privacy"
             android:key="top_level_privacy"
@@ -189,7 +189,7 @@
             settings:highlightableMenuKey="@string/menu_key_privacy"
             settings:controller="com.android.settings.privacy.TopLevelPrivacyEntryPreferenceController"/>
 
-        <com.android.settings.edith.dashboard.HomepagePreference
+        <org.edith.settings.dashboard.HomepagePreference
             android:fragment="com.android.settings.location.LocationSettings"
             android:icon="@drawable/ic_dashboard_location"
             android:key="top_level_location"
@@ -199,7 +199,7 @@
             settings:highlightableMenuKey="@string/menu_key_location"
             settings:controller="com.android.settings.location.TopLevelLocationPreferenceController"/>
 
-        <com.android.settings.edith.dashboard.HomepagePreference
+        <org.edith.settings.dashboard.HomepagePreference
             android:fragment="com.android.settings.accounts.AccountDashboardFragment"
             android:icon="@drawable/ic_dashboard_password"
             android:key="top_level_accounts"
@@ -209,7 +209,7 @@
             settings:highlightableMenuKey="@string/menu_key_accounts"
             settings:controller="com.android.settings.accounts.TopLevelAccountEntryPreferenceController"/>
 
-        <com.android.settings.edith.dashboard.HomepagePreference
+        <org.edith.settings.dashboard.HomepagePreference
             android:key="top_level_supervision"
             android:title="@string/supervision_settings_title"
             android:summary="@string/supervision_settings_summary"
@@ -219,7 +219,7 @@
             settings:highlightableMenuKey="@string/menu_key_supervision"
             settings:controller="com.android.settings.supervision.TopLevelSupervisionPreferenceController"/>
 
-        <com.android.settings.edith.dashboard.HomepagePreference
+        <org.edith.settings.dashboard.HomepagePreference
             android:key="top_level_emergency"
             android:title="@string/emergency_settings_preference_title"
             android:summary="@string/emergency_dashboard_summary"
@@ -234,15 +234,15 @@
         android:order="100"
         android:key="top_level_support_category">
 
-        <com.android.settings.edith.dashboard.HomepagePreference
+        <org.edith.settings.dashboard.HomepagePreference
             android:icon="@drawable/ic_dashboard_wellbeing"
             android:key="top_level_wb"
             android:order="-30"
             android:title="@string/wellbeing_title"
             settings:highlightableMenuKey="top_level_wellbeing"
-            settings:controller="com.android.settings.edith.ia.WellbeingPreferenceController"/>
+            settings:controller="org.edith.settings.ia.WellbeingPreferenceController"/>
 
-        <com.android.settings.edith.dashboard.HomepagePreference
+        <org.edith.settings.dashboard.HomepagePreference
             android:fragment="com.android.settings.accessibility.AccessibilitySettings"
             android:icon="@drawable/ic_dashboard_accessibility"
             android:key="top_level_accessibility"
@@ -252,7 +252,7 @@
             settings:highlightableMenuKey="@string/menu_key_accessibility"
             settings:controller="com.android.settings.accessibility.TopLevelAccessibilityPreferenceController"/>
 
-        <com.android.settings.edith.dashboard.HomepagePreference
+        <org.edith.settings.dashboard.HomepagePreference
             android:icon="@drawable/ic_help_filled"
             android:key="top_level_support"
             android:order="-10"

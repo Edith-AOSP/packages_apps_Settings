@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.android.settings.edith.widget;
+package org.edith.settings.widget;
 
 import android.app.WallpaperManager;
 import android.content.Context;

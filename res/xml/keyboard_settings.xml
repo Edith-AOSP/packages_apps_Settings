@@ -64,7 +64,7 @@
             android:title="@string/touchscreen_hovering_title"
             android:summary="@string/touchscreen_hovering_summary"
             android:defaultValue="false"
-            settings:controller="com.android.settings.edith.touch.TouchHoveringSettingsPreferenceController" />
+            settings:controller="org.edith.settings.touch.TouchHoveringSettingsPreferenceController" />
     </PreferenceCategory>
 
     <SwitchPreferenceCompat

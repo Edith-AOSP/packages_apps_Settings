@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.android.settings.edith.utils;
+package org.edith.settings.utils;
 
 import android.content.ContentResolver;
 import android.content.Context;

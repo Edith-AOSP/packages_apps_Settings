@@ -423,7 +423,7 @@
     <string name="edith_spec_cpu_summary" translatable="false"></string>
     <string name="edith_spec_cpu_subsummary" translatable="false"></string>
 
-    <string name="edith_spec_mem_title" translatable="false">Memory &amp; Storage</string>
+    <string name="edith_spec_mem_title" translatable="false">RAM &amp; Storage</string>
     <string name="edith_spec_mem_summary" translatable="false"></string>
     <string name="edith_spec_mem_subsummary" translatable="false"></string>
 

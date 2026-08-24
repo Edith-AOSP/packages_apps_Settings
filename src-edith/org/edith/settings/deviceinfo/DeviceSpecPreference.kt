@@ -7,23 +7,21 @@ import android.os.StatFs
 import android.os.SystemProperties
 import android.util.AttributeSet
 import android.view.WindowManager
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.android.settings.R
 import com.android.settings.spa.preference.ComposePreference
-import com.android.settingslib.widget.GroupSectionDividerMixin
 
 /**
  * A "Detailed Specs" card rendered as a 2-column x 3-row grid. Each cell has a
@@ -35,7 +33,7 @@ class DeviceSpecPreference @JvmOverloads constructor(
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0,
     defStyleRes: Int = 0,
-) : ComposePreference(context, attrs, defStyleAttr, defStyleRes), GroupSectionDividerMixin {
+) : ComposePreference(context, attrs, defStyleAttr, defStyleRes) {
 
     init {
         isSelectable = false
@@ -50,15 +48,8 @@ private fun DeviceSpecContent() {
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(start = 16.dp, end = 16.dp, bottom = 12.dp)
-            .background(
-                color = MaterialTheme.colorScheme.surfaceBright,
-                shape = RoundedCornerShape(
-                    context.resources
-                        .getDimensionPixelSize(R.dimen.settingslib_preference_corner_radius).dp,
-                ),
-            )
             .padding(16.dp),
+        verticalArrangement = Arrangement.spacedBy(24.dp),
     ) {
         SpecRow(
             cell1 = {
@@ -119,9 +110,7 @@ private fun SpecRow(
     cell2: @Composable () -> Unit,
 ) {
     Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(bottom = 24.dp),
+        modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.spacedBy(16.dp),
     ) {
         Column(modifier = Modifier.weight(1f)) { cell1() }
@@ -135,17 +124,17 @@ private fun SpecCell(
     summary: String,
     subsummary: String,
 ) {
-    if (title != null) {
-        Text(
-            text = title,
-            style = MaterialTheme.typography.titleMedium,
-            color = MaterialTheme.colorScheme.onSurface,
-        )
-    }
+    // Always reserve the title line so columns stay vertically aligned,
+    // even when this cell omits its title (e.g. the "Front" camera cell).
+    Text(
+        text = title ?: "",
+        style = MaterialTheme.typography.titleMedium,
+        color = if (title != null) MaterialTheme.colorScheme.onSurface else Color.Transparent,
+    )
     Text(
         text = summary,
         style = MaterialTheme.typography.bodyMedium,
-        color = MaterialTheme.colorScheme.onSurfaceVariant,
+        color = MaterialTheme.colorScheme.primary,
     )
     Text(
         text = subsummary,

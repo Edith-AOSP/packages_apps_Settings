@@ -39,6 +39,17 @@
     </com.android.settingslib.widget.UntitledPreferenceCategory>
 
     <PreferenceCategory
+        android:key="device_spec_category"
+        android:selectable="false"
+        android:title="@string/edith_spec_section_title">
+
+        <org.edith.settings.deviceinfo.DeviceSpecPreference
+            android:key="device_spec"
+            android:order="2"
+            android:selectable="false"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory
         android:key="device_detail_category"
         android:selectable="false"
         android:title="@string/my_device_info_device_details_category_title">

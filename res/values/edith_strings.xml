@@ -413,4 +413,31 @@
     <string name="edith_about_device_brand" translatable="false"></string>
     <!-- Prefix shown before the manufacturer on the about device hero card, e.g. "by Google". -->
     <string name="edith_about_device_by_brand" translatable="false">by %1$s</string>
+
+    <!-- Detailed specs section -->
+    <string name="edith_spec_section_title" translatable="false">Detailed specifications</string>
+
+    <!-- Spec cells: title / subtitle / value. Empty subtitle or value falls back
+         to auto-detection where applicable. -->
+    <string name="edith_spec_cpu_title" translatable="false">Processor</string>
+    <string name="edith_spec_cpu_summary" translatable="false"></string>
+    <string name="edith_spec_cpu_subsummary" translatable="false"></string>
+
+    <string name="edith_spec_mem_title" translatable="false">Memory &amp; Storage</string>
+    <string name="edith_spec_mem_summary" translatable="false"></string>
+    <string name="edith_spec_mem_subsummary" translatable="false"></string>
+
+    <string name="edith_spec_gpu_title" translatable="false">GPU</string>
+    <string name="edith_spec_gpu_summary" translatable="false"></string>
+    <string name="edith_spec_gpu_subsummary" translatable="false"></string>
+
+    <string name="edith_spec_display_title" translatable="false">Display</string>
+    <string name="edith_spec_display_summary" translatable="false"></string>
+    <string name="edith_spec_display_subsummary" translatable="false"></string>
+
+    <string name="edith_spec_camera_title" translatable="false">Camera</string>
+    <string name="edith_spec_camera_rear_summary" translatable="false">Rear</string>
+    <string name="edith_spec_camera_rear_subsummary" translatable="false"></string>
+    <string name="edith_spec_camera_front_summary" translatable="false">Front</string>
+    <string name="edith_spec_camera_front_subsummary" translatable="false"></string>
 </resources>

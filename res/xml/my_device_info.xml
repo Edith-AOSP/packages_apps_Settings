@@ -29,6 +29,12 @@
             android:key="my_device_info_header"
             android:selectable="false"/>
 
+        <org.edith.settings.deviceinfo.EdithVersionPreference
+            android:key="about_device_single_line"
+            android:title="@string/edith_software_information_title"
+            android:summary="@string/summary_placeholder"
+            settings:controller="org.edith.settings.deviceinfo.EdithVersionController"/>
+
         <org.edith.settings.deviceinfo.DeviceNameCardPreference
             android:key="device_name"
             android:order="1"
@@ -106,15 +112,6 @@
             settings:enableCopying="true"
             settings:isPreferenceVisible="@bool/config_show_sim_info"
             settings:controller="com.android.settings.deviceinfo.imei.ImeiInfoPreferenceController"/>
-
-        <!-- Android version -->
-        <Preference
-            android:key="firmware_version"
-            android:order="42"
-            android:title="@string/firmware_version"
-            android:summary="@string/summary_placeholder"
-            android:fragment="com.android.settings.deviceinfo.firmwareversion.FirmwareVersionSettings"
-            settings:controller="com.android.settings.deviceinfo.firmwareversion.FirmwareVersionPreferenceController"/>
 
         <!-- Battery information -->
         <Preference

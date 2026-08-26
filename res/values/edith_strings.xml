@@ -440,4 +440,7 @@
     <string name="edith_spec_camera_rear_subsummary" translatable="false"></string>
     <string name="edith_spec_camera_front_summary" translatable="false">Front</string>
     <string name="edith_spec_camera_front_subsummary" translatable="false"></string>
+
+    <!-- Software information -->
+    <string name="edith_software_information_title" translatable="false">Software information</string>
 </resources>

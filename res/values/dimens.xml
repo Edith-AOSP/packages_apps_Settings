@@ -82,10 +82,10 @@
     <dimen name="preference_icon_foreground_image_inset">12dp</dimen>
 
     <!-- Search bar -->
-    <dimen name="search_bar_margin">20dp</dimen>
-    <dimen name="search_bar_height">52dp</dimen>
-    <dimen name="search_bar_text_size">20sp</dimen>
-    <dimen name="search_bar_corner_radius">28dp</dimen>
+    <dimen name="search_bar_margin">16dp</dimen>
+    <dimen name="search_bar_height">48dp</dimen>
+    <dimen name="search_bar_text_size">17sp</dimen>
+    <dimen name="search_bar_corner_radius">24dp</dimen>
     <dimen name="search_bar_title_padding_start">-4dp</dimen>
     <dimen name="search_bar_title_padding_start_regular_two_pane">8dp</dimen>
     <dimen name="search_bar_container_top_padding">8dp</dimen>

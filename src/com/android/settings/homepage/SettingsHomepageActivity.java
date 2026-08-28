@@ -33,7 +33,13 @@ import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.ApplicationInfoFlags;
 import android.content.pm.UserInfo;
 import android.content.res.Configuration;
+import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.Shader;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.LayerDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Process;
@@ -44,6 +50,7 @@ import android.util.ArraySet;
 import android.util.FeatureFlagUtils;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewOutlineProvider;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
@@ -85,6 +92,9 @@ import com.android.settingslib.widget.SettingsThemeHelper;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.setupcompat.util.WizardManagerHelper;
 
+import eightbitlab.com.blurview.BlurTarget;
+import eightbitlab.com.blurview.BlurView;
+
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Set;
@@ -94,6 +104,7 @@ public class SettingsHomepageActivity extends FragmentActivity implements
         CategoryMixin.CategoryHandler {
 
     private static final String TAG = "SettingsHomepageActivity";
+    private Drawable mCachedNoiseDrawable;
 
     // Additional extra of Settings#ACTION_SETTINGS_LARGE_SCREEN_DEEP_LINK.
     // Put true value to the intent when startActivity for a deep link intent from this Activity.
@@ -414,12 +425,15 @@ public class SettingsHomepageActivity extends FragmentActivity implements
                     Insets insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars()
                             | WindowInsetsCompat.Type.displayCutout());
 
-                    // Apply the insets paddings to the view.
-                    v.setPadding(insets.left, insets.top, insets.right, insets.bottom);
+                    // Apply top/left/right insets so the app bar and content respect the status
+                    // bar. The bottom is intentionally NOT padded so the root layout draws
+                    // edge-to-edge behind the navigation bar; the search bar handles the bottom
+                    // inset itself.
+                    v.setPadding(insets.left, insets.top, insets.right, 0);
 
-                    // Return CONSUMED if you don't want the window insets to keep being
-                    // passed down to descendant views.
-                    return WindowInsetsCompat.CONSUMED;
+                    // Do not consume so descendant views (e.g. the search bar) still receive the
+                    // navigation bar insets.
+                    return windowInsets;
                 });
     }
 
@@ -448,6 +462,171 @@ public class SettingsHomepageActivity extends FragmentActivity implements
                 homeTitle.setAlpha(1 - collapseRatio);
             }
         });
+
+        setupSearchBarBlur();
+    }
+
+    private void setupSearchBarBlur() {
+        final BlurView blurView = findViewById(R.id.blur_search_bar);
+        final BlurTarget target = findViewById(R.id.main_content_blur_target);
+        if (blurView == null || target == null) {
+            return;
+        }
+
+        // Lift the search bar above the navigation bar (works for both gesture pill and 3-button
+        // navigation) and pad the scroll content so the last preference scrolls fully above the
+        // floating search bar.
+        final View bottomBar = findViewById(R.id.bottom_search_bar_container);
+        final View scrollContainer = findViewById(R.id.main_content_scrollable_container);
+        if (bottomBar != null) {
+            ViewCompat.setOnApplyWindowInsetsListener(bottomBar, (v, insets) -> {
+                Insets bars = insets.getInsets(WindowInsetsCompat.Type.navigationBars()
+                        | WindowInsetsCompat.Type.displayCutout());
+                v.setTranslationY(-bars.bottom);
+                if (scrollContainer != null) {
+                    int searchBarHeight = getResources()
+                            .getDimensionPixelSize(R.dimen.search_bar_height);
+                    int margin = getResources()
+                            .getDimensionPixelSize(R.dimen.search_bar_margin);
+                    scrollContainer.setPadding(scrollContainer.getPaddingLeft(),
+                            scrollContainer.getPaddingTop(),
+                            scrollContainer.getPaddingRight(),
+                            searchBarHeight + margin * 2 + bars.bottom);
+                }
+                return insets;
+            });
+        }
+
+        float blurRadius = 14f;
+        WindowManager wm = getSystemService(WindowManager.class);
+        if (wm != null && !wm.isCrossWindowBlurEnabled()) {
+            blurRadius = 0f;
+        }
+
+        Drawable windowBackground = getWindow().getDecorView().getBackground();
+        blurView.setupWith(target)
+                .setFrameClearDrawable(windowBackground)
+                .setBlurRadius(blurRadius);
+
+        blurView.setOutlineProvider(new ViewOutlineProvider() {
+            @Override
+            public void getOutline(View view, android.graphics.Outline outline) {
+                int radius = (int) (24 * view.getResources().getDisplayMetrics().density);
+                outline.setRoundRect(0, 0, view.getWidth(), view.getHeight(), radius);
+            }
+        });
+        blurView.setClipToOutline(true);
+
+        final View cardView = findViewById(R.id.search_bar);
+        if (cardView != null) {
+            cardView.setScaleX(0.98f);
+            cardView.setScaleY(0.98f);
+
+            // Make the search bar card transparent so the blurred content shows through it.
+            if (cardView instanceof com.google.android.material.card.MaterialCardView) {
+                com.google.android.material.card.MaterialCardView materialCardView =
+                        (com.google.android.material.card.MaterialCardView) cardView;
+                materialCardView.setCardBackgroundColor(Color.TRANSPARENT);
+                materialCardView.setStrokeColor(
+                        android.content.res.ColorStateList.valueOf(Color.TRANSPARENT));
+            }
+
+            cardView.setFocusable(true);
+            cardView.setOnFocusChangeListener((v, hasFocus) ->
+                    animateSearchFocus(blurView, cardView, hasFocus));
+
+            cardView.setOnTouchListener((v, event) -> {
+                if (event.getAction() == android.view.MotionEvent.ACTION_DOWN) {
+                    animateSearchFocus(blurView, cardView, true);
+                } else if (event.getAction() == android.view.MotionEvent.ACTION_UP
+                        || event.getAction() == android.view.MotionEvent.ACTION_CANCEL) {
+                    animateSearchFocus(blurView, cardView, cardView.hasFocus());
+                }
+                return false;
+            });
+        }
+
+        boolean isBlurEnabled = wm != null && wm.isCrossWindowBlurEnabled();
+        refreshGlassBackground(blurView, isBlurEnabled ? 0.30f : 1.0f);
+    }
+
+    private void refreshGlassBackground(BlurView blurView, float alpha) {
+        float density = getResources().getDisplayMetrics().density;
+
+        GradientDrawable glassDrawable = new GradientDrawable();
+        glassDrawable.setShape(GradientDrawable.RECTANGLE);
+        glassDrawable.setCornerRadius(28f * density);
+
+        // Use white frosted glass in light mode and a dark surface tint in dark mode, keeping
+        // text contrast correct in both.
+        boolean isNight = (getResources().getConfiguration().uiMode
+                & android.content.res.Configuration.UI_MODE_NIGHT_MASK)
+                == android.content.res.Configuration.UI_MODE_NIGHT_YES;
+        int surfaceColor;
+        if (isNight) {
+            int attrId = getResources().getIdentifier("colorSurfaceContainerHigh", "attr",
+                    getPackageName());
+            if (attrId == 0) {
+                attrId = android.R.attr.colorBackgroundFloating;
+            }
+            surfaceColor = Utils.getColorAttrDefaultColor(this, attrId);
+        } else {
+            surfaceColor = Color.WHITE;
+        }
+        int tintColor = androidx.core.graphics.ColorUtils.setAlphaComponent(surfaceColor,
+                (int) (255 * alpha));
+        glassDrawable.setColor(tintColor);
+
+        Drawable noiseDrawable = getNoiseDrawable();
+        Drawable[] layers = {glassDrawable, noiseDrawable};
+        LayerDrawable layerDrawable = new LayerDrawable(layers);
+
+        blurView.setBackground(layerDrawable);
+        blurView.setOutlineProvider(ViewOutlineProvider.BACKGROUND);
+        blurView.setClipToOutline(true);
+    }
+
+    private Drawable getNoiseDrawable() {
+        if (mCachedNoiseDrawable == null) {
+            int size = 128;
+            Bitmap bitmap = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888);
+            java.util.Random random = new java.util.Random();
+            for (int y = 0; y < size; y++) {
+                for (int x = 0; x < size; x++) {
+                    int alpha = 1 + random.nextInt(3);
+                    int val = random.nextBoolean() ? 255 : 0;
+                    bitmap.setPixel(x, y, Color.argb(alpha, val, val, val));
+                }
+            }
+            BitmapDrawable drawable = new BitmapDrawable(getResources(), bitmap);
+            drawable.setTileModeXY(Shader.TileMode.REPEAT, Shader.TileMode.REPEAT);
+            mCachedNoiseDrawable = drawable;
+        }
+        return mCachedNoiseDrawable;
+    }
+
+    private void animateSearchFocus(BlurView blurView, View cardView, boolean focused) {
+        float targetScale = focused ? 1.0f : 0.98f;
+        float targetBlur = focused ? 20f : 14f;
+        WindowManager wm = getSystemService(WindowManager.class);
+        boolean isBlurEnabled = wm != null && wm.isCrossWindowBlurEnabled();
+        float targetAlpha = isBlurEnabled ? (focused ? 0.40f : 0.30f) : 1.0f;
+
+        cardView.animate()
+                .scaleX(targetScale)
+                .scaleY(targetScale)
+                .setDuration(220)
+                .setInterpolator(new android.view.animation.PathInterpolator(0.2f, 0f, 0f, 1f))
+                .start();
+
+        refreshGlassBackground(blurView, targetAlpha);
+
+        float finalRadius = targetBlur;
+        if (wm != null && !wm.isCrossWindowBlurEnabled()) {
+            finalRadius = 0f;
+        }
+        blurView.setBlurRadius(finalRadius);
+        blurView.invalidate();
     }
 
     private void updateHomepageUI() {

@@ -443,4 +443,6 @@
 
     <!-- Software information -->
     <string name="edith_software_information_title" translatable="false">Software information</string>
+    <!-- Brand title shown on the software information card. -->
+    <string name="edith_software_information_brand" translatable="false">EDITH</string>
 </resources>

@@ -29,6 +29,7 @@ import com.android.settingslib.metadata.PreferenceMetadata
 import com.android.settingslib.metadata.PreferenceSummaryProvider
 import com.android.settingslib.metadata.ProvidePreferenceScreen
 import com.android.settingslib.metadata.preferenceHierarchy
+import com.android.settingslib.widget.UntitledPreferenceCategoryMetadata
 import kotlinx.coroutines.CoroutineScope
 import com.android.settingslib.metadata.preferencesapi.PreferencesApiScreen.Companion.APP_FUNCTION_UNCATEGORIZED
 
@@ -44,7 +45,7 @@ open class FirmwareVersionScreen : PreferenceScreenMixin, PreferenceSummaryProvi
         get() = R.string.firmware_version_purpose
 
     override val title: Int
-        get() = R.string.firmware_version
+        get() = R.string.edith_software_information_title
 
     override fun getSummary(context: Context): CharSequence? =
         Build.VERSION.RELEASE_OR_PREVIEW_DISPLAY
@@ -70,12 +71,18 @@ open class FirmwareVersionScreen : PreferenceScreenMixin, PreferenceSummaryProvi
 
     override fun getPreferenceHierarchy(context: Context, coroutineScope: CoroutineScope) =
         preferenceHierarchy(context) {
-            +FirmwareVersionDetailPreference()
-            +SecurityPatchLevelPreference()
-            +MainlineModuleVersionPreference()
-            +BasebandVersionPreference()
-            +KernelVersionPreference()
-            +SimpleBuildNumberPreference()
+            +SoftwareInformationCardPreferenceMetadata()
+            +UntitledPreferenceCategoryMetadata(
+                key = "firmware_version_group",
+                purpose = R.string.firmware_version_purpose,
+            ) += {
+                +FirmwareVersionDetailPreference()
+                +SecurityPatchLevelPreference()
+                +MainlineModuleVersionPreference()
+                +BasebandVersionPreference()
+                +KernelVersionPreference()
+                +SimpleBuildNumberPreference()
+            }
         }
 
     companion object {

@@ -81,13 +81,18 @@ private fun SoftwareInformationCardContent() {
 
     val shape = RoundedCornerShape(cornerRadius)
 
-    // Brand-tinted scrim and text, resolved from the settingslib theme resources.
+    // Bright brand-tinted scrim so it doesn't darken the waves underneath.
     val scrimColor = Color(
-        context.getColor(com.android.settingslib.widget.theme.R.color.settingslib_materialColorPrimary),
+        context.getColor(com.android.settingslib.widget.theme.R.color.settingslib_materialColorPrimaryInverse),
     )
-    val textColor = Color(
-        context.getColor(com.android.settingslib.widget.theme.R.color.settingslib_materialColorOnPrimary),
-    )
+
+    // Preference title color (android.R.attr.textColorPrimary), used for the EDITH / version /
+    // codename text and the waves.
+    val titleColorInt = android.util.TypedValue().let { tv ->
+        context.theme.resolveAttribute(android.R.attr.textColorPrimary, tv, true)
+        tv.data
+    }
+    val titleColor = Color(titleColorInt)
 
     Box(
         modifier = Modifier
@@ -153,7 +158,7 @@ private fun SoftwareInformationCardContent() {
                 style = MaterialTheme.typography.headlineMedium,
                 fontWeight = FontWeight.Bold,
                 letterSpacing = 4.sp,
-                color = textColor,
+                color = titleColor,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
             )
@@ -164,7 +169,7 @@ private fun SoftwareInformationCardContent() {
                 text = SystemProperties.get(EDITH_VERSION_PROPERTY, ""),
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold,
-                color = textColor,
+                color = titleColor,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
             )
@@ -172,7 +177,7 @@ private fun SoftwareInformationCardContent() {
             Text(
                 text = SystemProperties.get(EDITH_VERSION_CODENAME_PROPERTY, ""),
                 style = MaterialTheme.typography.titleSmall,
-                color = textColor,
+                color = titleColor,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
             )

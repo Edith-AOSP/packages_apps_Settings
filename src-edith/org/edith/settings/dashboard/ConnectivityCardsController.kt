@@ -89,6 +89,7 @@ private fun ConnectivityCards() {
     // ---------- Internet state ----------
     var internetSummary by remember { mutableStateOf("") }
     var internetConnected by remember { mutableStateOf(false) }
+    var internetTransport by remember { mutableStateOf(NetworkCapabilities.TRANSPORT_CELLULAR) }
     val internetRepo = remember { InternetPreferenceRepository(context) }
     LaunchedEffect(internetRepo) {
         internetRepo.displayInfoFlow().collect { displayInfo ->
@@ -99,6 +100,12 @@ private fun ConnectivityCards() {
             internetConnected = caps != null &&
                 caps.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) &&
                 caps.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED)
+            internetTransport = if (caps != null &&
+                caps.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)) {
+                NetworkCapabilities.TRANSPORT_WIFI
+            } else {
+                NetworkCapabilities.TRANSPORT_CELLULAR
+            }
         }
     }
 
@@ -160,6 +167,22 @@ private fun ConnectivityCards() {
                         .setDestination("com.android.settings.network.NetworkDashboardFragment")
                         .setSourceMetricsCategory(SettingsEnums.SETTINGS_NETWORK_CATEGORY)
                         .launch()
+                },
+                onLongClick = if (internetConnected) {
+                    {
+                        val destination = if (internetTransport ==
+                            NetworkCapabilities.TRANSPORT_WIFI) {
+                            "com.android.settings.network.NetworkProviderSettings"
+                        } else {
+                            "com.android.settings.network.telephony.MobileNetworkSettings"
+                        }
+                        SubSettingLauncher(context)
+                            .setDestination(destination)
+                            .setSourceMetricsCategory(SettingsEnums.SETTINGS_NETWORK_CATEGORY)
+                            .launch()
+                    }
+                } else {
+                    null
                 },
             )
 

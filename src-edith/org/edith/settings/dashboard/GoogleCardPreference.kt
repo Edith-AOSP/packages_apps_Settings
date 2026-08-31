@@ -1,7 +1,6 @@
 package org.edith.settings.dashboard
 
 import android.content.Context
-import android.content.res.Configuration
 import android.graphics.Color
 import android.graphics.Outline
 import android.graphics.drawable.ColorDrawable
@@ -16,6 +15,7 @@ import android.widget.TextView
 import androidx.preference.PreferenceViewHolder
 import com.android.settings.R
 import com.android.settingslib.RestrictedTopLevelPreference
+import org.edith.settings.core.variables.Styles
 
 class GoogleCardPreference @JvmOverloads constructor(
     context: Context,
@@ -43,21 +43,12 @@ class GoogleCardPreference @JvmOverloads constructor(
             }
         }
 
-        val isNight = (context.resources.configuration.uiMode
-            and Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES
-
-        val scrimColor = context.getColor(
-            if (isNight) android.R.color.system_neutral2_800
-            else android.R.color.system_neutral1_100
-        )
+        val scrimColor = Styles.getCardScrimColor(context)
         val scrim = holder.findViewById(R.id.google_scrim) as View
         scrim.setBackgroundColor(scrimColor)
         scrim.alpha = 0.85f
 
-        val textColor = context.getColor(
-            if (isNight) android.R.color.system_accent1_50
-            else android.R.color.system_accent1_800
-        )
+        val textColor = Styles.getAccentTextColor(context)
 
         val logo = holder.findViewById(R.id.google_logo) as ImageView
 

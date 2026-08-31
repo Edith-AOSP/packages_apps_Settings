@@ -39,7 +39,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Slider
 import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Text
@@ -64,6 +63,7 @@ import com.android.settings.R
 import com.android.settings.spa.preference.ComposePreference
 import com.android.settingslib.display.BrightnessUtils
 import org.edith.settings.core.variables.Styles
+import org.edith.settings.core.variables.toComposeColor
 import kotlin.math.roundToInt
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
@@ -164,9 +164,9 @@ class BrightnessSliderPreference @JvmOverloads constructor(
         }
 
         val sliderColors = SliderDefaults.colors().copy(
-            inactiveTrackColor = MaterialTheme.colorScheme.surfaceContainerHighest,
-            activeTrackColor = MaterialTheme.colorScheme.primary,
-            thumbColor = MaterialTheme.colorScheme.primary,
+            inactiveTrackColor = Styles.getSurfaceContainerHighest(context).toComposeColor(),
+            activeTrackColor = Styles.getPrimary(context).toComposeColor(),
+            thumbColor = Styles.getPrimary(context).toComposeColor(),
         )
         val interactionSource = remember { MutableInteractionSource() }
         val dragged by interactionSource.collectIsDraggedAsState()

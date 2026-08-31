@@ -19,7 +19,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
@@ -30,6 +29,8 @@ import androidx.compose.ui.viewinterop.AndroidView
 import com.android.settings.R
 import com.android.settings.spa.preference.ComposePreference
 import com.android.settingslib.widget.GroupSectionDividerMixin
+import org.edith.settings.core.variables.Styles
+import org.edith.settings.core.variables.toComposeColor
 import org.edith.settings.widget.WallpaperBlurView
 
 class AboutDeviceCardPreference @JvmOverloads constructor(
@@ -59,21 +60,8 @@ private fun AboutDeviceCardContent() {
         bottomEnd = smallRadius,
     )
 
-    val isNight = (context.resources.configuration.uiMode
-        and android.content.res.Configuration.UI_MODE_NIGHT_MASK) ==
-        android.content.res.Configuration.UI_MODE_NIGHT_YES
-
-    val scrimColor = if (isNight) {
-        Color(context.getColor(android.R.color.system_neutral2_800))
-    } else {
-        Color(context.getColor(android.R.color.system_neutral1_100))
-    }
-
-    val textColor = if (isNight) {
-        Color(context.getColor(android.R.color.system_accent1_50))
-    } else {
-        Color(context.getColor(android.R.color.system_accent1_800))
-    }
+    val scrimColor = Styles.getCardScrimColor(context).toComposeColor()
+    val textColor = Styles.getAccentTextColor(context).toComposeColor()
 
     Box(
         modifier = Modifier

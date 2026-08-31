@@ -56,6 +56,8 @@ import com.airbnb.lottie.value.LottieValueCallback
 import com.android.settings.R
 import com.android.settings.spa.preference.ComposePreference
 import com.android.settingslib.widget.GroupSectionDividerMixin
+import org.edith.settings.core.variables.Styles
+import org.edith.settings.core.variables.toComposeColor
 
 /**
  * A card showing the Edith brand: the Edith logo, an "E D I T H" title in header typography, and a
@@ -82,17 +84,10 @@ private fun SoftwareInformationCardContent() {
     val shape = RoundedCornerShape(cornerRadius)
 
     // Bright brand-tinted scrim so it doesn't darken the waves underneath.
-    val scrimColor = Color(
-        context.getColor(com.android.settingslib.widget.theme.R.color.settingslib_materialColorPrimaryInverse),
-    )
+    val scrimColor = Color(Styles.getScrimColor(context))
 
-    // Preference title color (android.R.attr.textColorPrimary), used for the EDITH / version /
-    // codename text and the waves.
-    val titleColorInt = android.util.TypedValue().let { tv ->
-        context.theme.resolveAttribute(android.R.attr.textColorPrimary, tv, true)
-        tv.data
-    }
-    val titleColor = Color(titleColorInt)
+    // Preference title color, used for the EDITH / version / codename text.
+    val titleColor = Color(Styles.getTextColorPrimary(context))
 
     Box(
         modifier = Modifier
@@ -113,7 +108,7 @@ private fun SoftwareInformationCardContent() {
                     scaleType = ImageView.ScaleType.CENTER_CROP
                     applyWaveGradient(
                         this,
-                        targetColor = ctx.getColor(com.android.settingslib.widget.theme.R.color.settingslib_materialColorSecondary),
+                        targetColor = Styles.getWaveColor(ctx),
                     )
                     playAnimation()
                 }
@@ -236,17 +231,18 @@ private fun BuildTypeBadge(buildType: String) {
     if (buildType.isEmpty()) {
         return
     }
+    val context = LocalContext.current
     Box(
         modifier = Modifier
             .clip(RoundedCornerShape(50))
-            .background(MaterialTheme.colorScheme.primary)
+            .background(Styles.getPrimary(context).toComposeColor())
             .padding(horizontal = 12.dp, vertical = 4.dp),
         contentAlignment = Alignment.Center,
     ) {
         Text(
             text = buildType,
             style = MaterialTheme.typography.labelMedium,
-            color = MaterialTheme.colorScheme.onPrimary,
+            color = Styles.getOnPrimary(context).toComposeColor(),
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
         )

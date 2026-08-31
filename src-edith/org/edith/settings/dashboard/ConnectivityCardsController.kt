@@ -34,7 +34,6 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -68,6 +67,8 @@ import com.android.settingslib.core.AbstractPreferenceController
 import com.android.settingslib.spa.framework.compose.rememberDrawablePainter
 import com.android.settingslib.spa.framework.theme.SettingsTheme
 import com.android.settingslib.widget.LayoutPreference
+import org.edith.settings.core.variables.Styles
+import org.edith.settings.core.variables.toComposeColor
 
 class ConnectivityCardsController(context: Context) : AbstractPreferenceController(context) {
 
@@ -211,15 +212,16 @@ private fun ConnectivityCard(
     iconSize: androidx.compose.ui.unit.Dp,
     onClick: () -> Unit,
 ) {
+    val context = LocalContext.current
     Card(
         modifier = modifier,
         onClick = onClick,
         shape = shape,
         colors = CardDefaults.cardColors(
             containerColor = if (isActive) {
-                MaterialTheme.colorScheme.primary
+                Styles.getPrimary(context).toComposeColor()
             } else {
-                MaterialTheme.colorScheme.surfaceBright
+                Styles.getSurfaceBright(context).toComposeColor()
             },
         ),
         elevation = CardDefaults.cardElevation(defaultElevation = 0.dp),
@@ -234,9 +236,9 @@ private fun ConnectivityCard(
                     .size(iconSize)
                     .background(
                         color = if (isActive) {
-                            MaterialTheme.colorScheme.surfaceContainer
+                            Styles.getSurfaceContainer(context).toComposeColor()
                         } else {
-                            MaterialTheme.colorScheme.primary
+                            Styles.getPrimary(context).toComposeColor()
                         },
                         shape = CircleShape,
                     ),
@@ -251,9 +253,9 @@ private fun ConnectivityCard(
                     contentScale = ContentScale.Inside,
                     colorFilter = ColorFilter.tint(
                         if (isActive) {
-                            MaterialTheme.colorScheme.onSurface
+                            Styles.getOnSurface(context).toComposeColor()
                         } else {
-                            MaterialTheme.colorScheme.onPrimary
+                            Styles.getOnPrimary(context).toComposeColor()
                         }
                     ),
                 )
@@ -268,9 +270,9 @@ private fun ConnectivityCard(
                 fontWeight = FontWeight.Normal,
                 fontSize = 16.sp,
                 color = if (isActive) {
-                    MaterialTheme.colorScheme.onPrimary
+                    Styles.getOnPrimary(context).toComposeColor()
                 } else {
-                    MaterialTheme.colorScheme.onSurface
+                    Styles.getOnSurface(context).toComposeColor()
                 },
             )
 
@@ -282,9 +284,9 @@ private fun ConnectivityCard(
                 overflow = TextOverflow.Clip,
                 fontSize = 13.sp,
                 color = if (isActive) {
-                    MaterialTheme.colorScheme.onPrimary
+                    Styles.getOnPrimary(context).toComposeColor()
                 } else {
-                    MaterialTheme.colorScheme.onSurfaceVariant
+                    Styles.getOnSurfaceVariant(context).toComposeColor()
                 },
             )
         }

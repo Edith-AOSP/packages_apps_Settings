@@ -22,6 +22,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.android.settings.R
 import com.android.settings.spa.preference.ComposePreference
+import org.edith.settings.core.variables.Styles
+import org.edith.settings.core.variables.toComposeColor
 
 /**
  * A "Detailed Specs" card rendered as a 2-column x 3-row grid. Each cell has a
@@ -124,22 +126,23 @@ private fun SpecCell(
     summary: String,
     subsummary: String,
 ) {
+    val context = LocalContext.current
     // Always reserve the title line so columns stay vertically aligned,
     // even when this cell omits its title (e.g. the "Front" camera cell).
     Text(
         text = title ?: "",
         style = MaterialTheme.typography.titleMedium,
-        color = if (title != null) MaterialTheme.colorScheme.onSurface else Color.Transparent,
+        color = if (title != null) Styles.getOnSurface(context).toComposeColor() else Color.Transparent,
     )
     Text(
         text = summary,
         style = MaterialTheme.typography.bodyMedium,
-        color = MaterialTheme.colorScheme.primary,
+        color = Styles.getPrimary(context).toComposeColor(),
     )
     Text(
         text = subsummary,
         style = MaterialTheme.typography.bodyMedium,
-        color = MaterialTheme.colorScheme.onSurfaceVariant,
+        color = Styles.getOnSurfaceVariant(context).toComposeColor(),
     )
 }
 

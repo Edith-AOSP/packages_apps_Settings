@@ -45,6 +45,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
@@ -55,6 +56,8 @@ import androidx.preference.PreferenceViewHolder
 import com.android.settings.R
 import com.android.settings.spa.preference.ComposePreference
 import com.android.settingslib.spa.framework.compose.rememberDrawablePainter
+import org.edith.settings.core.variables.Styles
+import org.edith.settings.core.variables.toComposeColor
 
 class HomepagePreference @JvmOverloads constructor(
     context: Context,
@@ -148,11 +151,12 @@ internal fun EdithHomepageContent(
             overflow = TextOverflow.Ellipsis,
             fontWeight = FontWeight.Normal,
         )
+        val context = LocalContext.current
         Box(
             modifier = Modifier
                 .size(28.dp)
                 .background(
-                    MaterialTheme.colorScheme.surfaceVariant,
+                    Styles.getSurfaceVariant(context).toComposeColor(),
                     CircleShape,
                 )
                 .padding(8.dp),
@@ -161,7 +165,7 @@ internal fun EdithHomepageContent(
             Icon(
                 painter = painterResource(R.drawable.ic_arrow_forward),
                 contentDescription = null,
-                tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                tint = Styles.getOnSurfaceVariant(context).toComposeColor(),
             )
         }
     }
@@ -180,6 +184,7 @@ internal fun EdithHomepageSwitchContent(
     minHeightPx: Float = -1f,
 ) {
     val density = LocalDensity.current
+    val context = LocalContext.current
     val iconSize = dimensionResource(R.dimen.dashboard_tile_image_size)
     val iconPadding =
         if (iconPaddingStartPx >= 0) with(density) { iconPaddingStartPx.toDp() }
@@ -234,7 +239,7 @@ internal fun EdithHomepageSwitchContent(
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                     style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    color = Styles.getOnSurfaceVariant(context).toComposeColor(),
                 )
             }
         }
@@ -252,7 +257,7 @@ internal fun EdithHomepageSwitchContent(
                                 .settingslib_expressive_icon_check),
                         contentDescription = null,
                         modifier = Modifier.size(16.dp),
-                        tint = MaterialTheme.colorScheme.primary,
+                        tint = Styles.getPrimary(context).toComposeColor(),
                     )
                 }
             } else {
@@ -263,7 +268,7 @@ internal fun EdithHomepageSwitchContent(
                                 .settingslib_expressive_icon_close),
                         contentDescription = null,
                         modifier = Modifier.size(16.dp),
-                        tint = MaterialTheme.colorScheme.surface,
+                        tint = Styles.getSurface(context).toComposeColor(),
                     )
                 }
             },

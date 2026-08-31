@@ -38,7 +38,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -66,6 +65,7 @@ import com.android.settings.core.SubSettingLauncher
 import com.android.settings.display.darkmode.DarkModeSettingsFragment
 import com.android.settings.spa.preference.ComposePreference
 import org.edith.settings.core.variables.Styles
+import org.edith.settings.core.variables.toComposeColor
 
 class ThemeSwitchPreference @JvmOverloads constructor(
     context: Context,
@@ -222,14 +222,14 @@ class ThemeSwitchPreference @JvmOverloads constructor(
                 Box(
                     modifier = Modifier
                         .size(28.dp)
-                        .background(MaterialTheme.colorScheme.surfaceVariant, CircleShape)
+                        .background(Styles.getSurfaceVariant(context).toComposeColor(), CircleShape)
                         .padding(8.dp),
                     contentAlignment = Alignment.Center,
                 ) {
                     Icon(
                         painter = painterResource(R.drawable.ic_arrow_forward),
                         contentDescription = null,
-                        tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                        tint = Styles.getOnSurfaceVariant(context).toComposeColor(),
                     )
                 }
             }

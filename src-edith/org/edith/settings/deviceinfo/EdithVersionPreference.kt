@@ -36,6 +36,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -43,6 +44,8 @@ import com.android.settings.R
 import com.android.settings.core.SubSettingLauncher
 import com.android.settings.deviceinfo.firmwareversion.FirmwareVersionSettings
 import com.android.settings.spa.preference.ComposePreference
+import org.edith.settings.core.variables.Styles
+import org.edith.settings.core.variables.toComposeColor
 
 /**
  * A single-line [ComposePreference] with the title on the left, the summary on the right
@@ -69,12 +72,15 @@ class EdithVersionPreference @JvmOverloads constructor(
 
     @Composable
     private fun EdithVersionContent() {
+        val context = LocalContext.current
+        val tertiaryContainer = Styles.getTertiaryContainer(context).toComposeColor()
+        val onTertiaryContainer = Styles.getOnTertiaryContainer(context).toComposeColor()
         Row(
             modifier = Modifier
                 .fillMaxWidth()
                 .heightIn(min = 56.dp)
                 .clip(RoundedCornerShape(16.dp))
-                .background(MaterialTheme.colorScheme.tertiaryContainer)
+                .background(tertiaryContainer)
                 .padding(start = 16.dp, end = 16.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween,
@@ -84,7 +90,7 @@ class EdithVersionPreference @JvmOverloads constructor(
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
                 style = MaterialTheme.typography.titleMedium,
-                color = MaterialTheme.colorScheme.onTertiaryContainer,
+                color = onTertiaryContainer,
             )
             Row(
                 verticalAlignment = Alignment.CenterVertically,
@@ -97,20 +103,20 @@ class EdithVersionPreference @JvmOverloads constructor(
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
                         style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onTertiaryContainer,
+                        color = onTertiaryContainer,
                     )
                 }
                 Box(
                     modifier = Modifier
                         .size(28.dp)
-                        .background(MaterialTheme.colorScheme.onTertiaryContainer, CircleShape)
+                        .background(onTertiaryContainer, CircleShape)
                         .padding(8.dp),
                     contentAlignment = Alignment.Center,
                 ) {
                     Icon(
                         painter = painterResource(R.drawable.ic_arrow_forward),
                         contentDescription = null,
-                        tint = MaterialTheme.colorScheme.tertiaryContainer,
+                        tint = tertiaryContainer,
                     )
                 }
             }

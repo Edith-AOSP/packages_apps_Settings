@@ -30,6 +30,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -40,11 +41,10 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
-import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.android.settings.R
 import org.edith.settings.core.variables.Styles
 import org.edith.settings.core.variables.toComposeColor
@@ -68,6 +68,8 @@ fun EdithCard(
         dimensionResource(R.dimen.settingslib_preference_corner_radius)
     ),
     iconSize: Dp = dimensionResource(R.dimen.dashboard_tile_image_size),
+    titleStyle: TextStyle = MaterialTheme.typography.bodyLarge,
+    summaryStyle: TextStyle = MaterialTheme.typography.bodyMedium,
 ) {
     val context = LocalContext.current
     Card(
@@ -97,7 +99,7 @@ fun EdithCard(
                     .size(iconSize)
                     .background(
                         color = if (isActive) {
-                            Styles.getSurfaceContainer(context).toComposeColor()
+                            Styles.getOnPrimary(context).toComposeColor()
                         } else {
                             Styles.getPrimary(context).toComposeColor()
                         },
@@ -114,7 +116,7 @@ fun EdithCard(
                     contentScale = ContentScale.Inside,
                     colorFilter = ColorFilter.tint(
                         if (isActive) {
-                            Styles.getOnSurface(context).toComposeColor()
+                            Styles.getPrimary(context).toComposeColor()
                         } else {
                             Styles.getOnPrimary(context).toComposeColor()
                         }
@@ -128,12 +130,11 @@ fun EdithCard(
                 text = title,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
-                fontWeight = FontWeight.Normal,
-                fontSize = 16.sp,
+                style = titleStyle,
                 color = if (isActive) {
                     Styles.getOnPrimary(context).toComposeColor()
                 } else {
-                    Styles.getOnSurface(context).toComposeColor()
+                    Styles.getTextColorPrimary(context).toComposeColor()
                 },
             )
 
@@ -141,7 +142,7 @@ fun EdithCard(
                 text = summary,
                 maxLines = 1,
                 overflow = TextOverflow.Clip,
-                fontSize = 13.sp,
+                style = summaryStyle,
                 color = if (isActive) {
                     Styles.getOnPrimary(context).toComposeColor()
                 } else {

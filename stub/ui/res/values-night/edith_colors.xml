@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="edith_icon_background">@android:color/system_accent1_200</color>
+    <color name="edith_icon_background">@color/settingslib_materialColorPrimary</color>
 </resources>

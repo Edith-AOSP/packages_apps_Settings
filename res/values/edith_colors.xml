@@ -25,7 +25,7 @@
     <color name="wifi_qr_secondary_foreground">@android:color/system_secondary_light</color>
     <color name="wifi_qr_tertiary_background">@android:color/system_tertiary_container_light</color>
 
-    <color name="edith_icon_background">@android:color/system_accent1_600</color>
-    <color name="edith_icon_foreground">@android:color/system_accent1_600</color>
+    <color name="edith_icon_background">@color/settingslib_materialColorPrimary</color>
+    <color name="edith_icon_foreground">@color/settingslib_materialColorOnPrimary</color>
     <color name="edith_search_background">#FFFFFF</color>
 </resources>

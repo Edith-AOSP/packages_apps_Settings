@@ -26,6 +26,10 @@ object Styles {
         resolveAttribute(context, android.R.attr.textColorPrimary)
 
     @ColorInt
+    fun getTextColorSecondary(context: Context): Int =
+        resolveAttribute(context, android.R.attr.textColorSecondary)
+
+    @ColorInt
     fun getCardContentBackgroundColor(context: Context): Int =
         resolveAttribute(context, android.R.attr.colorBackground)
 

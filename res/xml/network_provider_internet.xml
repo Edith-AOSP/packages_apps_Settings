@@ -103,7 +103,7 @@
         android:title="@string/network_traffic_settings_title"
         android:summary="@string/network_traffic_settings_summary"
         android:order="25"
-        android:fragment="com.android.settings.edith.networktraffic.NetworkTrafficSettings"
+        android:fragment="org.edith.settings.networktraffic.NetworkTrafficSettings"
         android:defaultValue="false" />
 
     <Preference

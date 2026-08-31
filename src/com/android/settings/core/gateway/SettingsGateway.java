@@ -225,6 +225,7 @@ import com.android.settings.wifi.tether.WifiTetherSettings;
 
 import com.android.settings.livedisplay.LiveDisplaySettings;
 import ink.kscope.settings.wifi.tether.WifiTetherClientManager;
+import org.edith.settings.networktraffic.NetworkTrafficSettings;
 
 public class SettingsGateway {
 
@@ -439,6 +440,7 @@ public class SettingsGateway {
             SafetyCenterQsFragment.class.getName(),
             LiveDisplaySettings.class.getName(),
             WifiTetherClientManager.class.getName(),
+            NetworkTrafficSettings.class.getName(),
     };
 
     public static final String[] SETTINGS_FOR_RESTRICTED = {

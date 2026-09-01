@@ -30,6 +30,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -86,8 +87,8 @@ private fun SoftwareInformationCardContent() {
     // Bright brand-tinted scrim so it doesn't darken the waves underneath.
     val scrimColor = Color(Styles.getScrimColor(context))
 
-    // Preference title color, used for the EDITH / version / codename text.
-    val titleColor = Color(Styles.getTextColorPrimary(context))
+    // On-primary color, used for the EDITH / version / codename text.
+    val titleColor = Color(Styles.getOnPrimary(context))
 
     Box(
         modifier = Modifier
@@ -150,6 +151,7 @@ private fun SoftwareInformationCardContent() {
 
             Text(
                 text = context.getString(R.string.edith_software_information_brand),
+                modifier = Modifier.offset(x = (-1.5).dp),
                 style = MaterialTheme.typography.headlineMedium,
                 fontWeight = FontWeight.Bold,
                 letterSpacing = 4.sp,

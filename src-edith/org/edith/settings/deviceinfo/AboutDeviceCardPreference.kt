@@ -6,15 +6,18 @@ import android.os.SystemProperties
 import android.util.AttributeSet
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -23,6 +26,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
@@ -87,6 +91,7 @@ private fun AboutDeviceCardContent() {
             modifier = Modifier
                 .fillMaxSize()
                 .padding(start = 16.dp, end = 16.dp, top = 16.dp, bottom = 16.dp),
+            verticalArrangement = Arrangement.Center,
         ) {
             Image(
                 painter = painterResource(R.drawable.edith_ic_app_google),
@@ -98,17 +103,20 @@ private fun AboutDeviceCardContent() {
 
             Text(
                 text = resolveTitle(context),
-                fontSize = 28.sp,
-                fontWeight = FontWeight.SemiBold,
+                modifier = Modifier.offset(x = (-1).dp),
+                style = MaterialTheme.typography.headlineMedium,
+                fontWeight = FontWeight.Bold,
+                letterSpacing = 0.sp,
                 color = textColor,
                 maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
             )
 
             Spacer(modifier = Modifier.height(2.dp))
 
             Text(
                 text = resolveBrand(context),
-                fontSize = 14.sp,
+                style = MaterialTheme.typography.bodyMedium,
                 color = textColor.copy(alpha = 0.8f),
                 maxLines = 1,
             )
@@ -117,7 +125,7 @@ private fun AboutDeviceCardContent() {
 
             Text(
                 text = resolveSubSummary(),
-                fontSize = 14.sp,
+                style = MaterialTheme.typography.bodyMedium,
                 color = textColor.copy(alpha = 0.8f),
                 maxLines = 1,
             )

@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="edith_icon_background">@color/settingslib_materialColorPrimary</color>
+    <!-- Matches the About device hero card title text color (Styles.getAccentTextColor). -->
+    <color name="edith_about_text_color">@android:color/system_accent1_50</color>
 </resources>

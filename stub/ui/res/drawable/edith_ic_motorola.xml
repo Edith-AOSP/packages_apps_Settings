@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="60.613"
+    android:viewportHeight="60.613">
+    <!-- Motorola circle badge -->
+    <path
+        android:fillColor="@color/settingslib_materialColorOnPrimary"
+        android:pathData="M 30.306 -0 C 13.55 -0 0 13.55 0 30.306 C 0 47.063 13.55 60.613 30.306 60.613 C 47.063 60.613 60.613 47.063 60.613 30.306 C 60.613 13.64 47.244 -0 30.306 -0" />
+    <!-- Motorola "M" batwing -->
+    <path
+        android:fillColor="@color/edith_about_text_color"
+        android:pathData="M 39.34 7.452 L 30.352 37.262 L 30.306 37.307 L 30.216 37.262 L 21.228 7.452 L 9.62 45.618 H 11.788 C 11.788 45.618 13.234 38.978 15.627 35.004 C 16.937 32.836 18.925 31.074 21.589 31.119 C 23.486 31.165 25.112 32.203 27.145 35.049 C 27.596 35.681 28.138 36.72 28.68 37.714 C 29.539 39.385 30.261 41.101 30.261 41.101 C 30.261 41.101 32.158 36.765 33.378 35.049 C 35.41 32.203 37.036 31.165 38.933 31.119 C 41.598 31.074 43.63 32.836 44.895 35.004 C 47.289 38.978 48.734 45.618 48.734 45.618 H 50.902 Z" />
+</vector>

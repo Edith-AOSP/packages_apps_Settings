@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="93.2"
+    android:viewportHeight="93.2">
+    <!-- OnePlus "1+" symbol (@color/edith_about_text_color) -->
+    <path
+        android:fillColor="@color/edith_about_text_color"
+        android:fillType="evenOdd"
+        android:pathData="M0,14.6v78.6h78.6V48.3h-8.7v36.2H8.7V23.3h36.2v-8.7H0z M69.9,0v14.6H55.3v8.7h14.6v14.6h8.7V23.3h14.6v-8.7H78.6V0H69.9z" />
+    <path
+        android:fillColor="@color/edith_about_text_color"
+        android:pathData="M44.9,72.8V34.5h-7.8c0,2.6 -0.9,4.6 -2.2,5.8c-1.4,1.2 -3.5,1.7 -6,1.7h-1v6.3h8.2v24.5C36.2,72.8 44.9,72.8 44.9,72.8z" />
+</vector>

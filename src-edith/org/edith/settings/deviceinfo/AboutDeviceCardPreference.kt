@@ -15,18 +15,22 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
@@ -66,6 +70,7 @@ private fun AboutDeviceCardContent() {
 
     val scrimColor = Styles.getCardScrimColor(context).toComposeColor()
     val textColor = Styles.getAccentTextColor(context).toComposeColor()
+    val brandLogo = resolveBrandLogo(context)
 
     Box(
         modifier = Modifier
@@ -94,9 +99,21 @@ private fun AboutDeviceCardContent() {
             verticalArrangement = Arrangement.Center,
         ) {
             Image(
-                painter = painterResource(R.drawable.edith_ic_app_google),
+                painter = painterResource(brandLogo.drawable),
                 contentDescription = null,
-                modifier = Modifier.size(24.dp),
+                modifier = Modifier
+                    .height(brandLogo.heightDp)
+                    .then(
+                        if (brandLogo.maxWidthDp != null) {
+                            Modifier.widthIn(max = brandLogo.maxWidthDp)
+                        } else {
+                            Modifier.wrapContentWidth(
+                                align = Alignment.Start,
+                                unbounded = true,
+                            )
+                        }
+                    ),
+                contentScale = ContentScale.Fit,
             )
 
             Spacer(modifier = Modifier.height(12.dp))
@@ -138,10 +155,50 @@ private fun resolveTitle(context: Context): String =
 
 private fun resolveBrand(context: Context): String {
     val configured = context.getString(R.string.edith_about_device_brand)
-    val brand = if (configured.isNotEmpty()) configured
-        else SystemProperties.get("ro.product.brand", "").ifEmpty { Build.BRAND }
+    val debugBrand = SystemProperties.get("debug.edith.brand", "")
+    val brand = when {
+        debugBrand.isNotEmpty() -> debugBrand
+        configured.isNotEmpty() -> configured
+        else -> SystemProperties.get("ro.product.brand", "").ifEmpty { Build.BRAND }
+    }
     return context.getString(R.string.edith_about_device_by_brand, brand)
 }
+
+/**
+ * Resolves the hero card brand logo for the current device.
+ *
+ * Google/Pixel devices show the Google "G", other recognized brands resolve to their own logo,
+ * and everything else falls back to the Android head (the same icon used on the Android version
+ * card).
+ */
+private fun resolveBrandLogo(context: Context): BrandLogo {
+    val configured = context.getString(R.string.edith_about_device_brand)
+    val debugBrand = SystemProperties.get("debug.edith.brand", "")
+    val brand = when {
+        debugBrand.isNotEmpty() -> debugBrand
+        configured.isNotEmpty() -> configured
+        else -> SystemProperties.get("ro.product.brand", "").ifEmpty { Build.BRAND }
+    }
+    // Symbols render square at 24dp; wordmarks render shorter (18dp) to keep visual balance.
+    return when (brand.lowercase()) {
+        "google", "pixel" -> BrandLogo(R.drawable.edith_ic_app_google, 24.dp)
+        "xiaomi", "redmi" -> BrandLogo(R.drawable.edith_ic_xiaomi, 24.dp)
+        "poco" -> BrandLogo(R.drawable.edith_ic_poco, 14.dp)
+        "realme" -> BrandLogo(R.drawable.edith_ic_realme, 18.dp)
+        "oneplus" -> BrandLogo(R.drawable.edith_ic_oneplus, 24.dp)
+        "nothing" -> BrandLogo(R.drawable.edith_ic_nothing, 14.dp)
+        "motorola", "moto" -> BrandLogo(R.drawable.edith_ic_motorola, 24.dp)
+        "samsung" -> BrandLogo(R.drawable.edith_ic_samsung, 14.dp, maxWidthDp = 72.dp)
+        else -> BrandLogo(R.drawable.edith_ic_android_head, 24.dp)
+    }
+}
+
+/** A brand logo drawable paired with its render height and optional max width. */
+private data class BrandLogo(
+    val drawable: Int,
+    val heightDp: Dp,
+    val maxWidthDp: Dp? = null,
+)
 
 private fun resolveSubSummary(): String {
     val model = SystemProperties.get("ro.product.model", Build.MODEL)

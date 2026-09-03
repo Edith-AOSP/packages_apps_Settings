@@ -172,7 +172,8 @@ private fun SoftwareInformationCardContent() {
             )
 
             Text(
-                text = SystemProperties.get(EDITH_VERSION_CODENAME_PROPERTY, ""),
+                text = SystemProperties.get(EDITH_VERSION_CODENAME_PROPERTY, "")
+                    .replace('_', ' '),
                 style = MaterialTheme.typography.titleSmall,
                 color = titleColor,
                 maxLines = 1,

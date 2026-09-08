@@ -20,6 +20,7 @@ import android.content.Context;
 import android.content.pm.UserInfo;
 import android.graphics.drawable.Drawable;
 import android.os.UserManager;
+import android.util.Log;
 import android.util.SparseArray;
 
 import com.android.internal.util.Preconditions;
@@ -30,6 +31,7 @@ import com.android.settingslib.utils.AsyncLoaderCompat;
  * Fetches a user icon as a loader using a given icon loading lambda.
  */
 public class UserIconLoader extends AsyncLoaderCompat<SparseArray<Drawable>> {
+    private static final String TAG = "UserIconLoader";
     private FetchUserIconTask mTask;
 
     /**
@@ -53,7 +55,12 @@ public class UserIconLoader extends AsyncLoaderCompat<SparseArray<Drawable>> {
 
     @Override
     public SparseArray<Drawable> loadInBackground() {
-        return mTask.getUserIcons();
+        try {
+            return mTask.getUserIcons();
+        } catch (Exception e) {
+            Log.e(TAG, "Exception while executing getUserIcons()", e);
+            return new SparseArray<>();
+        }
     }
 
     @Override
@@ -65,9 +72,22 @@ public class UserIconLoader extends AsyncLoaderCompat<SparseArray<Drawable>> {
      */
     public static SparseArray<Drawable> loadUserIconsWithContext(Context context) {
         SparseArray<Drawable> value = new SparseArray<>();
+        if (context == null) {
+            return value;
+        }
         UserManager um = context.getSystemService(UserManager.class);
+        if (um == null) {
+            return value;
+        }
         for (UserInfo userInfo : um.getUsers()) {
-            value.put(userInfo.id, Utils.getUserIcon(context, um, userInfo));
+            try {
+                Drawable icon = Utils.getUserIcon(context, um, userInfo);
+                if (icon != null) {
+                    value.put(userInfo.id, icon);
+                }
+            } catch (Exception e) {
+                Log.e(TAG, "Failed to load icon for user: " + userInfo.id, e);
+            }
         }
         return value;
     }

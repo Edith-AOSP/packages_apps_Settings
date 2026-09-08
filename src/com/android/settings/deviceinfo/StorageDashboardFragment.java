@@ -558,9 +558,10 @@ public class StorageDashboardFragment extends DashboardFragment
             implements LoaderManager.LoaderCallbacks<SparseArray<Drawable>> {
         @Override
         public Loader<SparseArray<Drawable>> onCreateLoader(int id, Bundle args) {
+            Context context = getContext();
             return new UserIconLoader(
-                    getContext(),
-                    () -> UserIconLoader.loadUserIconsWithContext(getContext()));
+                    context,
+                    () -> UserIconLoader.loadUserIconsWithContext(context));
         }
 
         @Override

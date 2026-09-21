@@ -447,4 +447,17 @@
     <string name="edith_software_information_brand" translatable="false">EDITH</string>
     <!-- Short title for the security patch card. -->
     <string name="edith_security_patch" translatable="false">Security patch</string>
+
+    <!-- Quick Settings style (top of Notifications -> sub-screen) -->
+    <string name="edith_qs_style_title">Quick Settings</string>
+    <string name="edith_qs_style_screen_title">Quick settings style</string>
+    <string name="edith_qs_style_summary">Choose the visual style for your Quick Settings panel</string>
+    <string name="edith_qs_style_aosp">Stock</string>
+    <string name="edith_qs_style_edith">EdithUI</string>
+    <string name="edith_qs_style_internet">Internet</string>
+    <string name="edith_qs_style_bluetooth">Bluetooth</string>
+    <string name="edith_qs_style_heads_up">Heads up</string>
+    <string name="edith_qs_style_mobile_data">Mobile data</string>
+    <string name="edith_qs_style_hotspot">Hotspot</string>
+    <string name="edith_qs_style_ssid" translatable="false">SHOPIE</string>
 </resources>

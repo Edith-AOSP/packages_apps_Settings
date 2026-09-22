@@ -1,0 +1,171 @@
+/*
+ * Copyright (C) 2026 Edith AOSP
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package org.edith.settings.notification
+
+import android.content.Context
+import android.util.AttributeSet
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Switch
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
+import androidx.preference.PreferenceViewHolder
+import com.android.settings.R
+import com.android.settings.spa.preference.ComposeGroupSectionPreference
+import org.edith.settings.core.variables.Styles
+
+/**
+ * Compose preference presenting an expressive switch for the Edith Quick Settings tile colors.
+ * Only visible (with a fade animation) when the Edith QS style is selected.
+ */
+class QsColorSchemePreference @JvmOverloads constructor(
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyleAttr: Int = 0,
+    defStyleRes: Int = 0,
+) :
+    ComposeGroupSectionPreference(context, attrs, defStyleAttr, defStyleRes) {
+
+    init {
+        setContent { QsColorSchemeContent() }
+    }
+
+    override fun onBindViewHolder(holder: PreferenceViewHolder) {
+        super.onBindViewHolder(holder)
+        holder.itemView.setPadding(0, 0, 0, 0)
+    }
+}
+
+@Composable
+private fun QsColorSchemeContent() {
+    val context = LocalContext.current
+    var styleEdith by
+        remember {
+            mutableStateOf(EdithQsStyle.read(context) == EdithQsStyle.VALUE_EDITHUI)
+        }
+    var colorEnabled by remember { mutableStateOf(EdithQsColor.read(context)) }
+
+    fun select(enabled: Boolean) {
+        if (enabled == colorEnabled) return
+        EdithQsColor.write(context, enabled)
+        colorEnabled = enabled
+    }
+
+    LaunchedSettingObserver(EdithQsStyle.KEY) {
+        styleEdith = EdithQsStyle.read(context) == EdithQsStyle.VALUE_EDITHUI
+    }
+    LaunchedSettingObserver(EdithQsColor.KEY) { colorEnabled = EdithQsColor.read(context) }
+
+    val cornerRadius = dimensionResource(R.dimen.settingslib_preference_corner_radius)
+    Box(modifier = Modifier.animateContentSize()) {
+        AnimatedVisibility(visible = styleEdith, enter = fadeIn(), exit = fadeOut()) {
+            Surface(
+                modifier =
+                    Modifier.fillMaxWidth()
+                        .padding(horizontal = 16.dp, vertical = 8.dp)
+                        .clip(RoundedCornerShape(cornerRadius))
+                        .clickable { select(!colorEnabled) },
+                color = Color(Styles.getSurfaceBright(context)),
+            ) {
+                Row(
+                    modifier =
+                        Modifier.fillMaxWidth().padding(horizontal = 24.dp, vertical = 20.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    Column(modifier = Modifier.weight(1f)) {
+                        Text(
+                            text = stringResource(R.string.edith_qs_color_title),
+                            style = MaterialTheme.typography.titleMedium,
+                            color = Color(Styles.getTextColorPrimary(context)),
+                        )
+                        Box(modifier = Modifier.height(4.dp))
+                        Text(
+                            text =
+                                stringResource(
+                                    if (colorEnabled) {
+                                        R.string.edith_qs_color_summary_edith
+                                    } else {
+                                        R.string.edith_qs_color_summary_vanilla
+                                    }
+                                ),
+                            style = MaterialTheme.typography.bodySmall,
+                            color = Color(Styles.getOnSurfaceVariant(context)),
+                        )
+                    }
+                    Switch(
+                        checked = colorEnabled,
+                        onCheckedChange = { select(it) },
+                        thumbContent = if (colorEnabled) {
+                            {
+                                Icon(
+                                    painter =
+                                        painterResource(
+                                            com.android.settingslib.widget.theme.R.drawable
+                                                .settingslib_expressive_icon_check
+                                        ),
+                                    contentDescription = null,
+                                    modifier = Modifier.size(16.dp),
+                                    tint = Color(Styles.getPrimary(context)),
+                                )
+                            }
+                        } else {
+                            {
+                                Icon(
+                                    painter =
+                                        painterResource(
+                                            com.android.settingslib.widget.theme.R.drawable
+                                                .settingslib_expressive_icon_close
+                                        ),
+                                    contentDescription = null,
+                                    modifier = Modifier.size(16.dp),
+                                    tint = Color(Styles.getSurface(context)),
+                                )
+                            }
+                        },
+                    )
+                }
+            }
+        }
+    }
+}

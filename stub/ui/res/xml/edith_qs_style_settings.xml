@@ -27,4 +27,8 @@
         android:key="edith_qs_style"
         android:persistent="false" />
 
+    <org.edith.settings.notification.QsColorSchemePreference
+        android:key="edith_qs_color_scheme"
+        android:persistent="false" />
+
 </PreferenceScreen>

@@ -468,4 +468,10 @@
     <string name="edith_qs_color_summary_vanilla">Use the default colors for quick toggles</string>
     <string name="edith_qs_color_edith">EdithUI</string>
     <string name="edith_qs_color_stock">Vanilla</string>
+
+    <!-- Debug: Quick Settings tile color tuner (gate with debug.enable_edith_tile_color) -->
+    <string name="edith_tile_color_screen_title">Tile color (debug)</string>
+    <string name="edith_tile_color_entry_title">Tile color tuner</string>
+    <string name="edith_tile_color_entry_summary">Tune the EdithUI tile colors (debug)</string>
+    <string name="edith_tile_color_reset">Reset to defaults</string>
 </resources>

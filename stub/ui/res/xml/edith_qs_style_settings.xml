@@ -32,13 +32,4 @@
         android:key="edith_qs_color_scheme"
         android:persistent="false" />
 
-    <!-- Debug: only shown when debug.enable_edith_tile_color is set. -->
-    <Preference
-        android:key="edith_tile_color_tuner_entry"
-        android:title="@string/edith_tile_color_entry_title"
-        android:summary="@string/edith_tile_color_entry_summary"
-        android:fragment="org.edith.settings.notification.EdithQsTileColorFragment"
-        android:persistent="false"
-        settings:controller="org.edith.settings.notification.EdithTileColorEntryPreferenceController" />
-
 </PreferenceScreen>

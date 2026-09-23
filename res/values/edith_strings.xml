@@ -469,9 +469,27 @@
     <string name="edith_qs_color_edith">EdithUI</string>
     <string name="edith_qs_color_stock">Vanilla</string>
 
-    <!-- Debug: Quick Settings tile color tuner (gate with debug.enable_edith_tile_color) -->
-    <string name="edith_tile_color_screen_title">Tile color (debug)</string>
-    <string name="edith_tile_color_entry_title">Tile color tuner</string>
-    <string name="edith_tile_color_entry_summary">Tune the EdithUI tile colors (debug)</string>
+    <!-- Quick Settings tile tuner (opened by long-pressing the QS preview in the EdithUI style) -->
+    <string name="edith_tile_color_screen_title">Tile appearance</string>
     <string name="edith_tile_color_reset">Reset to defaults</string>
+
+    <!-- Debug: tuner tabs -->
+    <string name="edith_tile_color_tab_qs">QS</string>
+    <string name="edith_tile_color_tab_qa_colors">QA colors</string>
+    <string name="edith_tile_color_tab_qa_shape">QA shape</string>
+
+    <!-- Debug: tuner labels -->
+    <string name="edith_tile_color_preview">Preview</string>
+    <string name="edith_tile_color_preview_active">active</string>
+    <string name="edith_tile_color_preview_inactive">inactive</string>
+    <string name="edith_tile_color_slot_active_bg">Active background</string>
+    <string name="edith_tile_color_slot_active_fg">Active glyph</string>
+    <string name="edith_tile_color_slot_inactive_bg">Inactive background</string>
+    <string name="edith_tile_color_slot_inactive_fg">Inactive glyph</string>
+    <string name="edith_tile_color_inactive_alpha">inactive alpha: %1$d%%</string>
+
+    <!-- Debug: dual-state shape tuner (Quick Actions dual-target tile) -->
+    <string name="edith_tile_shape_preview">Dual-state preview</string>
+    <string name="edith_tile_shape_outer">Outer corner radius: %1$d dp</string>
+    <string name="edith_tile_shape_inner">Inner box corner radius: %1$d dp</string>
 </resources>

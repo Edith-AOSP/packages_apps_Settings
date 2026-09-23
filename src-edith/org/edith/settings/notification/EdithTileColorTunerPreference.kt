@@ -31,7 +31,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Slider
 import androidx.compose.material3.Surface
@@ -40,6 +39,7 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -51,18 +51,24 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.preference.PreferenceViewHolder
 import com.android.settings.R
 import com.android.settings.spa.preference.ComposeGroupSectionPreference
 import org.edith.settings.core.variables.Styles
 
 /**
- * Debug Compose preference for tuning the Edith QS tertiary tile colors.
+ * Compose preference for tuning the Edith QS tiles.
  *
- * Shows a live preview (active squircle + inactive circle) plus a swatch grid per color slot. Each
- * slot stores a swatch *tag* (not a resolved color) so SystemUI re-resolves it against the current
- * theme. Only shown when [EdithTileColor.TUNER_PROP] is set.
+ * Three tabs:
+ *  - **QS colors** — the main QS grid tile colors (accent3/tertiary catalog).
+ *  - **Quick Actions colors** — the 2x2 Quick Actions tile colors (role/primary catalog).
+ *  - **Quick Actions shape** — the dual-state (dual-target) tile's outer + inner box corner radii.
+ *
+ * Each color slot stores a swatch *tag* (not a resolved color) so SystemUI re-resolves it against
+ * the current theme.
  */
 class EdithTileColorTunerPreference @JvmOverloads constructor(
     context: Context,
@@ -85,57 +91,17 @@ class EdithTileColorTunerPreference @JvmOverloads constructor(
 /** A color slot the tuner can edit. */
 private class Slot(val key: String, val title: String)
 
-@OptIn(ExperimentalMaterial3Api::class)
+private enum class TunerTab(val titleRes: Int) {
+    QsColors(R.string.edith_tile_color_tab_qs),
+    QuickActionsColors(R.string.edith_tile_color_tab_qa_colors),
+    QuickActionsShape(R.string.edith_tile_color_tab_qa_shape),
+}
+
 @Composable
 private fun EdithTileColorTunerContent() {
     val context = LocalContext.current
     val cornerRadius = dimensionResource(R.dimen.settingslib_preference_corner_radius)
-
-    val slots =
-        remember {
-            listOf(
-                Slot(EdithTileColor.KEY_ACTIVE_BG, "Active background"),
-                Slot(EdithTileColor.KEY_ACTIVE_FG, "Active glyph"),
-                Slot(EdithTileColor.KEY_INACTIVE_BG, "Inactive background"),
-                Slot(EdithTileColor.KEY_INACTIVE_FG, "Inactive glyph"),
-            )
-        }
-
-    var activeBg by remember { mutableStateOf(EdithTileColor.readTag(context, EdithTileColor.KEY_ACTIVE_BG)) }
-    var activeFg by remember { mutableStateOf(EdithTileColor.readTag(context, EdithTileColor.KEY_ACTIVE_FG)) }
-    var inactiveBg by remember { mutableStateOf(EdithTileColor.readTag(context, EdithTileColor.KEY_INACTIVE_BG)) }
-    var inactiveFg by remember { mutableStateOf(EdithTileColor.readTag(context, EdithTileColor.KEY_INACTIVE_FG)) }
-    var inactiveAlpha by remember {
-        mutableFloatStateOf(
-            EdithTileColor.readInt(context, EdithTileColor.KEY_INACTIVE_ALPHA).let {
-                if (it == EdithTileColor.UNSET_INT) 54f else it.toFloat()
-            }
-        )
-    }
-
-    fun sync() {
-        activeBg = EdithTileColor.readTag(context, EdithTileColor.KEY_ACTIVE_BG)
-        activeFg = EdithTileColor.readTag(context, EdithTileColor.KEY_ACTIVE_FG)
-        inactiveBg = EdithTileColor.readTag(context, EdithTileColor.KEY_INACTIVE_BG)
-        inactiveFg = EdithTileColor.readTag(context, EdithTileColor.KEY_INACTIVE_FG)
-        inactiveAlpha =
-            EdithTileColor.readInt(context, EdithTileColor.KEY_INACTIVE_ALPHA).let {
-                if (it == EdithTileColor.UNSET_INT) 54f else it.toFloat()
-            }
-    }
-
-    for (key in EdithTileColor.ALL_KEYS) {
-        LaunchedSettingObserver(key) { sync() }
-    }
-
-    // Defaults for the preview (role-based), used when a slot is unset.
-    val defaultActiveBg = Color(context.getColor(com.android.internal.R.color.materialColorTertiaryDim))
-    val defaultActiveFg = Color(context.getColor(com.android.internal.R.color.materialColorOnTertiary))
-    val defaultInactiveBg = Color(context.getColor(com.android.internal.R.color.materialColorOnTertiary))
-    val defaultInactiveFg = Color(context.getColor(com.android.internal.R.color.materialColorTertiary))
-
-    fun colorOf(tag: String, default: Color): Color =
-        EdithTileSwatches.resolve(context, tag)?.let { Color(it) } ?: default
+    var selectedTab by remember { mutableIntStateOf(0) }
 
     Surface(
         modifier =
@@ -145,78 +111,315 @@ private fun EdithTileColorTunerContent() {
         color = Color(Styles.getSurfaceBright(context)),
     ) {
         Column(modifier = Modifier.fillMaxWidth().padding(20.dp)) {
-            // --- Preview ---
-            Text(
-                text = "Preview",
-                style = MaterialTheme.typography.titleMedium,
-                color = Color(Styles.getTextColorPrimary(context)),
-            )
-            Box(modifier = Modifier.height(8.dp))
-            Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-                PreviewTile(
-                    label = "active",
-                    subLabel = "bg ${nameOf(activeBg)} / fg ${nameOf(activeFg)}",
-                    fill = colorOf(activeBg, defaultActiveBg).copy(alpha = 1f),
-                    content = colorOf(activeFg, defaultActiveFg),
-                    shape = RoundedCornerShape(16.dp),
-                )
-                PreviewTile(
-                    label = "inactive",
-                    subLabel = "bg ${nameOf(inactiveBg)} / fg ${nameOf(inactiveFg)}",
-                    fill = colorOf(inactiveBg, defaultInactiveBg).copy(alpha = inactiveAlpha / 100f),
-                    content = colorOf(inactiveFg, defaultInactiveFg),
-                    shape = CircleShape,
-                )
-            }
-
-            // --- Slots ---
-            for (slot in slots) {
-                Box(modifier = Modifier.height(16.dp))
-                val current =
-                    when (slot.key) {
-                        EdithTileColor.KEY_ACTIVE_BG -> activeBg
-                        EdithTileColor.KEY_ACTIVE_FG -> activeFg
-                        EdithTileColor.KEY_INACTIVE_BG -> inactiveBg
-                        else -> inactiveFg
-                    }
-                Text(
-                    text = "${slot.title}: ${nameOf(current)}",
-                    style = MaterialTheme.typography.titleSmall,
-                    color = Color(Styles.getTextColorPrimary(context)),
-                )
-                Box(modifier = Modifier.height(6.dp))
-                SwatchGrid(
-                    selected = current,
-                    onPick = { tag -> EdithTileColor.writeTag(context, slot.key, tag) },
-                )
-            }
-
-            // --- Alpha ---
-            Box(modifier = Modifier.height(16.dp))
-            Text(
-                text = "inactive alpha: ${inactiveAlpha.toInt()}%",
-                style = MaterialTheme.typography.titleSmall,
-                color = Color(Styles.getTextColorPrimary(context)),
-            )
-            Slider(
-                value = inactiveAlpha,
-                valueRange = 0f..100f,
-                onValueChange = { inactiveAlpha = it },
-                onValueChangeFinished = {
-                    EdithTileColor.writeInt(
-                        context,
-                        EdithTileColor.KEY_INACTIVE_ALPHA,
-                        inactiveAlpha.toInt(),
+            val tabs = remember { TunerTab.values() }
+            // A pill selector styled like the QS style selector (see QsStylePreference.Pill): it
+            // reads naturally inside the rounded card, unlike a full-width tab row.
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(12.dp),
+            ) {
+                tabs.forEachIndexed { index, tab ->
+                    TunerPill(
+                        modifier = Modifier.weight(1f),
+                        text = stringResource(tab.titleRes),
+                        selected = selectedTab == index,
+                        onClick = { selectedTab = index },
                     )
-                },
-            )
+                }
+            }
+            Box(modifier = Modifier.height(16.dp))
 
-            // --- Reset ---
-            Box(modifier = Modifier.height(8.dp))
-            TextButton(onClick = { EdithTileColor.reset(context) }) {
-                Text(stringResource(R.string.edith_tile_color_reset))
+            when (tabs[selectedTab]) {
+                TunerTab.QsColors -> ColorsTab(scope = ColorScope.QS)
+                TunerTab.QuickActionsColors -> ColorsTab(scope = ColorScope.QuickActions)
+                TunerTab.QuickActionsShape -> ShapeTab()
             }
         }
+    }
+}
+
+/** A selectable pill, styled identically to the QS style selector pill. */
+@Composable
+private fun TunerPill(modifier: Modifier, text: String, selected: Boolean, onClick: () -> Unit) {
+    val context = LocalContext.current
+    val bg =
+        if (selected) Color(context.getColor(android.R.color.system_accent1_100))
+        else Styles.getSurfaceVariant(context).let { Color(it) }
+    val fg =
+        if (selected) Color(context.getColor(android.R.color.system_accent1_900))
+        else Color(Styles.getTextColorPrimary(context))
+
+    Box(
+        modifier =
+            modifier
+                .height(48.dp)
+                .clip(RoundedCornerShape(24.dp))
+                .background(bg)
+                .clickable(onClick = onClick),
+        contentAlignment = Alignment.Center,
+    ) {
+        Text(text = text, color = fg, fontSize = 14.sp, fontWeight = FontWeight.Bold, maxLines = 1)
+    }
+}
+
+private enum class ColorScope {
+    QS,
+    QuickActions,
+}
+
+/** Which swatch catalog a colors tab uses. */
+private fun swatchResolver(scope: ColorScope): (Context, String?) -> Int? =
+    when (scope) {
+        ColorScope.QS -> { context, tag -> EdithTileSwatches.resolve(context, tag) }
+        ColorScope.QuickActions -> { context, tag -> QuickActionsTileSwatches.resolve(context, tag) }
+    }
+
+private fun swatchTags(scope: ColorScope): List<String> =
+    when (scope) {
+        ColorScope.QS -> EdithTileSwatches.pickableTags()
+        ColorScope.QuickActions -> QuickActionsTileSwatches.pickableTags()
+    }
+
+@Composable
+private fun ColorsTab(scope: ColorScope) {
+    val context = LocalContext.current
+    val keys =
+        when (scope) {
+            ColorScope.QS ->
+                listOf(
+                    EdithTileColor.KEY_ACTIVE_BG,
+                    EdithTileColor.KEY_ACTIVE_FG,
+                    EdithTileColor.KEY_INACTIVE_BG,
+                    EdithTileColor.KEY_INACTIVE_FG,
+                )
+            ColorScope.QuickActions ->
+                listOf(
+                    EdithTileColor.QA_KEY_ACTIVE_BG,
+                    EdithTileColor.QA_KEY_ACTIVE_FG,
+                    EdithTileColor.QA_KEY_INACTIVE_BG,
+                    EdithTileColor.QA_KEY_INACTIVE_FG,
+                )
+        }
+    val alphaKey =
+        when (scope) {
+            ColorScope.QS -> EdithTileColor.KEY_INACTIVE_ALPHA
+            ColorScope.QuickActions -> EdithTileColor.QA_KEY_INACTIVE_ALPHA
+        }
+    val resolve = swatchResolver(scope)
+    val tags = remember(scope) { swatchTags(scope) }
+
+    var activeBg by remember { mutableStateOf(EdithTileColor.readTag(context, keys[0])) }
+    var activeFg by remember { mutableStateOf(EdithTileColor.readTag(context, keys[1])) }
+    var inactiveBg by remember { mutableStateOf(EdithTileColor.readTag(context, keys[2])) }
+    var inactiveFg by remember { mutableStateOf(EdithTileColor.readTag(context, keys[3])) }
+    var inactiveAlpha by remember {
+        mutableFloatStateOf(
+            EdithTileColor.readInt(context, alphaKey).let {
+                if (it == EdithTileColor.UNSET_INT) 54f else it.toFloat()
+            }
+        )
+    }
+
+    fun sync() {
+        activeBg = EdithTileColor.readTag(context, keys[0])
+        activeFg = EdithTileColor.readTag(context, keys[1])
+        inactiveBg = EdithTileColor.readTag(context, keys[2])
+        inactiveFg = EdithTileColor.readTag(context, keys[3])
+        inactiveAlpha =
+            EdithTileColor.readInt(context, alphaKey).let {
+                if (it == EdithTileColor.UNSET_INT) 54f else it.toFloat()
+            }
+    }
+
+    for (key in keys + alphaKey) {
+        LaunchedSettingObserver(key) { sync() }
+    }
+
+    val defaultActiveBg = Color(context.getColor(com.android.internal.R.color.materialColorTertiaryDim))
+    val defaultActiveFg = Color(context.getColor(com.android.internal.R.color.materialColorOnTertiary))
+    val defaultInactiveBg = Color(context.getColor(com.android.internal.R.color.materialColorOnTertiary))
+    val defaultInactiveFg = Color(context.getColor(com.android.internal.R.color.materialColorTertiary))
+
+    fun colorOf(tag: String, default: Color): Color = resolve(context, tag)?.let { Color(it) } ?: default
+
+    // --- Preview ---
+    Text(
+        text = stringResource(R.string.edith_tile_color_preview),
+        style = MaterialTheme.typography.titleMedium,
+        color = Color(Styles.getTextColorPrimary(context)),
+    )
+    Box(modifier = Modifier.height(8.dp))
+    Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
+        PreviewTile(
+            label = stringResource(R.string.edith_tile_color_preview_active),
+            subLabel = "bg ${nameOf(activeBg)} / fg ${nameOf(activeFg)}",
+            fill = colorOf(activeBg, defaultActiveBg).copy(alpha = 1f),
+            content = colorOf(activeFg, defaultActiveFg),
+            shape = RoundedCornerShape(16.dp),
+        )
+        PreviewTile(
+            label = stringResource(R.string.edith_tile_color_preview_inactive),
+            subLabel = "bg ${nameOf(inactiveBg)} / fg ${nameOf(inactiveFg)}",
+            fill = colorOf(inactiveBg, defaultInactiveBg).copy(alpha = inactiveAlpha / 100f),
+            content = colorOf(inactiveFg, defaultInactiveFg),
+            shape = CircleShape,
+        )
+    }
+
+    // --- Slots ---
+    val slotTitles =
+        listOf(
+            stringResource(R.string.edith_tile_color_slot_active_bg),
+            stringResource(R.string.edith_tile_color_slot_active_fg),
+            stringResource(R.string.edith_tile_color_slot_inactive_bg),
+            stringResource(R.string.edith_tile_color_slot_inactive_fg),
+        )
+    val slots = remember(keys, slotTitles) { keys.mapIndexed { i, k -> Slot(k, slotTitles[i]) } }
+    for (slot in slots) {
+        Box(modifier = Modifier.height(16.dp))
+        val current =
+            when (slot.key) {
+                keys[0] -> activeBg
+                keys[1] -> activeFg
+                keys[2] -> inactiveBg
+                else -> inactiveFg
+            }
+        Text(
+            text = "${slot.title}: ${nameOf(current)}",
+            style = MaterialTheme.typography.titleSmall,
+            color = Color(Styles.getTextColorPrimary(context)),
+        )
+        Box(modifier = Modifier.height(6.dp))
+        SwatchGrid(
+            tags = tags,
+            resolve = resolve,
+            selected = current,
+            onPick = { tag -> EdithTileColor.writeTag(context, slot.key, tag) },
+        )
+    }
+
+    // --- Alpha ---
+    Box(modifier = Modifier.height(16.dp))
+    Text(
+        text = stringResource(R.string.edith_tile_color_inactive_alpha, inactiveAlpha.toInt()),
+        style = MaterialTheme.typography.titleSmall,
+        color = Color(Styles.getTextColorPrimary(context)),
+    )
+    Slider(
+        value = inactiveAlpha,
+        valueRange = 0f..100f,
+        onValueChange = { inactiveAlpha = it },
+        onValueChangeFinished = {
+            EdithTileColor.writeInt(context, alphaKey, inactiveAlpha.toInt())
+        },
+    )
+
+    // --- Reset ---
+    Box(modifier = Modifier.height(8.dp))
+    TextButton(onClick = { EdithTileColor.reset(context) }) {
+        Text(stringResource(R.string.edith_tile_color_reset))
+    }
+}
+
+@Composable
+private fun ShapeTab() {
+    val context = LocalContext.current
+    val defaultOuter = 16f // Edith dual-state outer box (matches EdithDualTargetOuterCornerRadius)
+    val defaultInner = 10f // Edith dual-state inner box (matches EdithDualTargetInnerCornerRadius)
+    var outer by remember {
+        mutableFloatStateOf(
+            EdithTileColor.readInt(context, EdithTileColor.QA_KEY_SHAPE_OUTER).let {
+                if (it == EdithTileColor.UNSET_INT) defaultOuter else it.toFloat()
+            }
+        )
+    }
+    var inner by remember {
+        mutableFloatStateOf(
+            EdithTileColor.readInt(context, EdithTileColor.QA_KEY_SHAPE_INNER).let {
+                if (it == EdithTileColor.UNSET_INT) defaultInner else it.toFloat()
+            }
+        )
+    }
+
+    fun sync() {
+        outer =
+            EdithTileColor.readInt(context, EdithTileColor.QA_KEY_SHAPE_OUTER).let {
+                if (it == EdithTileColor.UNSET_INT) defaultOuter else it.toFloat()
+            }
+        inner =
+            EdithTileColor.readInt(context, EdithTileColor.QA_KEY_SHAPE_INNER).let {
+                if (it == EdithTileColor.UNSET_INT) defaultInner else it.toFloat()
+            }
+    }
+    for (key in EdithTileColor.QA_SHAPE_KEYS) {
+        LaunchedSettingObserver(key) { sync() }
+    }
+
+    Text(
+        text = stringResource(R.string.edith_tile_shape_preview),
+        style = MaterialTheme.typography.titleMedium,
+        color = Color(Styles.getTextColorPrimary(context)),
+    )
+    Box(modifier = Modifier.height(8.dp))
+    DualStatePreview(outerRadius = outer, innerRadius = inner)
+    Box(modifier = Modifier.height(16.dp))
+
+    Text(
+        text = stringResource(R.string.edith_tile_shape_outer, outer.toInt()),
+        style = MaterialTheme.typography.titleSmall,
+        color = Color(Styles.getTextColorPrimary(context)),
+    )
+    Slider(
+        value = outer,
+        valueRange = 0f..50f,
+        onValueChange = { outer = it },
+        onValueChangeFinished = {
+            EdithTileColor.writeInt(context, EdithTileColor.QA_KEY_SHAPE_OUTER, outer.toInt())
+        },
+    )
+
+    Box(modifier = Modifier.height(8.dp))
+    Text(
+        text = stringResource(R.string.edith_tile_shape_inner, inner.toInt()),
+        style = MaterialTheme.typography.titleSmall,
+        color = Color(Styles.getTextColorPrimary(context)),
+    )
+    Slider(
+        value = inner,
+        valueRange = 0f..50f,
+        onValueChange = { inner = it },
+        onValueChangeFinished = {
+            EdithTileColor.writeInt(context, EdithTileColor.QA_KEY_SHAPE_INNER, inner.toInt())
+        },
+    )
+
+    Box(modifier = Modifier.height(8.dp))
+    TextButton(onClick = {
+        EdithTileColor.writeInt(context, EdithTileColor.QA_KEY_SHAPE_OUTER, EdithTileColor.UNSET_INT)
+        EdithTileColor.writeInt(context, EdithTileColor.QA_KEY_SHAPE_INNER, EdithTileColor.UNSET_INT)
+    }) {
+        Text(stringResource(R.string.edith_tile_color_reset))
+    }
+}
+
+/** Preview of the dual-state (dual-target) tile: an outer box with an inner toggle-target box. */
+@Composable
+private fun DualStatePreview(outerRadius: Float, innerRadius: Float) {
+    Box(
+        modifier =
+            Modifier.fillMaxWidth()
+                .height(72.dp)
+                .clip(RoundedCornerShape(outerRadius.dp))
+                .background(MaterialTheme.colorScheme.surfaceVariant),
+        contentAlignment = Alignment.CenterStart,
+    ) {
+        Box(
+            modifier =
+                Modifier.padding(start = 8.dp)
+                    .size(56.dp)
+                    .clip(RoundedCornerShape(innerRadius.dp))
+                    .background(MaterialTheme.colorScheme.primary.copy(alpha = 0.24f))
+        )
     }
 }
 
@@ -238,17 +441,21 @@ private fun PreviewTile(label: String, subLabel: String, fill: Color, content: C
     }
 }
 
-/** A swatch grid of the accent3 (tertiary) tone ramp, 6 per row. */
+/** A swatch grid, 6 per row, resolved through [resolve]. */
 @Composable
-private fun SwatchGrid(selected: String, onPick: (String) -> Unit) {
+private fun SwatchGrid(
+    tags: List<String>,
+    resolve: (Context, String?) -> Int?,
+    selected: String,
+    onPick: (String) -> Unit,
+) {
     val context = LocalContext.current
-    val tags = remember { EdithTileSwatches.pickableTags() }
 
     Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
         tags.chunked(6).forEach { rowItems ->
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 for (tag in rowItems) {
-                    val argb = EdithTileSwatches.resolve(context, tag)
+                    val argb = resolve(context, tag)
                     val isSelected = tag == selected && selected.isNotEmpty()
                     Box(
                         modifier =

@@ -17,11 +17,10 @@
 package org.edith.settings.notification
 
 import android.content.Context
-import android.os.SystemProperties
 import android.provider.Settings
 
 /**
- * Settings for the (debug) Edith QS tile color tuner.
+ * Settings for the Edith QS tile color tuner.
  *
  * Each color slot stores a swatch *tag* (a stable string) in [Settings.Secure], or [UNSET] when not
  * overridden. SystemUI resolves the tag against the current theme, so the override follows palette
@@ -42,11 +41,21 @@ object EdithTileColor {
     /** Inactive background alpha, as a percentage 0-100, or [UNSET_INT]. */
     const val KEY_INACTIVE_ALPHA = "edith_qs_tile_color_inactive_alpha"
 
-    /** System property gating the tuner; matches SystemUI's EdithQsColorInteractor.TUNER_PROP. */
-    const val TUNER_PROP = "debug.enable_edith_tile_color"
+    // --- Quick Actions scope -------------------------------------------------
 
-    /** Whether the (debug) Edith tile color tuner is enabled. */
-    fun isTunerEnabled(): Boolean = SystemProperties.getBoolean(TUNER_PROP, false)
+    const val QA_KEY_ACTIVE_BG = "edith_qa_tile_color_active_bg"
+    const val QA_KEY_ACTIVE_FG = "edith_qa_tile_color_active_fg"
+    const val QA_KEY_INACTIVE_BG = "edith_qa_tile_color_inactive_bg"
+    const val QA_KEY_INACTIVE_FG = "edith_qa_tile_color_inactive_fg"
+
+    /** Quick Actions inactive background alpha, as a percentage 0-100, or [UNSET_INT]. */
+    const val QA_KEY_INACTIVE_ALPHA = "edith_qa_tile_color_inactive_alpha"
+
+    /** Dual-target outer box corner radius (dp), or [UNSET_INT]. */
+    const val QA_KEY_SHAPE_OUTER = "edith_qa_tile_shape_outer"
+
+    /** Dual-target inner toggle-target box corner radius (dp), or [UNSET_INT]. */
+    const val QA_KEY_SHAPE_INNER = "edith_qa_tile_shape_inner"
 
     /** Reads the swatch tag for a color slot (or [UNSET]). */
     fun readTag(context: Context, key: String): String =
@@ -69,8 +78,20 @@ object EdithTileColor {
             writeTag(context, key, UNSET)
         }
         writeInt(context, KEY_INACTIVE_ALPHA, UNSET_INT)
+        for (key in QA_COLOR_KEYS) {
+            writeTag(context, key, UNSET)
+        }
+        writeInt(context, QA_KEY_INACTIVE_ALPHA, UNSET_INT)
+        for (key in QA_SHAPE_KEYS) {
+            writeInt(context, key, UNSET_INT)
+        }
     }
 
     val COLOR_KEYS = listOf(KEY_ACTIVE_BG, KEY_ACTIVE_FG, KEY_INACTIVE_BG, KEY_INACTIVE_FG)
     val ALL_KEYS = COLOR_KEYS + KEY_INACTIVE_ALPHA
+
+    val QA_COLOR_KEYS =
+        listOf(QA_KEY_ACTIVE_BG, QA_KEY_ACTIVE_FG, QA_KEY_INACTIVE_BG, QA_KEY_INACTIVE_FG)
+    val QA_SHAPE_KEYS = listOf(QA_KEY_SHAPE_OUTER, QA_KEY_SHAPE_INNER)
+    val QA_ALL_KEYS = QA_COLOR_KEYS + QA_KEY_INACTIVE_ALPHA + QA_SHAPE_KEYS
 }

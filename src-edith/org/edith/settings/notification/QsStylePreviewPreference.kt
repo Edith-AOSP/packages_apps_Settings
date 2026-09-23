@@ -19,7 +19,9 @@ package org.edith.settings.notification
 import android.content.Context
 import android.util.AttributeSet
 import androidx.compose.animation.Crossfade
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -42,7 +44,9 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.preference.PreferenceViewHolder
+import com.android.internal.logging.nano.MetricsProto.MetricsEvent
 import com.android.settings.R
+import com.android.settings.core.SubSettingLauncher
 import com.android.settings.spa.preference.ComposeGroupSectionPreference
 import org.edith.settings.core.variables.Styles
 import org.edith.settings.core.variables.toComposeColor
@@ -71,6 +75,7 @@ class QsStylePreviewPreference @JvmOverloads constructor(
     }
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun QsStylePreviewContent() {
     val context = LocalContext.current
@@ -79,12 +84,25 @@ private fun QsStylePreviewContent() {
 
     var value by remember { mutableStateOf(EdithQsStyle.read(context)) }
 
+    // Hidden entry point to the tile tuner: long-press the preview, but only while the EdithUI
+    // style is selected.
+    val openTuner = {
+        if (value == EdithQsStyle.VALUE_EDITHUI) {
+            SubSettingLauncher(context)
+                .setDestination(EdithQsTileColorFragment::class.java.name)
+                .setTitleRes(R.string.edith_tile_color_screen_title)
+                .setSourceMetricsCategory(MetricsEvent.EDITH)
+                .launch()
+        }
+    }
+
     Box(
         modifier =
             Modifier.fillMaxWidth()
                 .padding(horizontal = 16.dp, vertical = 12.dp)
                 .height(330.dp)
                 .clip(RoundedCornerShape(cornerRadius))
+                .combinedClickable(onClick = {}, onLongClick = openTuner)
     ) {
         // Frosted wallpaper background.
         AndroidView(factory = { ctx -> WallpaperBlurView(ctx) }, modifier = Modifier.fillMaxSize())

@@ -22,8 +22,8 @@ import com.android.settings.R
 import com.android.settings.dashboard.DashboardFragment
 
 /**
- * Debug sub-screen for tuning the Edith QS tertiary tile colors. Only reachable when
- * [EdithTileColor.TUNER_PROP] is set (the entry is hidden otherwise).
+ * Sub-screen for tuning the Edith QS tile colors and the dual-state tile shape. Reached by
+ * long-pressing the Quick Settings preview while the EdithUI style is selected.
  */
 class EdithQsTileColorFragment : DashboardFragment() {
 

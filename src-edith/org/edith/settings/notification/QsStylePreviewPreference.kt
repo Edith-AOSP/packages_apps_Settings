@@ -136,7 +136,7 @@ private fun EdithUiPanel() {
                 iconRes = R.drawable.edith_qs_wifi_full,
                 label = str(R.string.edith_qs_style_internet),
                 secondary = str(R.string.edith_qs_style_ssid),
-                alignToChip = true,
+                dualState = true,
             )
             Tile(
                 modifier = Modifier.weight(1f),

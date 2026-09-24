@@ -88,9 +88,11 @@ internal fun Icon24(res: Int, tint: Color) {
 }
 
 /**
- * A Quick Settings preview tile: rounded-square (AOSP) or pill (EdithUI) shape, active = accent,
- * inactive = neutral. When [chip] is set the icon sits in a circular chip; otherwise it is a plain
- * leading icon (Internet-style). A [label] maps to a single/two-line text.
+ * A Quick Settings preview tile: rounded-square (AOSP, 20dp) or the Edith squircle (16dp) shape,
+ * active = accent, inactive = neutral. When [chip] is set the icon sits in a circular chip;
+ * otherwise it is a plain leading icon. When [dualState] is set the tile mirrors the real Edith
+ * dual-target tile, with a rounded inner box around the leading icon. A [label] maps to a
+ * single/two-line text.
  */
 @Composable
 internal fun Tile(
@@ -102,9 +104,13 @@ internal fun Tile(
     chip: Boolean = false,
     rect: Boolean = false,
     alignToChip: Boolean = false,
+    dualState: Boolean = false,
+    edithOuterRadius: Dp = 16.dp,
+    edithInnerRadius: Dp = 10.dp,
 ) {
     val context = LocalContext.current
-    val shape = RoundedCornerShape(if (rect) 20.dp else 999.dp)
+    val shape = if (rect) RoundedCornerShape(20.dp) else RoundedCornerShape(edithOuterRadius)
+    val innerShape = RoundedCornerShape(if (rect) 999.dp else edithInnerRadius)
     val fill = if (active) activeFill(context) else inactiveFill(context)
     val content = if (active) activeContent(context) else inactiveTint()
 
@@ -135,7 +141,19 @@ internal fun Tile(
         modifier = modifier.height(64.dp).clip(shape).background(fill),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        if (chip) {
+        if (dualState) {
+            // Edith dual-target tile: rounded inner box behind the leading icon.
+            Box(
+                modifier =
+                    Modifier.padding(start = 12.dp)
+                        .size(40.dp)
+                        .clip(innerShape)
+                        .background(Color.White.copy(alpha = 0.2f)),
+                contentAlignment = Alignment.Center,
+            ) {
+                Icon24(iconRes, content)
+            }
+        } else if (chip) {
             Box(
                 modifier =
                     Modifier.padding(start = 12.dp)

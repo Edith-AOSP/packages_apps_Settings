@@ -125,7 +125,7 @@ private fun EdithUiPanel() {
         modifier = Modifier.fillMaxSize().padding(20.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
     ) {
-        // Row 1: Internet (active, label + secondary) | Mobile data (inactive, chip).
+        // Row 1: Internet (active, label + secondary) | Mobile data (inactive).
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(8.dp),
@@ -143,10 +143,10 @@ private fun EdithUiPanel() {
                 active = false,
                 iconRes = R.drawable.edith_qs_mobile_data,
                 label = str(R.string.edith_qs_style_mobile_data),
-                chip = true,
+                dualState = true,
             )
         }
-        // Row 2: Bluetooth (inactive, chip) | Hotspot (inactive, plain icon).
+        // Row 2: Bluetooth (inactive, dual) | Hotspot (inactive, plain).
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(8.dp),
@@ -156,14 +156,13 @@ private fun EdithUiPanel() {
                 active = false,
                 iconRes = R.drawable.edith_qs_bluetooth_on,
                 label = str(R.string.edith_qs_style_bluetooth),
-                chip = true,
+                dualState = true,
             )
             Tile(
                 modifier = Modifier.weight(1f),
                 active = false,
                 iconRes = R.drawable.edith_qs_hotspot,
                 label = str(R.string.edith_qs_style_hotspot),
-                alignToChip = true,
             )
         }
         // Row 3: brightness track.
@@ -216,6 +215,7 @@ private fun AospPanel() {
                 iconRes = R.drawable.edith_qs_wifi_full,
                 label = str(R.string.edith_qs_style_internet),
                 secondary = str(R.string.edith_qs_style_ssid),
+                dualState = true,
             )
             Tile(
                 modifier = Modifier.weight(1f),
@@ -223,7 +223,7 @@ private fun AospPanel() {
                 rect = true,
                 iconRes = R.drawable.edith_qs_bluetooth_on,
                 label = str(R.string.edith_qs_style_bluetooth),
-                chip = true,
+                dualState = true,
             )
         }
         Row(

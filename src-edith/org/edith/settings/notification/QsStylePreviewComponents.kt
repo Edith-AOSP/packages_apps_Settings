@@ -28,12 +28,10 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
@@ -61,18 +59,26 @@ import androidx.compose.ui.unit.sp
 import com.android.settings.R
 import org.edith.settings.core.variables.Styles
 
-/** Active tile fill/content colors (accent). */
-private fun activeFill(context: Context): Color =
-    Color(context.getColor(android.R.color.system_accent1_100))
+// Preview tile colors, mirroring the real QS tile roles (see res/values/edith_colors.xml).
+private fun activeFill(context: Context): Color = Color(context.getColor(R.color.edith_preview_tile_active))
 
 private fun activeContent(context: Context): Color =
-    Color(context.getColor(android.R.color.system_accent1_900))
+    Color(context.getColor(R.color.edith_preview_tile_active_content))
 
-/** Inactive tile fill/content colors (neutral, visible over the preview background). */
 private fun inactiveFill(context: Context): Color =
-    Color(context.getColor(android.R.color.system_neutral1_800))
+    Color(context.getColor(R.color.edith_preview_tile_inactive))
 
-internal fun inactiveTint(): Color = Color.White
+private fun inactiveContent(context: Context): Color =
+    Color(context.getColor(R.color.edith_preview_tile_inactive_content))
+
+/** Inner-box fill for a dual-target tile, matching the real QS tile's leading icon box. */
+private fun innerFill(context: Context, active: Boolean): Color =
+    Color(
+        context.getColor(
+            if (active) R.color.edith_preview_tile_inner_active
+            else R.color.edith_preview_tile_inner_inactive
+        )
+    )
 
 @Composable
 internal fun str(res: Int): String = stringResource(res)
@@ -88,11 +94,12 @@ internal fun Icon24(res: Int, tint: Color) {
 }
 
 /**
- * A Quick Settings preview tile: rounded-square (AOSP, 20dp) or the Edith squircle (16dp) shape,
- * active = accent, inactive = neutral. When [chip] is set the icon sits in a circular chip;
- * otherwise it is a plain leading icon. When [dualState] is set the tile mirrors the real Edith
- * dual-target tile, with a rounded inner box around the leading icon. A [label] maps to a
- * single/two-line text.
+ * A Quick Settings preview tile, mirroring the real tile: active = primary/onPrimary, inactive =
+ * surface effect + onSurface. The outer shape follows the real shape for the current state
+ * (AOSP: 24dp active / circle inactive; Edith: 16dp active / circle inactive). When [dualState] is
+ * set the tile mirrors a dual-target tile: its leading icon sits in the inner box (rounded in the
+ * Edith style, circular for AOSP), matching the real inner box. A [label] maps to a single/two-line
+ * text.
  */
 @Composable
 internal fun Tile(
@@ -101,18 +108,40 @@ internal fun Tile(
     iconRes: Int,
     label: String?,
     secondary: String? = null,
-    chip: Boolean = false,
     rect: Boolean = false,
-    alignToChip: Boolean = false,
     dualState: Boolean = false,
     edithOuterRadius: Dp = 16.dp,
     edithInnerRadius: Dp = 10.dp,
 ) {
     val context = LocalContext.current
-    val shape = if (rect) RoundedCornerShape(20.dp) else RoundedCornerShape(edithOuterRadius)
-    val innerShape = RoundedCornerShape(if (rect) 999.dp else edithInnerRadius)
-    val fill = if (active) activeFill(context) else inactiveFill(context)
-    val content = if (active) activeContent(context) else inactiveTint()
+    // Edith dual-target tiles are always the squircle (16dp), matching the active state; other
+    // tiles are rounded when active (AOSP 24dp / Edith 16dp) and a circle when inactive.
+    val activeOuterRadius = if (rect) 24.dp else edithOuterRadius
+    val shape =
+        if (active || (dualState && !rect)) RoundedCornerShape(activeOuterRadius)
+        else RoundedCornerShape(percent = 50)
+    // Inner box (dual-target): Edith is 10dp rounded; Vanilla is a 20dp rounded rect when active
+    // and near-circular when inactive.
+    val innerShape =
+        when {
+            !dualState -> CircleShape
+            !rect -> RoundedCornerShape(edithInnerRadius)
+            active -> RoundedCornerShape(20.dp)
+            else -> RoundedCornerShape(percent = 50)
+        }
+    // The inner box nearly fills the tile height (the 64dp tile minus even insets), so the
+    // left/right/bottom insets around it are tight and even.
+    val innerBoxSize = 52.dp
+    val innerBoxStart = 6.dp
+    // Whether the leading icon sits in an inner box (dual-target tile).
+    val hasInnerBox = dualState
+    // A dual-target tile keeps the surface-effect background in both states, with the accent only
+    // on its inner box; a single tile fills with the accent when active.
+    val fill = if (active && !dualState) activeFill(context) else inactiveFill(context)
+    // Label/text color on the tile surface, and the icon color inside the inner box.
+    val content = if (active && !hasInnerBox) activeContent(context) else inactiveContent(context)
+    val innerIcon = if (active) activeContent(context) else inactiveContent(context)
+    val innerColor = innerFill(context, active)
 
     // Icon-only tiles center their icon; labelled tiles place the icon at the leading edge.
     if (label == null) {
@@ -120,15 +149,15 @@ internal fun Tile(
             modifier = modifier.height(64.dp).clip(shape).background(fill),
             contentAlignment = Alignment.Center,
         ) {
-            if (chip) {
+            if (hasInnerBox) {
                 Box(
                     modifier =
-                        Modifier.size(40.dp)
-                            .clip(CircleShape)
-                            .background(Color.White.copy(alpha = 0.2f)),
+                        Modifier.size(innerBoxSize)
+                            .clip(innerShape)
+                            .background(innerColor),
                     contentAlignment = Alignment.Center,
                 ) {
-                    Icon24(iconRes, content)
+                    Icon24(iconRes, innerIcon)
                 }
             } else {
                 Icon24(iconRes, content)
@@ -141,40 +170,27 @@ internal fun Tile(
         modifier = modifier.height(64.dp).clip(shape).background(fill),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        if (dualState) {
-            // Edith dual-target tile: rounded inner box behind the leading icon.
+        if (hasInnerBox) {
+            // Dual-target tile: inner box behind the leading icon (matches the real tile), sized to
+            // nearly fill the tile height so the left/right/bottom insets are tight and even.
             Box(
                 modifier =
-                    Modifier.padding(start = 12.dp)
-                        .size(40.dp)
+                    Modifier.padding(start = innerBoxStart)
+                        .size(innerBoxSize)
                         .clip(innerShape)
-                        .background(Color.White.copy(alpha = 0.2f)),
+                        .background(innerColor),
                 contentAlignment = Alignment.Center,
             ) {
-                Icon24(iconRes, content)
-            }
-        } else if (chip) {
-            Box(
-                modifier =
-                    Modifier.padding(start = 12.dp)
-                        .size(40.dp)
-                        .clip(CircleShape)
-                        .background(Color.White.copy(alpha = 0.2f)),
-                contentAlignment = Alignment.Center,
-            ) {
-                Icon24(iconRes, content)
-            }
-        } else if (alignToChip) {
-            // Invisible 40dp leading box so the plain icon and the label align with chip tiles.
-            Box(
-                modifier = Modifier.padding(start = 12.dp).size(40.dp),
-                contentAlignment = Alignment.Center,
-            ) {
-                Icon24(iconRes, content)
+                Icon24(iconRes, innerIcon)
             }
         } else {
-            Spacer(Modifier.width(16.dp))
-            Icon24(iconRes, content)
+            // Keep the label aligned with the boxed tiles.
+            Box(
+                modifier = Modifier.padding(start = innerBoxStart).size(innerBoxSize),
+                contentAlignment = Alignment.Center,
+            ) {
+                Icon24(iconRes, content)
+            }
         }
 
         Column(

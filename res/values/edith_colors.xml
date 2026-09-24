@@ -30,4 +30,17 @@
     <color name="edith_search_background">#FFFFFF</color>
     <!-- Matches the About device hero card title text color (Styles.getAccentTextColor). -->
     <color name="edith_about_text_color">@android:color/system_accent1_800</color>
+
+    <!--
+        Colors for the Quick Settings style preview tiles, mirroring the real QS tile roles:
+        active single tile = primary/onPrimary, inactive = surface effect + onSurface, and the
+        dual-target inner box = primary (active) / surface effect (inactive). The surface-effect
+        roles are not public, so they are mirrored with the closest public surface-container tones.
+    -->
+    <color name="edith_preview_tile_active">@android:color/system_primary_light</color>
+    <color name="edith_preview_tile_active_content">@android:color/system_on_primary_light</color>
+    <color name="edith_preview_tile_inactive">@android:color/system_surface_container_low_light</color>
+    <color name="edith_preview_tile_inactive_content">@android:color/system_on_surface_light</color>
+    <color name="edith_preview_tile_inner_active">@android:color/system_primary_light</color>
+    <color name="edith_preview_tile_inner_inactive">@android:color/system_surface_container_highest_light</color>
 </resources>

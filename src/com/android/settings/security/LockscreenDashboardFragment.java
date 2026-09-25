@@ -150,6 +150,9 @@ public class LockscreenDashboardFragment extends DashboardFragment
         mOwnerInfoPreferenceController = new OwnerInfoPreferenceController(context, this);
         controllers.add(mOwnerInfoPreferenceController);
 
+        controllers.add(new org.edith.settings.notification
+                .EdithLockscreenMediaPreferenceController(context));
+
         return controllers;
     }
 

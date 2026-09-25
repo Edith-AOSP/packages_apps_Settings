@@ -32,4 +32,8 @@
         android:key="edith_qs_color_scheme"
         android:persistent="false" />
 
+    <org.edith.settings.notification.MediaInQsModePreference
+        android:key="edith_media_in_qs_mode"
+        android:persistent="false" />
+
 </PreferenceScreen>

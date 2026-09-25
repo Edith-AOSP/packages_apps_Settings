@@ -23,6 +23,14 @@
     <PreferenceCategory
         android:key="lockscreen_what_to_show"
         android:title="@string/lockscreen_settings_what_to_show_category">
+
+        <SwitchPreferenceCompat
+            android:key="edith_lockscreen_media_compact"
+            android:title="@string/edith_lockscreen_media_title"
+            android:summary="@string/edith_lockscreen_media_summary"
+            settings:searchable="false"
+            settings:controller="org.edith.settings.notification.EdithLockscreenMediaPreferenceController" />
+
         <com.android.settings.RestrictedListPreference
             android:key="security_setting_lock_screen_notif"
             android:title="@string/lock_screen_notifications_title"

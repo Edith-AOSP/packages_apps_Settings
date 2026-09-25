@@ -469,6 +469,19 @@
     <string name="edith_qs_color_edith">EdithUI</string>
     <string name="edith_qs_color_stock">Vanilla</string>
 
+    <!-- Compact media player in Quick Settings (below the color scheme selector) -->
+    <string name="edith_media_in_qs_title">Compact media player</string>
+    <string name="edith_media_in_qs_always">Always on</string>
+    <string name="edith_media_in_qs_dynamic">Dynamic</string>
+    <string name="edith_media_in_qs_disabled">Disable</string>
+    <string name="edith_media_in_qs_summary_always">Enable compact media player in QQS and Expanded QS</string>
+    <string name="edith_media_in_qs_summary_dynamic">Enable compact media player in QQS</string>
+    <string name="edith_media_in_qs_summary_disabled">Disable compact media player</string>
+
+    <!-- Lock screen media player (Lock screen sub-settings) -->
+    <string name="edith_lockscreen_media_title">Compact media player</string>
+    <string name="edith_lockscreen_media_summary">Use a compact two-row media player on the lock screen</string>
+
     <!-- Quick Settings tile tuner (opened by long-pressing the QS preview in the EdithUI style) -->
     <string name="edith_tile_color_screen_title">Tile appearance</string>
     <string name="edith_tile_color_reset">Reset to defaults</string>

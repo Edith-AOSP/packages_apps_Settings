@@ -19,14 +19,14 @@ package org.edith.settings.notification
 import android.content.Context
 import android.provider.Settings
 
-/** Shared setting for the Quick Settings style: 0 = AOSP (default), 1 = EdithUI. */
+/** Shared setting for the Quick Settings style: 0 = AOSP, 1 = EdithUI (default). */
 object EdithQsStyle {
     const val KEY = "edith_qs_style"
     const val VALUE_AOSP = 0
     const val VALUE_EDITHUI = 1
 
     fun read(context: Context): Int =
-        Settings.Secure.getInt(context.contentResolver, KEY, VALUE_AOSP)
+        Settings.Secure.getInt(context.contentResolver, KEY, VALUE_EDITHUI)
 
     fun write(context: Context, value: Int) {
         Settings.Secure.putInt(context.contentResolver, KEY, value)

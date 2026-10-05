@@ -41,6 +41,7 @@ import com.android.settingslib.search.SearchIndexable;
 
 import org.edith.settings.display.BrightnessSliderPreferenceController;
 import org.edith.settings.display.ThemeSwitchPreferenceController;
+import org.edith.settings.display.fonts.FontPreferenceController;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -99,6 +100,7 @@ public class DisplaySettings extends DashboardFragment {
         controllers.add(new ThemePreferenceController(context));
         controllers.add(new BrightnessSliderPreferenceController(context));
         controllers.add(new ThemeSwitchPreferenceController(context));
+        controllers.add(new FontPreferenceController(context));
 
         if (DesktopSettingsUtils.shouldShowTopLevelDeviceCategory(context)) {
             controllers.add(new ExternalDisplayPreferenceController(context, lifecycle));

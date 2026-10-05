@@ -505,4 +505,15 @@
     <string name="edith_tile_shape_preview">Dual-state preview</string>
     <string name="edith_tile_shape_outer">Outer corner radius: %1$d dp</string>
     <string name="edith_tile_shape_inner">Inner box corner radius: %1$d dp</string>
+
+    <!-- Font picker (Display > Appearance) -->
+    <string name="edith_font_title">Font</string>
+    <string name="edith_font_screen_title">Font</string>
+    <string name="edith_font_apply">Apply</string>
+    <string name="edith_font_restart_info">SystemUI will restart to apply the change.</string>
+    <string name="edith_font_weight_title">Font weight</string>
+    <string name="edith_font_weight_reset">Reset</string>
+    <string name="edith_font_preview_heading">Lorem ipsum dolor sit amet</string>
+    <string name="edith_font_preview_subheading">Consectetur adipiscing elit</string>
+    <string name="edith_font_preview_body">Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.</string>
 </resources>

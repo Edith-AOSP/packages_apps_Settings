@@ -263,7 +263,8 @@ private fun FontPickerContent() {
     val context = LocalContext.current
     val manager = remember { FontOverlayManager(context) }
     val cornerRadius = dimensionResource(R.dimen.settingslib_preference_corner_radius)
-    val scrim = Color(Styles.getSurface(context))
+    val scrim = MaterialTheme.colorScheme.inverseSurface
+    val onScrim = MaterialTheme.colorScheme.inverseOnSurface
 
     val fonts = remember { manager.getAvailableFonts() }
 
@@ -315,21 +316,21 @@ private fun FontPickerContent() {
                         text = stringResource(R.string.edith_font_preview_heading),
                         style = MaterialTheme.typography.headlineLarge,
                         fontFamily = family,
-                        color = Color(Styles.getOnSurface(context)),
+                        color = onScrim,
                     )
                     Spacer(Modifier.height(8.dp))
                     Text(
                         text = stringResource(R.string.edith_font_preview_subheading),
                         style = MaterialTheme.typography.titleLarge,
                         fontFamily = family,
-                        color = Color(Styles.getOnSurface(context)),
+                        color = onScrim,
                     )
                     Spacer(Modifier.height(8.dp))
                     Text(
                         text = stringResource(R.string.edith_font_preview_body),
                         style = MaterialTheme.typography.bodyLarge,
                         fontFamily = family,
-                        color = Color(Styles.getOnSurface(context)),
+                        color = onScrim,
                     )
                 }
             }

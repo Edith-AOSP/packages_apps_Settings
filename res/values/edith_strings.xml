@@ -479,8 +479,28 @@
     <string name="edith_media_in_qs_summary_disabled">Disable compact media player</string>
 
     <!-- Lock screen media player (Lock screen sub-settings) -->
+    <string name="edith_media_player_category">Media player</string>
     <string name="edith_lockscreen_media_title">Compact media player</string>
     <string name="edith_lockscreen_media_summary">Use a compact two-row media player on the lock screen</string>
+    <string name="edith_lockscreen_media_expandable_title">Expandable media player</string>
+    <string name="edith_lockscreen_media_expandable_summary">Tap the lock screen media card to open the large art player</string>
+
+    <!-- Animated art (inside Expandable media player) -->
+    <string name="edith_motion_art_title">Animated art</string>
+    <string name="edith_motion_art_on">On</string>
+    <string name="edith_motion_art_wifi">Wi-Fi only</string>
+    <string name="edith_motion_art_off">Off</string>
+    <string name="edith_motion_art_summary_on">Play album motion art on any network</string>
+    <string name="edith_motion_art_summary_wifi">Download motion art only on Wi-Fi and unmetered networks</string>
+    <string name="edith_motion_art_summary_off">Keep the static album art</string>
+    <string name="edith_motion_art_disabled_summary">Expandable media player is off</string>
+    <string name="edith_motion_art_cache_title">Animated art cache</string>
+    <string name="edith_motion_art_cache_summary">%1$s used</string>
+    <string name="edith_motion_art_cache_empty">Empty</string>
+    <string name="edith_motion_art_cache_unavailable">Unavailable</string>
+    <string name="edith_motion_art_cache_dialog_title">Clear animated art cache?</string>
+    <string name="edith_motion_art_cache_dialog_message">Frees %1$s. Album loops are downloaded again the next time the expanded player is opened; that download may use mobile data unless Animated art is set to Wi-Fi only.</string>
+    <string name="edith_motion_art_cache_clear">Clear</string>
 
     <!-- Quick Settings tile tuner (opened by long-pressing the QS preview in the EdithUI style) -->
     <string name="edith_tile_color_screen_title">Tile appearance</string>

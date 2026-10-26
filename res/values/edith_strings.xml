@@ -526,6 +526,12 @@
     <string name="edith_tile_shape_outer">Outer corner radius: %1$d dp</string>
     <string name="edith_tile_shape_inner">Inner box corner radius: %1$d dp</string>
 
+    <!-- Status bar notification style (Notifications > General) -->
+    <string name="edith_notification_icons_title">Notification icons</string>
+    <string name="edith_notification_icons_show">Show icons</string>
+    <string name="edith_notification_icons_number">Show number</string>
+    <string name="edith_notification_icons_none">Do not show</string>
+
     <!-- Font picker (Display > Appearance) -->
     <string name="edith_font_title">Font</string>
     <string name="edith_font_screen_title">Font</string>

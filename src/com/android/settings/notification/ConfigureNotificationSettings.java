@@ -125,6 +125,9 @@ public class ConfigureNotificationSettings extends DashboardFragment implements
                 "app_and_notif_cell_broadcast_settings"));
 
         controllers.add(new org.edith.settings.notification.EdithQsStylePreferenceController(context));
+        controllers.add(
+                new org.edith.settings.notification.EdithNotificationIconsPreferenceController(
+                        context));
 
         return controllers;
     }

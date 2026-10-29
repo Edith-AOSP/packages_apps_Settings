@@ -542,4 +542,8 @@
     <string name="edith_font_preview_heading">Lorem ipsum dolor sit amet</string>
     <string name="edith_font_preview_subheading">Consectetur adipiscing elit</string>
     <string name="edith_font_preview_body">Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.</string>
+
+    <!-- Game Space -->
+    <string name="game_space_title">Game Space</string>
+    <string name="game_space_summary">Enhance your gaming experience</string>
 </resources>

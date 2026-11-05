@@ -52,4 +52,32 @@
         <item>4</item>
     </string-array>
 
+    <!-- App spoofing profiles -->
+    <string-array name="edith_spoof_profile_values">
+        <item>ROG6</item>
+        <item>BS4</item>
+        <item>PixelXL</item>
+        <item>LenovoY700</item>
+        <item>OP8P</item>
+        <item>OP9P</item>
+        <item>F5</item>
+        <item>S24U</item>
+        <item>MI11TP</item>
+        <item>MI13P</item>
+        <item>None</item>
+    </string-array>
+    <string-array name="edith_spoof_profile_labels">
+        <item>ASUS ROG Phone 6</item>
+        <item>Blackshark 4</item>
+        <item>Google Pixel XL</item>
+        <item>Lenovo Legion Y700</item>
+        <item>OnePlus 8 Pro</item>
+        <item>OnePlus 9 Pro</item>
+        <item>Poco F5</item>
+        <item>Samsung Galaxy S24 Ultra</item>
+        <item>Xiaomi 11T Pro</item>
+        <item>Xiaomi 13 Pro</item>
+        <item>None</item>
+    </string-array>
+
 </resources>

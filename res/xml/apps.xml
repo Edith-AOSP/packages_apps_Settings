@@ -75,6 +75,13 @@
             android:targetPackage="${applicationId}"/>
     </Preference>
 
+    <Preference
+        android:key="game_settings"
+        android:title="@string/game_space_title"
+        android:summary="@string/game_space_summary"
+        android:order="-994"
+        settings:controller="com.android.settings.applications.GameSpaceController"/>
+
     <PreferenceCategory
         android:key="dashboard_tile_placeholder"
         android:order="10"/>
@@ -114,25 +121,6 @@
         android:fragment="com.android.settings.applications.specialaccess.SpecialAccessSettings"
         android:title="@string/special_access"
         android:order="20"/>
-
-    <!-- Spoofing toggle -->
-    <SwitchPreferenceCompat
-        android:key="certified_props"
-        android:title="@string/cert_overlay_title"
-        android:summary="@string/cert_overlay_summary"
-        settings:controller="com.android.settings.applications.CertifiedPropsPreferenceController" />
-
-    <com.android.settings.applications.KeyboxDataPreference
-        android:key="keybox_data_setting"
-        android:title="@string/keybox_data_title"
-        android:summary="@string/keybox_data_summary"
-        android:defaultValue=""/>
-
-    <com.android.settings.applications.PifDataPreference
-        android:key="pif_data_setting"
-        android:title="@string/pif_data_title"
-        android:summary="@string/pif_data_summary"
-        android:defaultValue=""/>
 
     <PreferenceCategory
         android:key="advanced_category"

@@ -20,18 +20,38 @@ import android.content.Context
 import android.provider.Settings
 
 /**
- * Shared setting for the lock screen media player: [VALUE_THREE_ROW] (default, three-row) or
- * [VALUE_COMPACT] (two-row compact).
+ * Settings for the lock screen media player: [KEY] (compact vs three-row) and [KEY_EXPANDABLE]
+ * (whether tapping the card opens the expanded player), both stored in [Settings.Secure].
  */
 object EdithLockscreenMedia {
     const val KEY = "edith_lockscreen_media_compact"
     const val VALUE_THREE_ROW = 0
     const val VALUE_COMPACT = 1
 
+    /** Whether tapping the lock screen media card expands it into the large art player. */
+    const val KEY_EXPANDABLE = "edith_lockscreen_media_expandable"
+
     fun read(context: Context): Int =
         Settings.Secure.getInt(context.contentResolver, KEY, VALUE_THREE_ROW)
 
     fun write(context: Context, value: Int) {
         Settings.Secure.putInt(context.contentResolver, KEY, value)
+    }
+
+    /**
+     * Reads [KEY_EXPANDABLE] as a boolean. Stored as an int, but an older build may have written a
+     * boolean, so "0"/"false" is off and anything else (or nothing) is on.
+     */
+    fun readExpandable(context: Context): Boolean =
+        when (
+            Settings.Secure.getString(context.contentResolver, KEY_EXPANDABLE)?.lowercase()
+        ) {
+            "0",
+            "false" -> false
+            else -> true
+        }
+
+    fun writeExpandable(context: Context, enabled: Boolean) {
+        Settings.Secure.putInt(context.contentResolver, KEY_EXPANDABLE, if (enabled) 1 else 0)
     }
 }

@@ -21,8 +21,8 @@
     android:title="@string/lockscreen_settings_title">
 
     <PreferenceCategory
-        android:key="lockscreen_what_to_show"
-        android:title="@string/lockscreen_settings_what_to_show_category">
+        android:key="lockscreen_media_player"
+        android:title="@string/edith_media_player_category">
 
         <SwitchPreferenceCompat
             android:key="edith_lockscreen_media_compact"
@@ -30,6 +30,20 @@
             android:summary="@string/edith_lockscreen_media_summary"
             settings:searchable="false"
             settings:controller="org.edith.settings.notification.EdithLockscreenMediaPreferenceController" />
+
+        <com.android.settingslib.PrimarySwitchPreference
+            android:key="edith_lockscreen_media_expandable"
+            android:title="@string/edith_lockscreen_media_expandable_title"
+            android:summary="@string/edith_lockscreen_media_expandable_summary"
+            android:fragment="org.edith.settings.notification.ExpandableMediaPlayerFragment"
+            settings:searchable="false"
+            settings:controller="org.edith.settings.notification.EdithLockscreenMediaExpandablePreferenceController" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="lockscreen_what_to_show"
+        android:title="@string/lockscreen_settings_what_to_show_category">
 
         <com.android.settings.RestrictedListPreference
             android:key="security_setting_lock_screen_notif"

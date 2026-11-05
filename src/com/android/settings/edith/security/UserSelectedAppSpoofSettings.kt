@@ -99,7 +99,7 @@ class UserSelectedAppSpoofSettings: Fragment(R.layout.hide_developer_status_layo
         menu.findItem(R.id.hide_system).isVisible = !showSystem
 
         val searchView = (menu.findItem(R.id.search).actionView as SearchView)
-        searchView.queryHint = getString(R.string.search_apps)
+        searchView.queryHint = getString(R.string.app_list_search_apps)
         searchView.setOnQueryTextListener(object: SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String) = false
             override fun onQueryTextChange(newText: String): Boolean {

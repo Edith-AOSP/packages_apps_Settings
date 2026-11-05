@@ -52,7 +52,7 @@
         <item>4</item>
     </string-array>
 
-    <!-- App spoofing profiles -->
+<!-- App spoofing profiles -->
     <string-array name="edith_spoof_profile_values">
         <item>ROG6</item>
         <item>BS4</item>
@@ -78,6 +78,14 @@
         <item>Xiaomi 11T Pro</item>
         <item>Xiaomi 13 Pro</item>
         <item>None</item>
+    </string-array>
+
+    <!-- Apps list to hide from Hide developer status setting -->
+    <string-array name="hide_developer_status_hidden_apps" translatable="false">
+        <item>android</item>
+        <item>com.android.settings</item>
+        <item>com.android.systemui</item>
+        <item>com.android.shell</item>
     </string-array>
 
 </resources>
